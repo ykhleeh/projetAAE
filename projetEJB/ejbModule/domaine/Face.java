@@ -1,8 +1,8 @@
 //
-// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
+// Ce fichier a ï¿½tï¿½ gï¿½nï¿½rï¿½ par l'implï¿½mentation de rï¿½fï¿½rence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2015.12.14 à 01:55:55 PM CET 
+// Toute modification apportï¿½e ï¿½ ce fichier sera perdue lors de la recompilation du schï¿½ma source. 
+// Gï¿½nï¿½rï¿½ le : 2015.12.14 ï¿½ 01:55:55 PM CET 
 //
 
 
@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java pour anonymous complex type.
  * 
- * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schï¿½ma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType>
@@ -49,8 +49,20 @@ public class Face {
     @XmlAttribute(name = "nbFaces", required = true)
     protected int nbFaces;
 
-    /**
-     * Obtient la valeur de la propriété figure.
+    public Face(String figure, String identif, String src, int nbFaces) {
+		super();
+		this.figure = figure;
+		this.identif = identif;
+		this.src = src;
+		this.nbFaces = nbFaces;
+	}
+
+    public Face(){
+    	super();
+    }
+    
+	/**
+     * Obtient la valeur de la propriï¿½tï¿½ figure.
      * 
      * @return
      *     possible object is
@@ -62,7 +74,7 @@ public class Face {
     }
 
     /**
-     * Définit la valeur de la propriété figure.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ figure.
      * 
      * @param value
      *     allowed object is
@@ -74,7 +86,7 @@ public class Face {
     }
 
     /**
-     * Obtient la valeur de la propriété identif.
+     * Obtient la valeur de la propriï¿½tï¿½ identif.
      * 
      * @return
      *     possible object is
@@ -86,7 +98,7 @@ public class Face {
     }
 
     /**
-     * Définit la valeur de la propriété identif.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ identif.
      * 
      * @param value
      *     allowed object is
@@ -98,7 +110,7 @@ public class Face {
     }
 
     /**
-     * Obtient la valeur de la propriété src.
+     * Obtient la valeur de la propriï¿½tï¿½ src.
      * 
      * @return
      *     possible object is
@@ -110,7 +122,7 @@ public class Face {
     }
 
     /**
-     * Définit la valeur de la propriété src.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ src.
      * 
      * @param value
      *     allowed object is
@@ -122,7 +134,7 @@ public class Face {
     }
 
     /**
-     * Obtient la valeur de la propriété nbFaces.
+     * Obtient la valeur de la propriï¿½tï¿½ nbFaces.
      * 
      */
     public int getNbFaces() {
@@ -130,7 +142,7 @@ public class Face {
     }
 
     /**
-     * Définit la valeur de la propriété nbFaces.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ nbFaces.
      * 
      */
     public void setNbFaces(int value) {

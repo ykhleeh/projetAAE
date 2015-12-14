@@ -28,24 +28,24 @@ public abstract class DaoImpl<K, E> implements Dao<K, E> {
 		return (E) entityManager.find(entityClass, id);
 	}
 
-	public E enregistrer(E entité) {
-		entityManager.persist(entité);
-		return entité;
+	public E enregistrer(E entite) {
+		entityManager.persist(entite);
+		return entite;
 	}
 
-	public E mettreAJour(E entité) {
-		return entityManager.merge(entité);		
+	public E mettreAJour(E entite) {
+		return entityManager.merge(entite);		
 	}
 
 	public E recharger(K id) {
-		E entité = rechercher(id);
-		entityManager.refresh(entité);
-		return entité;
+		E entite = rechercher(id);
+		entityManager.refresh(entite);
+		return entite;
 	}
 
 	public void supprimer(K id) {
-		E entité = rechercher(id);
-		entityManager.remove(entité);
+		E entite = rechercher(id);
+		entityManager.remove(entite);
 	}
 
 	public List<E> lister() {
@@ -53,7 +53,7 @@ public abstract class DaoImpl<K, E> implements Dao<K, E> {
 	}
 
 	protected List<E> liste(String queryString, Object... params) {
-		List<E> entités = null;
+		List<E> entites = null;
 		TypedQuery<E> query = entityManager.createQuery(queryString, entityClass);
 		int i = 0, j = 1;
 		while(i < params.length) {
@@ -69,8 +69,8 @@ public abstract class DaoImpl<K, E> implements Dao<K, E> {
 			}
 			j++;
 		}
-		entités = query.getResultList();
-		return entités;
+		entites = query.getResultList();
+		return entites;
 	}
 
 	protected E recherche(String queryString, Object... params) {

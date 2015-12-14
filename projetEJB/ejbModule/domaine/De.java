@@ -1,8 +1,8 @@
 //
-// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
+// Ce fichier a ï¿½tï¿½ gï¿½nï¿½rï¿½ par l'implï¿½mentation de rï¿½fï¿½rence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2015.12.14 à 01:55:55 PM CET 
+// Toute modification apportï¿½e ï¿½ ce fichier sera perdue lors de la recompilation du schï¿½ma source. 
+// Gï¿½nï¿½rï¿½ le : 2015.12.14 ï¿½ 01:55:55 PM CET 
 //
 
 package domaine;
@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  * Classe Java pour anonymous complex type.
  * 
  * <p>
- * Le fragment de schéma suivant indique le contenu attendu figurant dans cette
+ * Le fragment de schï¿½ma suivant indique le contenu attendu figurant dans cette
  * classe.
  * 
  * <pre>
@@ -82,6 +82,13 @@ public class De implements Serializable {
 	public De(int valeur) {
 		this.valeur = valeur;
 	}
+	
+	public De(List<Face> face, int nbParJoueur, int nbTotalDes) {
+		super();
+		this.face = face;
+		this.nbParJoueur = nbParJoueur;
+		this.nbTotalDes = nbTotalDes;
+	}
 
 	public De() {
 		super();
@@ -117,7 +124,7 @@ public class De implements Serializable {
 	}
 
 	/**
-	 * Obtient la valeur de la propriété nbParJoueur.
+	 * Obtient la valeur de la propriï¿½tï¿½ nbParJoueur.
 	 * 
 	 */
 	public int getNbParJoueur() {
@@ -125,7 +132,7 @@ public class De implements Serializable {
 	}
 
 	/**
-	 * Définit la valeur de la propriété nbParJoueur.
+	 * Dï¿½finit la valeur de la propriï¿½tï¿½ nbParJoueur.
 	 * 
 	 */
 	public void setNbParJoueur(int value) {
@@ -133,7 +140,7 @@ public class De implements Serializable {
 	}
 
 	/**
-	 * Obtient la valeur de la propriété nbTotalDes.
+	 * Obtient la valeur de la propriï¿½tï¿½ nbTotalDes.
 	 * 
 	 */
 	public int getNbTotalDes() {
@@ -141,7 +148,7 @@ public class De implements Serializable {
 	}
 
 	/**
-	 * Définit la valeur de la propriété nbTotalDes.
+	 * Dï¿½finit la valeur de la propriï¿½tï¿½ nbTotalDes.
 	 * 
 	 */
 	public void setNbTotalDes(int value) {

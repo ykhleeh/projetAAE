@@ -95,6 +95,20 @@ public class Carte implements Serializable {
 	@Transient
 	protected String src;
 
+	public Carte() {
+		super();
+	}
+
+	public Carte(List<Serializable> content, int cout, int nb, String effet, int codeEffet, String src) {
+		super();
+		this.content = content;
+		this.cout = cout;
+		this.nb = nb;
+		this.effet = effet;
+		this.codeEffet = codeEffet;
+		this.src = src;
+	}
+
 	/**
 	 * Gets the value of the content property.
 	 * 
