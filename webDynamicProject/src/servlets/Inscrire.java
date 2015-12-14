@@ -16,12 +16,12 @@ import javax.servlet.http.HttpSession;
 
 @SuppressWarnings("serial")
 @WebServlet("/inscrire.html")
-public class Inscription extends HttpServlet {
+public class Inscrire extends HttpServlet {
 	//@EJB 
 //	private GestionPartie gestionPartie;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+/*		
 		String pseudo = request.getParameter("pseudo");
 //		List<String> joueurs = gestionPartie.listerJoueurs();
 
@@ -73,14 +73,17 @@ public class Inscription extends HttpServlet {
 					session.setAttribute("nb", 3);
 				}
 			} // else watcher
-			getServletContext().getNamedDispatcher("login.html").forward(request, response);
+			getServletContext().getNamedDispatcher("index.html").forward(request, response);
 		}
-//	}
+*/
+		getServletContext().getNamedDispatcher("index.html").forward(request, response);
+
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		getServletContext().getNamedDispatcher("login.html").forward(request, response);
+		getServletContext().getNamedDispatcher("index.html").forward(request, response);
 	}
 
 }

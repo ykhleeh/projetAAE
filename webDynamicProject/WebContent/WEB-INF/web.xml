@@ -36,4 +36,44 @@
     <servlet-name>inscription.html</servlet-name>
     <url-pattern>/inscription.html</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>menu.html</servlet-name>
+    <jsp-file>/WEB-INF/jsp/menu.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>menu.html</servlet-name>
+    <url-pattern>/menu.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>lancer.html</servlet-name>
+    <jsp-file>/WEB-INF/jsp/lancer.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>lancer.html</servlet-name>
+    <url-pattern>/lancer.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>jeu.html</servlet-name>
+    <jsp-file>/WEB-INF/jsp/jeu.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jeu.html</servlet-name>
+    <url-pattern>/jeu.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>liste.html</servlet-name>
+    <jsp-file>/WEB-INF/jsp/liste.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>liste.html</servlet-name>
+    <url-pattern>/liste.html</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>attente.html</servlet-name>
+    <jsp-file>/WEB-INF/jsp/attente.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>attente.html</servlet-name>
+    <url-pattern>/attente.html</url-pattern>
+  </servlet-mapping>
 </web-app>

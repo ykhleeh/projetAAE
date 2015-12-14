@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Login
+ * Servlet implementation class Creer
  */
-@WebServlet("/login.html")
-public class Login extends HttpServlet {
+@WebServlet("/creer.html")
+public class Creer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Login() {
+    public Creer() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -27,11 +27,9 @@ public class Login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		// TODO mettre le login courant dans le context pour gérer l'attente
-		getServletContext().setAttribute("login", "LOGINNNN");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-
-		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
+//		getServletContext().getNamedDispatcher("attente.html").forward(request, response);
+		request.getRequestDispatcher("attente.html").forward(request, response);
 	}
 
 	/**
