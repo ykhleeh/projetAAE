@@ -29,8 +29,14 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		// TODO mettre le login courant dans le context pour gérer l'attente
 		getServletContext().setAttribute("login", "LOGINNNN");
+		String pseudo = request.getParameter("pseudo");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-
+		if (pseudo.equals("")) {
+			System.out.println("merde");
+			request.setAttribute("message", "pseudo vide mothafucka!!  :(");
+			request.getRequestDispatcher("index.html").forward(request, response);
+//			getServletContext().getNamedDispatcher("login.html").forward(request, response);
+		}
 		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
 	}
 
