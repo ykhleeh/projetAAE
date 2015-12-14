@@ -1,8 +1,8 @@
 //
-// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
+// Ce fichier a ï¿½tï¿½ gï¿½nï¿½rï¿½ par l'implï¿½mentation de rï¿½fï¿½rence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
-// Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2015.12.14 à 01:55:55 PM CET 
+// Toute modification apportï¿½e ï¿½ ce fichier sera perdue lors de la recompilation du schï¿½ma source. 
+// Gï¿½nï¿½rï¿½ le : 2015.12.14 ï¿½ 01:55:55 PM CET 
 //
 
 
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * <p>Classe Java pour anonymous complex type.
  * 
- * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
+ * <p>Le fragment de schï¿½ma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType>
@@ -66,8 +66,26 @@ public class Wazabi {
     @XmlAttribute(name = "maxJoueurs", required = true)
     protected int maxJoueurs;
 
-    /**
-     * Obtient la valeur de la propriété de.
+    
+    
+    public Wazabi(De de, List<Carte> carte, String but, int nbCartesParJoueur, int nbCartesTotal, int minJoueurs,
+			int maxJoueurs) {
+		super();
+		this.de = de;
+		this.carte = carte;
+		this.but = but;
+		this.nbCartesParJoueur = nbCartesParJoueur;
+		this.nbCartesTotal = nbCartesTotal;
+		this.minJoueurs = minJoueurs;
+		this.maxJoueurs = maxJoueurs;
+	}
+
+	public Wazabi() {
+		super();
+	}
+
+	/**
+     * Obtient la valeur de la propriï¿½tï¿½ de.
      * 
      * @return
      *     possible object is
@@ -79,7 +97,7 @@ public class Wazabi {
     }
 
     /**
-     * Définit la valeur de la propriété de.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ de.
      * 
      * @param value
      *     allowed object is
@@ -120,7 +138,7 @@ public class Wazabi {
     }
 
     /**
-     * Obtient la valeur de la propriété but.
+     * Obtient la valeur de la propriï¿½tï¿½ but.
      * 
      * @return
      *     possible object is
@@ -132,7 +150,7 @@ public class Wazabi {
     }
 
     /**
-     * Définit la valeur de la propriété but.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ but.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +162,7 @@ public class Wazabi {
     }
 
     /**
-     * Obtient la valeur de la propriété nbCartesParJoueur.
+     * Obtient la valeur de la propriï¿½tï¿½ nbCartesParJoueur.
      * 
      */
     public int getNbCartesParJoueur() {
@@ -152,7 +170,7 @@ public class Wazabi {
     }
 
     /**
-     * Définit la valeur de la propriété nbCartesParJoueur.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ nbCartesParJoueur.
      * 
      */
     public void setNbCartesParJoueur(int value) {
@@ -160,7 +178,7 @@ public class Wazabi {
     }
 
     /**
-     * Obtient la valeur de la propriété nbCartesTotal.
+     * Obtient la valeur de la propriï¿½tï¿½ nbCartesTotal.
      * 
      */
     public int getNbCartesTotal() {
@@ -168,7 +186,7 @@ public class Wazabi {
     }
 
     /**
-     * Définit la valeur de la propriété nbCartesTotal.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ nbCartesTotal.
      * 
      */
     public void setNbCartesTotal(int value) {
@@ -176,7 +194,7 @@ public class Wazabi {
     }
 
     /**
-     * Obtient la valeur de la propriété minJoueurs.
+     * Obtient la valeur de la propriï¿½tï¿½ minJoueurs.
      * 
      */
     public int getMinJoueurs() {
@@ -184,7 +202,7 @@ public class Wazabi {
     }
 
     /**
-     * Définit la valeur de la propriété minJoueurs.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ minJoueurs.
      * 
      */
     public void setMinJoueurs(int value) {
@@ -192,7 +210,7 @@ public class Wazabi {
     }
 
     /**
-     * Obtient la valeur de la propriété maxJoueurs.
+     * Obtient la valeur de la propriï¿½tï¿½ maxJoueurs.
      * 
      */
     public int getMaxJoueurs() {
@@ -200,7 +218,7 @@ public class Wazabi {
     }
 
     /**
-     * Définit la valeur de la propriété maxJoueurs.
+     * Dï¿½finit la valeur de la propriï¿½tï¿½ maxJoueurs.
      * 
      */
     public void setMaxJoueurs(int value) {

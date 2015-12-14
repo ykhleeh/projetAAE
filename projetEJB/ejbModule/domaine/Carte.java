@@ -99,8 +99,9 @@ public class Carte implements Serializable {
 		super();
 	}
 
-	public Carte(int cout, int nb, String effet, int codeEffet, String src) {
+	public Carte(List<Serializable> content, int cout, int nb, String effet, int codeEffet, String src) {
 		super();
+		this.content = content;
 		this.cout = cout;
 		this.nb = nb;
 		this.effet = effet;
