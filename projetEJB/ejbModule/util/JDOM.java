@@ -2,7 +2,6 @@ package util;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,7 @@ import org.xml.sax.SAXException;
 import domaine.Carte;
 import domaine.De;
 import domaine.Face;
+import domaine.ObjectFactory;
 import domaine.Wazabi;
 
 public class JDOM {
@@ -26,6 +26,7 @@ public class JDOM {
 	static DocumentBuilder builder;
 	static Document document;
 	static Element racine;
+	static ObjectFactory fabrique = new ObjectFactory();
 	
 	public static void main(String[] args) {
 		factory = DocumentBuilderFactory.newInstance();
@@ -54,11 +55,20 @@ public class JDOM {
 			String identif = face.getAttribute("identif");
 			String src = face.getAttribute("src");
 			int nbFaces = Integer.parseInt(face.getAttribute("nbFaces"));
-			listeFaces.add(new Face(figure, identif, src, nbFaces));
+			Face f = fabrique.createFace();
+			f.setFigure(figure);
+			f.setIdentif(identif);
+			f.setNbFaces(nbFaces);
+			f.setSrc(src);
+			listeFaces.add(f);
 		}
 		int nbParJoueur = Integer.parseInt(seulDe.getAttribute("nbParJoueur"));
 		int nbTotalDes = Integer.parseInt(seulDe.getAttribute("nbTotalDes"));
-		De deDomaine = new De(listeFaces, nbParJoueur, nbTotalDes);
+		De d = fabrique.createDe();
+		d.setFace(listeFaces);
+		d.setNbParJoueur(nbParJoueur);
+		d.setNbTotalDes(nbTotalDes);
+		
 // CARTE
 		List<Carte> listeCartes = new ArrayList<>();
 		
@@ -70,9 +80,14 @@ public class JDOM {
 			int nb = Integer.parseInt(carteCourante.getAttribute("nb"));
 			String effet = carteCourante.getAttribute("effet");
 			String src = carteCourante.getAttribute("src");
-			String contenu = carteCourante.getTextContent();
-			System.out.println(contenu); // TODO mettre le xml aussi dans le jsp afin de l'afficher par rapport au codeEffet de la carte jouée
-			Carte c = new Carte(null, cout, nb, effet, codeEffet, src);
+		//	String contenu = carteCourante.getTextContent();
+		//	System.out.println(contenu); // TODO mettre le xml aussi dans le jsp afin de l'afficher par rapport au codeEffet de la carte jouée
+			Carte c = fabrique.createCarte();
+			c.setCodeEffet(codeEffet);
+			c.setCout(cout);
+			c.setEffet(effet);
+			c.setNb(nb);
+			c.setSrc(src);
 			listeCartes.add(c);
 		}
 		System.out.println(listeCartes.size());
@@ -83,7 +98,13 @@ public class JDOM {
 		int minJoueurs = Integer.parseInt(racine.getAttribute("minJoueurs"));
 		int maxJoueurs = Integer.parseInt(racine.getAttribute("maxJoueurs"));
 
-		Wazabi jeu = new Wazabi(deDomaine, listeCartes, but, nbCartesParJoueur, nbCartesTotal, minJoueurs, maxJoueurs);
+		Wazabi jeu = fabrique.createWazabi();
+		jeu.setBut(but);
+		jeu.setDe(d);
+		jeu.setMaxJoueurs(maxJoueurs);
+		jeu.setMinJoueurs(minJoueurs);
+		jeu.setNbCartesParJoueur(nbCartesParJoueur);
+		jeu.setNbCartesTotal(nbCartesTotal);
 	}
 	
 
