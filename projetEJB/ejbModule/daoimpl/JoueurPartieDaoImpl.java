@@ -9,8 +9,9 @@ public class JoueurPartieDaoImpl extends DaoImpl<Integer, JoueurPartie> {
 		super(JoueurPartie.class);
 	}
 
-	public JoueurPartie recherche(String pseudo) {
-		String queryString = "SELECT jp.* from joueurs j, joueursparties jp where j.pseudo = ? AND jp.joueur_id_joueur =j.id_joueur";
-		return super.recherche(queryString, pseudo);
+	public JoueurPartie recherche(int id_partie, String pseudo) {
+		String queryString = "SELECT jp.* from joueursparties jp, joueurs j "
+				+ "WHERE jp.id_partie =? AND j.pseudo =? AND jp.joueur_id_joueur = j.id_joueur";
+		return super.recherche(queryString, id_partie, pseudo);
 	}
 }
