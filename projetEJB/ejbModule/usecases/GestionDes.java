@@ -8,6 +8,7 @@ import domaine.JoueurPartie;
 
 public interface GestionDes {
 	De enregistrer (De de);
+	De modifierValeurDe (De de);
 	List<De> listerDes();
 	List<De> listerDes(JoueurPartie joueur);
 	void supprimerDe(De de);

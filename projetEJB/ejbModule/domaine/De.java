@@ -163,5 +163,9 @@ public class De implements Serializable {
 	public void setValeur(String valeur) {
 		this.valeur = valeur;
 	}
+	
+	public String getValeur() {
+		return this.valeur;
+	}
 
 }

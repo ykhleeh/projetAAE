@@ -37,4 +37,13 @@ public class GestionDesImpl implements GestionDes {
 	public void supprimerDe(De de) {
 		deDao.supprimer(de.getId());
 	}
+
+	@Override
+	public De modifierValeurDe(De de) {
+		De tmp = deDao.rechercher(de.getId());
+		deDao.supprimer(de.getId());
+		tmp.setValeur(de.getValeur());
+		deDao.enregistrer(tmp);
+		return tmp;
+	}
 }
