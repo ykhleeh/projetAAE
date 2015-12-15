@@ -17,7 +17,7 @@ import dao.Dao;
 public abstract class DaoImpl<K, E> implements Dao<K, E> {
 	private Class<E> entityClass;
 
-	@PersistenceContext(unitName="koala")
+	@PersistenceContext(unitName="black")
 	private EntityManager entityManager;
 	
 	public DaoImpl(Class<E> entityClass) {

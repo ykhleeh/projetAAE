@@ -34,6 +34,8 @@ public class Inscrire extends HttpServlet {
 		gestion.enregistrer(new Joueur(pseudo, mdp));
 		
 		request.setAttribute("message", "Enregistrement ok");
+		System.out.println("Enregistrement ok");
+		response.getWriter().write("Inscriiiii");
 		
 /*		
 		String pseudo = request.getParameter("pseudo");
@@ -90,7 +92,7 @@ public class Inscrire extends HttpServlet {
 			getServletContext().getNamedDispatcher("index.html").forward(request, response);
 		}
 */
-		getServletContext().getNamedDispatcher("index.html").forward(request, response);
+	//	getServletContext().getNamedDispatcher("index.html").forward(request, response);
 
 	}
 

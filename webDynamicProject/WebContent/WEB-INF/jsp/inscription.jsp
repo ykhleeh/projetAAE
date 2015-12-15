@@ -7,7 +7,7 @@
 <c:if test="${message != null}">
 	<div id="erreur">${message}</div>
 </c:if>
-<c:url var="index" value="index.html"/>
+<c:url var="index" value="/inscrire.html"/>
 <form method="post" action="${index}">
 	<label for="pseudo">Votre pseudo :</label><input type="text" id="pseudo" name="pseudo"/>
 	<label for="mdp">Votre mot de passe : </label><input type="password" id="mdp" name="mdp"/>
