@@ -24,7 +24,6 @@ public class Joueur implements Serializable {
 	private String pseudo;
 
 	@NotNull
-	@Column(unique = true)
 	private String mdp;
 
 	public Joueur(String pseudo, String mdp) {
