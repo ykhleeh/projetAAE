@@ -34,6 +34,8 @@ public class JoueurPartie implements Serializable {
 
 	int ordreJoueur;
 
+	int id_partie;
+
 	@ManyToMany
 	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_joueurPartie") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_carte") })
@@ -55,6 +57,18 @@ public class JoueurPartie implements Serializable {
 
 	public Joueur getJoueur() {
 		return joueur;
+	}
+
+	public int getId_partie() {
+		return id_partie;
+	}
+
+	public void setId_partie(int id_partie) {
+		this.id_partie = id_partie;
+	}
+
+	public void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
 	}
 
 	public List<De> getMainDe() {
@@ -80,22 +94,25 @@ public class JoueurPartie implements Serializable {
 	public void setOrdreJoueur(int ordreJoueur) {
 		this.ordreJoueur = ordreJoueur;
 	}
-	
+
 	public void lancerDes() {
 		Random rdm = new Random();
 		for (De de : mainDe) {
 			int res = rdm.nextInt(6);
 			switch (res) {
-				case 0:
-				case 1:
-				case 2: de.setValeur(Face.WASABI);
-						break;
-	
-				case 3:
-				case 4: de.setValeur(Face.CARTE);
-					break;
-					
-				default : de.setValeur(Face.DE);
+			case 0:
+			case 1:
+			case 2:
+				de.setValeur(Face.WASABI);
+				break;
+
+			case 3:
+			case 4:
+				de.setValeur(Face.CARTE);
+				break;
+
+			default:
+				de.setValeur(Face.DE);
 			}
 		}
 	}
