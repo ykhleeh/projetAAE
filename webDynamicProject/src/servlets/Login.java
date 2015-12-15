@@ -45,11 +45,14 @@ public class Login extends HttpServlet {
 //			getServletContext().getNamedDispatcher("login.html").forward(request, response);
 		}
 		Joueur j = gestionJoueurs.rechercherJoueur(pseudo);
+		if (j != null)
+			System.out.println("youhou");
 		if (!gestionJoueurs.authentifier(pseudo, passwd)) {
 			request.setAttribute("message", "Le pseudo ou le mot de passe est incorrect!!");
 			request.getRequestDispatcher("index.html").forward(request, response);
 		}
 		getServletContext().setAttribute("login", pseudo);
+		request.setAttribute("message", "Connecte MOTHAFUCKA!!!!");
 		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
 	}
 

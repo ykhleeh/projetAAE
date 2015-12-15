@@ -15,7 +15,7 @@ public  class PasswordSHA1 {
 		String encryptedAttemptedPassword = getEncryptedPassword(
 				attemptedPassword);
 
-		return encryptedPassword == encryptedAttemptedPassword;
+		return encryptedPassword.equals(encryptedAttemptedPassword);
 	}
 
 	public static String getEncryptedPassword(String password)
