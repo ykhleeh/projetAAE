@@ -6,14 +6,19 @@ import java.util.List;
 import javax.ejb.EJB;
 
 import daoimpl.DesDaoImpl;
+import daoimpl.JoueurPartieDaoImpl;
 import domaine.De;
 import domaine.JoueurPartie;
 import usecases.GestionDes;
 
 public class GestionDesImpl implements GestionDes {
 
-	@EJB DesDaoImpl deDao;
-	
+	@EJB
+	DesDaoImpl deDao;
+
+	@EJB
+	JoueurPartieDaoImpl jpDao;
+
 	@Override
 	public De enregistrer(De de) {
 		return deDao.enregistrer(de);
@@ -45,5 +50,19 @@ public class GestionDesImpl implements GestionDes {
 		tmp.setValeur(de.getValeur());
 		deDao.enregistrer(tmp);
 		return tmp;
+	}
+
+	@Override
+	public boolean donnerDe(De de, JoueurPartie joueurPart) {
+		
+		// TODO faire la meme chose que ce qui suit mais sans passer par un proprietaire dans le de
+		De tmp = deDao.rechercher(de.getId());
+//		JoueurPartie ancienProp = tmp.getProprietaire();
+//		JoueurPartie jp = jpDao.rechercher(joueurPart.getId_joueurPartie());
+//		tmp.setProprietaire(jp);
+//		jp.ajouterDe(de);
+//		if (ancienProp != null)
+//			ancienProp.supprimerDe(tmp);
+		return false;
 	}
 }

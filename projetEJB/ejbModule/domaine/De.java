@@ -32,8 +32,8 @@ import javax.xml.bind.annotation.XmlType;
  * Classe Java pour anonymous complex type.
  * 
  * <p>
- * Le fragment de sch�ma suivant indique le contenu attendu figurant dans cette
- * classe.
+ * Le fragment de sch�ma suivant indique le contenu attendu figurant dans
+ * cette classe.
  * 
  * <pre>
  * &lt;complexType>
@@ -81,7 +81,6 @@ public class De implements Serializable {
 		this.valeur = valeur;
 	}
 
-
 	public De() {
 		super();
 	}
@@ -108,9 +107,7 @@ public class De implements Serializable {
 	 * 
 	 * 
 	 */
-	
-	
-	
+
 	public List<Face> getFace() {
 		if (face == null) {
 			face = new ArrayList<Face>();
@@ -153,17 +150,41 @@ public class De implements Serializable {
 	public void setNbTotalDes(int value) {
 		this.nbTotalDes = value;
 	}
-	
+
 	public int getId() {
 		return this.id_de;
 	}
-	
+
 	public void setValeur(String valeur) {
 		this.valeur = valeur;
 	}
-	
+
 	public String getValeur() {
 		return this.valeur;
+	}	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id_de;
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		De other = (De) obj;
+		if (id_de != other.id_de)
+			return false;
+		return true;
+	}
+	
+	
 
 }

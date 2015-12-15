@@ -34,7 +34,7 @@ public class Partie implements Serializable {
 			boolean ajouterJoueurPartie(JoueurPartie j, Partie partie) {
 				String pseudo = j.getJoueur().getPseudo();
 				if (partie.getJoueur(pseudo) != null)
-					return false;				
+					return false;
 				// on attribu des carte aleatoirement au joueur donc on les
 				// retire aussi de la pioche de la partie
 				List<Carte> main = new ArrayList<>();
@@ -43,14 +43,14 @@ public class Partie implements Serializable {
 					main.add(partie.pioche.remove(index));
 				}
 				j.setMainCarte(main);
-				//on ajoute le joueur a la liste des joueurs
+				// on ajoute le joueur a la liste des joueurs
 				partie.joueurs.add(j);
 				// si + de 2 joueurs on lance la partie
 				if (partie.getJoueurs().size() == 2) {
 					commencerPartie(partie);
 				}
 				return true;
-			}			
+			}
 
 			boolean commencerPartie(Partie partie) {
 				// On commence la partie ==> changement d'etat
@@ -64,7 +64,7 @@ public class Partie implements Serializable {
 		},
 		EN_COURS {
 			boolean commencerTourSuivant(Partie partie) {
-				//partie.preparerPourUnNouveauLancer();
+				// partie.preparerPourUnNouveauLancer();
 				int indice = partie.prochain();
 				if (indice == 0) {
 					partie.etat = Etat.FINIE;
@@ -78,24 +78,33 @@ public class Partie implements Serializable {
 			void lancerLesDes(Partie partie) {
 				partie.getJoueurCourant().lancerDes();
 			}
-			//A COMPLETER
-			boolean donnerSonDe(int numeroDe, int numJoueur, Partie partie) {					
-				De de = partie.getJoueurCourant().supprimerDe(numeroDe);
-				if(de == null)return false;
-				
-				return true;
+
+			Carte piocherCarte(Partie partie) {
+				int index = (int) (Math.random() * partie.pioche.size());
+				return partie.pioche.remove(index);
+			}
+
+			public void jouerCarte(Partie partie, Carte carte) {
+				partie.pioche.add(carte);
+			}
+
+			// A COMPLETER
+			boolean donnerSonDe(De aDonner, JoueurPartie joueurPartie, Partie partie) {
+				return  false;
 			}
 		},
 		FINIE {
-			/*
-			 * Joueur estVainqueur(Partie partie) { int indiceMax = -1; int max
-			 * = 0; for (int i = 0; i < partie.getJoueurs().size(); i++) {
-			 * Joueur joueur = partie.getJoueurs().get(i); int points =
-			 * partie.getPoints(joueur); if (points > VINGT_ET_UN) continue; if
-			 * (points > max) { max = points; indiceMax = i; } } if (indiceMax
-			 * == -1) return null; return partie.getJoueurs().get(indiceMax); }
-			 */
+			Joueur estVainqueur(Partie partie) {
+				Joueur aRenvoyer = null;
+				for (int i = 0; i < partie.getJoueurs().size(); i++) {
+					if (partie.getJoueurs().get(i).getMainDe().size() == 0) {
+						aRenvoyer = partie.getJoueurs().get(i).getJoueur();
+					}
+				}
+				return aRenvoyer;
+			}
 		};
+
 		boolean ajouterJoueurPartie(JoueurPartie joueurPart, Partie partie) {
 			return false;
 		}
@@ -109,15 +118,18 @@ public class Partie implements Serializable {
 		}
 
 		void lancerLesDes(Partie partie) {
-			
+
 		}
 
-		boolean ecarterDe(int numero, Partie partie) {
-			return false;
+		Carte piocherCarte(Partie partie) {
+			return null;
 		}
 
 		Joueur estVainqueur(Partie partie) {
 			return null;
+		}
+
+		public void jouerCarte(Partie partie, Carte carte) {
 		}
 	}
 
@@ -225,10 +237,13 @@ public class Partie implements Serializable {
 		etat.lancerLesDes(this);
 	}
 
-	public boolean ecarterDe(int numero) {
-		return etat.ecarterDe(numero, this);
+	public Carte piocherCarte() {
+		return etat.piocherCarte(this);
 	}
 
+	public void jouerCarte(Carte carte) {
+		this.etat.jouerCarte(this, carte);
+	}
 
 	public Joueur estVainqueur() { // pas de gestion des ex-aequos pour
 									// simplicit�
@@ -238,8 +253,6 @@ public class Partie implements Serializable {
 	public Joueur getVainqueur() {
 		return vainqueur;
 	}
-	
-	
 
 	public void setNom(String nom) {
 		this.nom = nom;
