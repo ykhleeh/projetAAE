@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,33 +19,52 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import daoimpl.CartesDaoImpl;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "PARTIES", schema = "koala")
 public class Partie implements Serializable {
 	public static final int NB_DES = 3;
 	public static final int VINGT_ET_UN = 21;
+	CartesDaoImpl daoCarte = new CartesDaoImpl();
 
 	public enum Etat {
 		INITIAL {
-			boolean ajouterJoueur(Joueur joueur, Partie partie) {
-				String pseudo = joueur.getPseudo();
+			boolean ajouterJoueurPartie(JoueurPartie j, Partie partie) {
+				String pseudo = j.getJoueur().getPseudo();
 				if (partie.getJoueur(pseudo) != null)
-					return false;
-				partie.joueurs.add(new JoueurPartie(joueur));
+					return false;				
+				// on attribu des carte aleatoirement au joueur donc on les
+				// retire aussi de la pioche de la partie
+				List<Carte> main = new ArrayList<>();
+				for (int i = 0; i < 3; i++) {
+					int index = (int) (Math.random() * partie.pioche.size());
+					main.add(partie.pioche.remove(index));
+				}
+				j.setMainCarte(main);
+				//on ajoute le joueur a la liste des joueurs
+				partie.joueurs.add(j);
+				// si + de 2 joueurs on lance la partie
+				if (partie.getJoueurs().size() == 2) {
+					commencerPartie(partie);
+				}
 				return true;
-			}
+			}			
 
 			boolean commencerPartie(Partie partie) {
+				// On commence la partie ==> changement d'etat
 				partie.etat = Etat.EN_COURS;
+				// on melange les joueurs aleatoirement
+				partie.melangerJoueurs();
+				// celui a l'indice 0 sera le premier a jouer
 				partie.joueurCourant = partie.getJoueurs().get(0);
 				return true;
 			}
 		},
 		EN_COURS {
 			boolean commencerTourSuivant(Partie partie) {
-				partie.preparerPourUnNouveauLancer();
-
+				//partie.preparerPourUnNouveauLancer();
 				int indice = partie.prochain();
 				if (indice == 0) {
 					partie.etat = Etat.FINIE;
@@ -54,22 +74,17 @@ public class Partie implements Serializable {
 				partie.joueurCourant = partie.getJoueurs().get(indice);
 				return true;
 			}
-//TODO terminer domaine.partie les differents etats
-			/*
-			 * int lancerLesDes(Partie partie) { if
-			 * (partie.getPoints(partie.joueurCourant) >= 21) return -1; int
-			 * total = 0; for (Integer i : partie.desJouables.keySet()) { total
-			 * += partie.desJouables.get(i).lancerDe(); }
-			 * partie.ajouterPoints(total, partie.joueurCourant); return total;
-			 * }
-			 * 
-			 * boolean ecarterDe(int numero, Partie partie) { if
-			 * (partie.getPoints(partie.joueurCourant) >= 21) return false; De
-			 * de = partie.desJouables.get(numero); if (de == null) return
-			 * false; partie.desJouables.remove(numero);
-			 * partie.desEcartes.put(numero, de); return true; }
-			 */
 
+			void lancerLesDes(Partie partie) {
+				partie.getJoueurCourant().lancerDes();
+			}
+			//A COMPLETER
+			boolean donnerSonDe(int numeroDe, int numJoueur, Partie partie) {					
+				De de = partie.getJoueurCourant().supprimerDe(numeroDe);
+				if(de == null)return false;
+				
+				return true;
+			}
 		},
 		FINIE {
 			/*
@@ -81,7 +96,7 @@ public class Partie implements Serializable {
 			 * == -1) return null; return partie.getJoueurs().get(indiceMax); }
 			 */
 		};
-		boolean ajouterJoueur(Joueur joueur, Partie partie) {
+		boolean ajouterJoueurPartie(JoueurPartie joueurPart, Partie partie) {
 			return false;
 		}
 
@@ -93,8 +108,8 @@ public class Partie implements Serializable {
 			return false;
 		}
 
-		int lancerLesDes(Partie partie) {
-			return -1;
+		void lancerLesDes(Partie partie) {
+			
 		}
 
 		boolean ecarterDe(int numero, Partie partie) {
@@ -137,15 +152,20 @@ public class Partie implements Serializable {
 
 	private JoueurPartie joueurCourant;
 
-	private LocalDateTime dateHeure;	
-	
+	private LocalDateTime dateHeure;
+
 	private boolean ordreCroissant = true;
-	
+
 	private Joueur vainqueur;
 
 	public Partie(String nom) {
 		this.nom = nom;
 		dateHeure = LocalDateTime.now();
+		pioche = daoCarte.lister();
+	}
+
+	protected void melangerJoueurs() {
+		Collections.shuffle(joueurs);
 	}
 
 	protected Partie() {
@@ -182,8 +202,8 @@ public class Partie implements Serializable {
 		this.etat = Etat.FINIE;
 	}
 
-	public boolean ajouterJoueur(Joueur joueur) {
-		return etat.ajouterJoueur(joueur, this);
+	public boolean ajouterJoueurPartie(JoueurPartie joueurPart) {
+		return etat.ajouterJoueurPartie(joueurPart, this);
 	}
 
 	public boolean commencerPartie() {
@@ -201,27 +221,28 @@ public class Partie implements Serializable {
 		return etat.commencerTourSuivant(this);
 	}
 
-	public int lancerLesDes() {
-		return etat.lancerLesDes(this);
+	public void lancerLesDes() {
+		etat.lancerLesDes(this);
 	}
 
 	public boolean ecarterDe(int numero) {
 		return etat.ecarterDe(numero, this);
 	}
 
-	private void preparerPourUnNouveauLancer() {
-		// desEcartes.clear();
-	}
 
 	public Joueur estVainqueur() { // pas de gestion des ex-aequos pour
 									// simplicit�
 		return etat.estVainqueur(this);
 	}
-	
-	
 
 	public Joueur getVainqueur() {
 		return vainqueur;
+	}
+	
+	
+
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 
 	@Override
@@ -245,29 +266,5 @@ public class Partie implements Serializable {
 			return false;
 		return true;
 	}
-	/*
-	 * @PostConstruct public void go() throws JAXBException, IOException { //
-	 * cr�ation de l�InputStream � adapter selon votre jar. InputStream is = new
-	 * FileInputStream("../standalone/deployments/wasabiEJB.jar/wazabi.xml");
-	 * 
-	 * Wazabi wazabi = fromStream(Wazabi.class, is);
-	 * 
-	 * // enregistrement des d�s for (int i = 0; i <
-	 * wazabi.getDe().getNbTotalDes(); i++) { De de = new De();
-	 * deDao.enregistrer(de); }
-	 * 
-	 * // enregistrement des cartes for (Carte carte :
-	 * wazabi.getCartes().getCarte()) { int nbCartesDeCeType = carte.getNb();
-	 * Carte[] cartes = new Carte[nbCartesDeCeType]; for (int i = 0; i <
-	 * nbCartesDeCeType; i++) { cartes[i] = (Carte) carte.clone();
-	 * carteDao.enregistrer(cartes[i]); } } }
-	 * 
-	 * @SuppressWarnings("unchecked") private static <T> T fromStream(Class<T>
-	 * clazz, InputStream input) throws JAXBException { JAXBContext ctx =
-	 * JAXBContext.newInstance(clazz); Object result =
-	 * ctx.createUnmarshaller().unmarshal(new StreamSource(input), clazz); if
-	 * (result instanceof JAXBElement<?>) { result =
-	 * JAXBIntrospector.getValue(result); } return (T) result; }
-	 */
 
 }
