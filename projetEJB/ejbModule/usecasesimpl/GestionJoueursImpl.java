@@ -3,6 +3,7 @@ package usecasesimpl;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import daoimpl.JoueurDaoImpl;
@@ -12,7 +13,7 @@ import usecases.GestionJoueurs;
 @Stateless
 public class GestionJoueursImpl implements GestionJoueurs {
 
-	JoueurDaoImpl dao = new JoueurDaoImpl();
+	@EJB JoueurDaoImpl joueurDao;
 	
 	@Override
 	public Joueur enregistrer(Joueur joueur) {
@@ -25,12 +26,12 @@ public class GestionJoueursImpl implements GestionJoueurs {
 			e.printStackTrace();
 		}
 		joueur.setMdp(encryptedPwd);
-		return dao.enregistrer(joueur);
+		return joueurDao.enregistrer(joueur);
 	}
 
 	@Override
 	public Joueur rechercherJoueur(String login) {
-		Joueur joueur = dao.recherche(login);
+		Joueur joueur = joueurDao.recherche(login);
 		return joueur;
 	}
 	@Override

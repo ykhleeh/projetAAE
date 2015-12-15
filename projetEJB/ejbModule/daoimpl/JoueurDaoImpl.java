@@ -1,8 +1,11 @@
 package daoimpl;
 
+import javax.ejb.Stateless;
+
 import domaine.Joueur;
 
 @SuppressWarnings("serial")
+@Stateless
 public class JoueurDaoImpl extends DaoImpl<Integer, Joueur> {
 
 	public JoueurDaoImpl() {
