@@ -65,7 +65,7 @@ public class De implements Serializable {
 	@Min(1)
 	@Max(Partie.NB_DES)
 	@NotNull
-	private int valeur;
+	private String valeur;
 
 	@XmlElement(required = true)
 	@Transient
@@ -79,7 +79,7 @@ public class De implements Serializable {
 	@Transient
 	protected int nbTotalDes;
 
-	public De(int valeur) {
+	public De(String valeur) {
 		this.valeur = valeur;
 	}
 
@@ -158,6 +158,10 @@ public class De implements Serializable {
 	
 	public int getId() {
 		return this.id_de;
+	}
+	
+	public void setValeur(String valeur) {
+		this.valeur = valeur;
 	}
 
 }

@@ -39,6 +39,10 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "")
 @XmlRootElement(name = "face")
 public class Face {
+	
+	public final static String WASABI = "w";
+	public final static String CARTE = "c";
+	public final static String DE = "d";
 
     @XmlAttribute(name = "figure", required = true)
     protected String figure;

@@ -3,6 +3,7 @@ package domaine;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class JoueurPartie implements Serializable {
 		this.joueur = joueur;
 		mainDe = new ArrayList<De>();
 		for (int i = 0; i < 4; i++) {
-			mainDe.add(new De(i + 1));
+			mainDe.add(new De(Face.WASABI));
 		}
 
 	}
@@ -72,6 +73,25 @@ public class JoueurPartie implements Serializable {
 
 	public void setOrdreJoueur(int ordreJoueur) {
 		this.ordreJoueur = ordreJoueur;
+	}
+	
+	public void lancerDes() {
+		Random rdm = new Random();
+		for (De de : mainDe) {
+			int res = rdm.nextInt(6);
+			switch (res) {
+				case 0:
+				case 1:
+				case 2: de.setValeur(Face.WASABI);
+						break;
+	
+				case 3:
+				case 4: de.setValeur(Face.CARTE);
+					break;
+					
+				default : de.setValeur(Face.DE);
+			}
+		}
 	}
 
 	@Override
