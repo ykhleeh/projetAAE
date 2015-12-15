@@ -2,6 +2,7 @@ package daoimpl;
 
 import domaine.Joueur;
 
+@SuppressWarnings("serial")
 public class JoueurDaoImpl extends DaoImpl<Integer, Joueur> {
 
 	public JoueurDaoImpl() {
@@ -9,9 +10,12 @@ public class JoueurDaoImpl extends DaoImpl<Integer, Joueur> {
 	}
 
 	public Joueur recherche(String pseudo) {
-		Joueur aRenvoyer;
 		String queryString = "SELECT * from Joueur j where j.pseudo = ?";
 		return (Joueur) super.recherche(queryString, pseudo);
 	}
 
+	public void ajouter(Joueur j){
+		enregistrer(j);
+	}
+	
 }
