@@ -3,10 +3,13 @@ package usecasesimpl;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.ejb.Stateless;
+
 import daoimpl.JoueurDaoImpl;
 import domaine.Joueur;
 import usecases.GestionJoueurs;
 
+@Stateless
 public class GestionJoueursImpl implements GestionJoueurs {
 
 	JoueurDaoImpl dao = new JoueurDaoImpl();
