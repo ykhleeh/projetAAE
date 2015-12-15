@@ -21,6 +21,10 @@ public class Inscrire extends HttpServlet {
 //	private GestionPartie gestionPartie;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		
+		
+		
 /*		
 		String pseudo = request.getParameter("pseudo");
 //		List<String> joueurs = gestionPartie.listerJoueurs();
