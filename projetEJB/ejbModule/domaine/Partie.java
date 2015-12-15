@@ -27,7 +27,7 @@ import daoimpl.CartesDaoImpl;
 public class Partie implements Serializable {
 	public static final int NB_DES = 3;
 	public static final int VINGT_ET_UN = 21;
-	CartesDaoImpl daoCarte = new CartesDaoImpl();
+//	CartesDaoImpl daoCarte = new CartesDaoImpl();
 
 	public enum Etat {
 		INITIAL {
@@ -173,7 +173,7 @@ public class Partie implements Serializable {
 	public Partie(String nom) {
 		this.nom = nom;
 		dateHeure = LocalDateTime.now();
-		pioche = daoCarte.lister();
+//		pioche = daoCarte.lister();
 	}
 
 	protected void melangerJoueurs() {
