@@ -20,14 +20,8 @@ public class GestionJoueursImpl implements GestionJoueurs {
 	@Override
 	public Joueur enregistrer(Joueur joueur) {
 		String encryptedPwd = null; 
-		try {
-			encryptedPwd = util.PasswordSHA1.getEncryptedPassword(joueur.getMdp());
-			System.out.println(encryptedPwd);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeySpecException e) {
-			e.printStackTrace();
-		}
+		encryptedPwd = util.PasswordSHA1.getEncryptedPassword(joueur.getMdp());
+		System.out.println(encryptedPwd);
 		joueur.setMdp(encryptedPwd);
 		return joueurDao.enregistrer(joueur);
 	}
