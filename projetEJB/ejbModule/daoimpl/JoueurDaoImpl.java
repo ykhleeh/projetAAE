@@ -13,7 +13,7 @@ public class JoueurDaoImpl extends DaoImpl<Integer, Joueur> {
 	}
 
 	public Joueur recherche(String pseudo) {
-		String queryString = "SELECT * from Joueur j where j.pseudo = ?";
+		String queryString = "SELECT j.* from joueurs j where j.pseudo = ?";
 		return (Joueur) super.recherche(queryString, pseudo);
 	}
 
