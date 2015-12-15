@@ -46,6 +46,10 @@ public class Joueur implements Serializable {
 	public String getMdp() {
 		return mdp;
 	}
+	
+	public void setMdp(String mdp) {
+		this.mdp = mdp;
+	}
 
 	@Override
 	public int hashCode() {
