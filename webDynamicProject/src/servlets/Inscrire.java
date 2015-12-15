@@ -3,6 +3,7 @@ package servlets;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,72 +28,23 @@ public class Inscrire extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-//		GestionJoueurs gestion = new GestionJoueursImpl();
 		String pseudo = request.getParameter("pseudo");
 		String mdp = request.getParameter("mdp");
 		
+		List<Joueur> autres = gestion.listerPseudos();
+		for (Joueur j : autres){
+			if (pseudo.equals(j.getPseudo())){
+				System.err.println("Pseudo déjà présent");
+				request.setAttribute("message", "Le pseudo est déjà utilisé. Réessayez!!!");
+				getServletContext().getNamedDispatcher("inscription.html").forward(request, response);
+				return;
+			}
+		}
 
 		gestion.enregistrer(new Joueur(pseudo, mdp));
 		
 		request.setAttribute("message", "Enregistrement ok");
-		System.out.println("Enregistrement ok");
-		response.getWriter().write("Inscriiiii");
-		
-/*		
-		String pseudo = request.getParameter("pseudo");
-//		List<String> joueurs = gestionPartie.listerJoueurs();
 
-		final ServletContext ctx = getServletContext();
-		synchronized (ctx) {
-			if (ctx.getAttribute("joueurs") == null) {
-				ctx.setAttribute("joueurs", new HashSet<String>());
-			}
-			@SuppressWarnings("unchecked")
-			final HashSet<String> joueurs = (HashSet<String>) ctx.getAttribute("joueurs");
-			if (joueurs.contains(pseudo)) {
-				String message = "Ce pseudo est deje utilise. Veuillez en utiliser un autre S.V.P.";
-				request.setAttribute("message", message);
-				getServletContext().getNamedDispatcher("index.html").forward(request, response);
-				return;				
-			}
-			if (joueurs.isEmpty()) {
-				ctx.removeAttribute("vainqueur");
-				ctx.removeAttribute("partie");
-				ctx.removeAttribute("tousLesPoints");
-				// lancer le timer d'inscription
-				Timer timer = new Timer();
-				TimerTask task = new TimerTask() {
-					
-					@Override
-					public void run() {
-						if (joueurs.size() >= 2) {
-//							gestionPartie.commencerPartie();
-//							ctx.setAttribute("joueurCourant", gestionPartie.joueurCourant());
-							ctx.setAttribute("partie", "encours");
-	//						ctx.setAttribute("jouants", gestionPartie.listerJoueurs());
-							
-						} else {
-//							gestionPartie.annulerPartie();
-							ctx.setAttribute("partie", "annulee");
-							ctx.removeAttribute("joueurs");
-						}
-						
-						
-					}
-				};
-				timer.schedule(task, 30000);
-			}
-//			if (gestionPartie.rejoindreLaPartie(pseudo)) {
-				joueurs.add(pseudo);
-				HttpSession session = request.getSession();
-				synchronized (session) {
-					session.setAttribute("user", pseudo);
-					session.setAttribute("nb", 3);
-				}
-			} // else watcher
-			getServletContext().getNamedDispatcher("index.html").forward(request, response);
-		}
-*/
 		getServletContext().getNamedDispatcher("index.html").forward(request, response);
 
 	}
