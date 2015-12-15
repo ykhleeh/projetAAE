@@ -95,10 +95,6 @@ public class JoueurPartie implements Serializable {
 		this.ordreJoueur = ordreJoueur;
 	}
 
-	public De supprimerDe(int numeroDe) {
-		return this.mainDe.remove(numeroDe);
-	}
-
 	public void ajouterDe(De aAjouter) {
 		this.mainDe.add(aAjouter);
 	}
