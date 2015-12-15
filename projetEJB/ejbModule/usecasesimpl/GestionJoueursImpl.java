@@ -13,7 +13,7 @@ import usecases.GestionJoueurs;
 @Stateless
 public class GestionJoueursImpl implements GestionJoueurs {
 	@EJB
-	JoueurDaoImpl dao;
+	JoueurDaoImpl joueurDao;
 	
 	@Override
 	public Joueur enregistrer(Joueur joueur) {
@@ -27,12 +27,12 @@ public class GestionJoueursImpl implements GestionJoueurs {
 			e.printStackTrace();
 		}
 		joueur.setMdp(encryptedPwd);
-		return dao.enregistrer(joueur);
+		return joueurDao.enregistrer(joueur);
 	}
 
 	@Override
 	public Joueur rechercherJoueur(String login) {
-		Joueur joueur = dao.recherche(login);
+		Joueur joueur = joueurDao.recherche(login);
 		return joueur;
 	}
 	@Override

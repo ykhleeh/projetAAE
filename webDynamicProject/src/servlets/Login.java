@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +19,7 @@ import usecases.GestionJoueurs;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-	GestionJoueurs gestionJoueurs;
+	@EJB GestionJoueurs gestionJoueurs;
 	
     /**
      * @see HttpServlet#HttpServlet()
