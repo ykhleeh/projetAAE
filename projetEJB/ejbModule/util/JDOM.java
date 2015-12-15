@@ -70,16 +70,8 @@ public class JDOM {
 			int nb = Integer.parseInt(carteCourante.getAttribute("nb"));
 			String effet = carteCourante.getAttribute("effet");
 			String src = carteCourante.getAttribute("src");
-			NodeList refsListe = carteCourante.getElementsByTagName("figure");
 			String contenu = carteCourante.getTextContent();
-			System.out.println(contenu);
-			List<Serializable> refffs = new ArrayList<>();
-			for (int j = 0 ; j<refsListe.getLength(); j++){
-				String ceQuOnVeut = ((Element)refsListe.item(j)).getAttribute("ref");
-				System.out.println("REFS = " + ceQuOnVeut);
-				// TODO on fait quoi avec les contenus et les Serializableeee? 
-				// J'ai compris que ce content était les références mais comment on est censé garder ca???
-			}
+			System.out.println(contenu); // TODO mettre le xml aussi dans le jsp afin de l'afficher par rapport au codeEffet de la carte jouée
 			Carte c = new Carte(null, cout, nb, effet, codeEffet, src);
 			listeCartes.add(c);
 		}

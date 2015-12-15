@@ -72,6 +72,7 @@ public class Carte implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_carte;
 
+	// ne sert a rien
 	@XmlElementRef(name = "figure", type = JAXBElement.class, required = false)
 	@XmlMixed
 	@Transient
