@@ -30,7 +30,7 @@ public class GestionJoueursImpl implements GestionJoueurs {
 		Joueur joueur = dao.recherche(login);
 		return joueur;
 	}
-	
+	@Override
 	public boolean authentifier(Joueur j){
 		Joueur db = rechercherJoueur(j.getPseudo());
 		try {
