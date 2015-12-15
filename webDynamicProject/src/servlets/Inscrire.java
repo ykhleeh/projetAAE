@@ -30,6 +30,7 @@ public class Inscrire extends HttpServlet {
 //		GestionJoueurs gestion = new GestionJoueursImpl();
 		String pseudo = request.getParameter("pseudo");
 		String mdp = request.getParameter("mdp");
+		
 
 		gestion.enregistrer(new Joueur(pseudo, mdp));
 		
@@ -92,7 +93,7 @@ public class Inscrire extends HttpServlet {
 			getServletContext().getNamedDispatcher("index.html").forward(request, response);
 		}
 */
-	//	getServletContext().getNamedDispatcher("index.html").forward(request, response);
+		getServletContext().getNamedDispatcher("index.html").forward(request, response);
 
 	}
 
