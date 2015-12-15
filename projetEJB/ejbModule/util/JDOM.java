@@ -22,13 +22,13 @@ import domaine.Wazabi;
 
 public class JDOM {
 
-	static DocumentBuilderFactory factory;
-	static DocumentBuilder builder;
-	static Document document;
-	static Element racine;
-	static ObjectFactory fabrique = new ObjectFactory();
+	DocumentBuilderFactory factory;
+	 DocumentBuilder builder;
+	 Document document;
+	 Element racine;
+	 ObjectFactory fabrique = new ObjectFactory();
 	
-	public static void main(String[] args) {
+	public Wazabi getJeu(){
 		factory = DocumentBuilderFactory.newInstance();
 		try {
 			builder = factory.newDocumentBuilder();
@@ -40,10 +40,26 @@ public class JDOM {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
-// RACINE
 		racine = document.getDocumentElement();
-		System.out.println(racine.getNodeName());
-// DES
+		String but = racine.getAttribute("but");
+		int nbCartesParJoueur = Integer.parseInt(racine.getAttribute("nbCartesParJoueur"));
+		int nbCartesTotal = Integer.parseInt(racine.getAttribute("nbCartesTotal"));
+		int minJoueurs = Integer.parseInt(racine.getAttribute("minJoueurs"));
+		int maxJoueurs = Integer.parseInt(racine.getAttribute("maxJoueurs"));
+
+		Wazabi jeu = fabrique.createWazabi();
+		jeu.setBut(but);
+		jeu.setDe(getDe());
+		jeu.setCarte(listeCartes());
+		jeu.setMaxJoueurs(maxJoueurs);
+		jeu.setMinJoueurs(minJoueurs);
+		jeu.setNbCartesParJoueur(nbCartesParJoueur);
+		jeu.setNbCartesTotal(nbCartesTotal);
+		return jeu;
+	}
+	
+	
+	public De getDe(){
 		NodeList de = racine.getElementsByTagName("de");
 		Element seulDe = (Element) de.item(0); // 1 seul dé donc a 0
 		NodeList faces = seulDe.getElementsByTagName("face");
@@ -68,8 +84,10 @@ public class JDOM {
 		d.setFace(listeFaces);
 		d.setNbParJoueur(nbParJoueur);
 		d.setNbTotalDes(nbTotalDes);
-		
-// CARTE
+		return d;
+	}
+	
+	public List<Carte> listeCartes(){
 		List<Carte> listeCartes = new ArrayList<>();
 		
 		NodeList cartes = racine.getElementsByTagName("carte");
@@ -81,7 +99,8 @@ public class JDOM {
 			String effet = carteCourante.getAttribute("effet");
 			String src = carteCourante.getAttribute("src");
 		//	String contenu = carteCourante.getTextContent();
-		//	System.out.println(contenu); // TODO mettre le xml aussi dans le jsp afin de l'afficher par rapport au codeEffet de la carte jouée
+		//	System.out.println(contenu); 
+		// TODO mettre le xml aussi dans le jsp afin de l'afficher par rapport au codeEffet de la carte jouée
 			Carte c = fabrique.createCarte();
 			c.setCodeEffet(codeEffet);
 			c.setCout(cout);
@@ -90,22 +109,8 @@ public class JDOM {
 			c.setSrc(src);
 			listeCartes.add(c);
 		}
-		System.out.println(listeCartes.size());
-// WAZABI
-		String but = racine.getAttribute("but");
-		int nbCartesParJoueur = Integer.parseInt(racine.getAttribute("nbCartesParJoueur"));
-		int nbCartesTotal = Integer.parseInt(racine.getAttribute("nbCartesTotal"));
-		int minJoueurs = Integer.parseInt(racine.getAttribute("minJoueurs"));
-		int maxJoueurs = Integer.parseInt(racine.getAttribute("maxJoueurs"));
-
-		Wazabi jeu = fabrique.createWazabi();
-		jeu.setBut(but);
-		jeu.setDe(d);
-		jeu.setMaxJoueurs(maxJoueurs);
-		jeu.setMinJoueurs(minJoueurs);
-		jeu.setNbCartesParJoueur(nbCartesParJoueur);
-		jeu.setNbCartesTotal(nbCartesTotal);
+//		System.out.println(listeCartes.size());
+		return listeCartes;
 	}
-	
 
 }
