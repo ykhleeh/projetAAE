@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,12 +27,15 @@ public class JoueurPartie implements Serializable {
 	private Joueur joueur;
 
 	@ManyToMany
-
+	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_joueurPartie") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_de") })
 	private List<De> mainDe;
-	
+
 	int ordreJoueur;
 
 	@ManyToMany
+	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_joueurPartie") }, inverseJoinColumns = {
+			@JoinColumn(name = "id_carte") })
 	private List<Carte> mainCarte;
 
 	public JoueurPartie(Joueur joueur) {
