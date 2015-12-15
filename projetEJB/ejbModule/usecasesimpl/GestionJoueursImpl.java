@@ -21,7 +21,6 @@ public class GestionJoueursImpl implements GestionJoueurs {
 	public Joueur enregistrer(Joueur joueur) {
 		String encryptedPwd = null; 
 		encryptedPwd = util.PasswordSHA1.getEncryptedPassword(joueur.getMdp());
-		System.out.println(encryptedPwd);
 		joueur.setMdp(encryptedPwd);
 		return joueurDao.enregistrer(joueur);
 	}

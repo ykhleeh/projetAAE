@@ -17,4 +17,11 @@ public class JoueurPartieDaoImpl extends DaoImpl<Integer, JoueurPartie> {
 				+ "WHERE jp.id_partie =? AND j.pseudo =? AND jp.joueur_id_joueur = j.id_joueur";
 		return super.recherche(queryString, id_partie, pseudo);
 	}
+
+	public boolean possede(int id_de, int id_joueur_partie) {
+		String queryString = "SELECT jpd.* from joueursparties_des jpd "
+				+ "WHERE jpd.id_de=? AND jpd.id_joueur_partie =?";
+		return (super.recherche(queryString, id_de, id_joueur_partie) != null);
+
+	}
 }

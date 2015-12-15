@@ -143,8 +143,14 @@ public class JoueurPartie implements Serializable {
 		return true;
 	}
 
-	public De supprimerDe(int numeroDe) {
-		return this.mainDe.remove(numeroDe);
-	}
+	public boolean supprimerDe(De de) {
+		for (De d : mainDe) {
+			if (d.equals(de)) {
+				mainDe.remove(d);
+				return true;
+			}
+		}
+		return false;
 
+	}
 }

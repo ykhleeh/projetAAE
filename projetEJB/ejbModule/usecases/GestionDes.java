@@ -12,4 +12,5 @@ public interface GestionDes {
 	List<De> listerDes();
 	List<De> listerDes(JoueurPartie joueur);
 	void supprimerDe(De de);
+	boolean donnerDe(De de, JoueurPartie joueurPart);
 }

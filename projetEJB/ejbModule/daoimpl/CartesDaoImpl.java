@@ -8,4 +8,9 @@ public class CartesDaoImpl extends DaoImpl<Integer, Carte>{
 		super(Carte.class);
 	}
 
+	public Carte piocher() {
+		
+		return null;
+	}
+
 }
