@@ -1,11 +1,15 @@
 package servlets;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import domaine.Joueur;
+import usecases.GestionJoueurs;
 
 /**
  * Servlet implementation class Login
@@ -14,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
+	GestionJoueurs gestionJoueurs;
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -28,15 +34,21 @@ public class Login extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		// TODO mettre le login courant dans le context pour gérer l'attente
-		getServletContext().setAttribute("login", "LOGINNNN");
 		String pseudo = request.getParameter("pseudo");
+		String passwd = request.getParameter("mdp");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		if (pseudo.equals("")) {
+		if (pseudo.equals("") || passwd.equals("")) {
 			System.out.println("merde");
-			request.setAttribute("message", "pseudo vide mothafucka!!  :(");
+			request.setAttribute("message", "Veuillez remplir tous les champs!!");
 			request.getRequestDispatcher("index.html").forward(request, response);
 //			getServletContext().getNamedDispatcher("login.html").forward(request, response);
 		}
+		Joueur j = gestionJoueurs.rechercherJoueur(pseudo);
+		if (!gestionJoueurs.authentifier(pseudo, passwd)) {
+			request.setAttribute("message", "Le pseudo ou le mot de passe est incorrect!!");
+			request.getRequestDispatcher("index.html").forward(request, response);
+		}
+		getServletContext().setAttribute("login", pseudo);
 		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
 	}
 
