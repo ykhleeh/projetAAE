@@ -43,10 +43,18 @@ public class Joueur implements Serializable {
 		return pseudo;
 	}
 
+	public int getId_joueur() {
+		return id_joueur;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
 	public String getMdp() {
 		return mdp;
 	}
-	
+
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
 	}
