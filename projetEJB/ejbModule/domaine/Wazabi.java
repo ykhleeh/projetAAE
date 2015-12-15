@@ -116,6 +116,9 @@ public class Wazabi {
      * 
      * 
      */
+    
+    
+    
     public List<Carte> getCarte() {
         if (carte == null) {
             carte = new ArrayList<Carte>();
@@ -123,7 +126,11 @@ public class Wazabi {
         return this.carte;
     }
 
-    /**
+    public void setCarte(List<Carte> carte) {
+		this.carte = carte;
+	}
+
+	/**
      * Obtient la valeur de la propri�t� but.
      * 
      * @return
