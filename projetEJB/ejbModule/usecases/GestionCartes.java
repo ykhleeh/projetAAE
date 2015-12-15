@@ -6,6 +6,6 @@ import domaine.Carte;
 
 public interface GestionCartes {
 	Carte enregistrer (Carte carte);
-	Carte rechercherCarte (String pattern);
+	Carte rechercherCarte (int id);
 	List<Carte> listerCartes();
 }
