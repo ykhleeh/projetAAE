@@ -25,6 +25,7 @@ public class JoueurPartie implements Serializable {
 	private Joueur joueur;
 
 	@ManyToMany
+
 	private List<De> mainDe;
 	
 	int ordreJoueur;

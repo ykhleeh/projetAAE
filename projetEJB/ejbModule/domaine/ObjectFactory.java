@@ -39,6 +39,14 @@ public class ObjectFactory {
      */
     public ObjectFactory() {
     }
+    
+    /**
+     * Create an instance of {@link Joueur }
+     * 
+     */
+    public Joueur createJoueur(){
+    	return new Joueur();
+    }
 
     /**
      * Create an instance of {@link Carte }
