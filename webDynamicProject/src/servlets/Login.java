@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
 		synchronized (session) {
 			session.setAttribute("login", pseudo);
 		}
-		request.setAttribute("message", "Connecte MOTHAFUCKA!!!!");
+		request.setAttribute("message", "Connecte MOTHAFUCKA!lljflkhslfh!!!");
 		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
 	}
 
