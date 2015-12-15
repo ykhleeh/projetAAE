@@ -66,20 +66,6 @@ public class Wazabi {
     @XmlAttribute(name = "maxJoueurs", required = true)
     protected int maxJoueurs;
 
-    
-    
-    public Wazabi(De de, List<Carte> carte, String but, int nbCartesParJoueur, int nbCartesTotal, int minJoueurs,
-			int maxJoueurs) {
-		super();
-		this.de = de;
-		this.carte = carte;
-		this.but = but;
-		this.nbCartesParJoueur = nbCartesParJoueur;
-		this.nbCartesTotal = nbCartesTotal;
-		this.minJoueurs = minJoueurs;
-		this.maxJoueurs = maxJoueurs;
-	}
-
 	public Wazabi() {
 		super();
 	}

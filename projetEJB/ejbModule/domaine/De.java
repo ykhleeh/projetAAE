@@ -82,13 +82,7 @@ public class De implements Serializable {
 	public De(int valeur) {
 		this.valeur = valeur;
 	}
-	
-	public De(List<Face> face, int nbParJoueur, int nbTotalDes) {
-		super();
-		this.face = face;
-		this.nbParJoueur = nbParJoueur;
-		this.nbTotalDes = nbTotalDes;
-	}
+
 
 	public De() {
 		super();
@@ -116,11 +110,18 @@ public class De implements Serializable {
 	 * 
 	 * 
 	 */
+	
+	
+	
 	public List<Face> getFace() {
 		if (face == null) {
 			face = new ArrayList<Face>();
 		}
 		return this.face;
+	}
+
+	public void setFace(List<Face> face) {
+		this.face = face;
 	}
 
 	/**

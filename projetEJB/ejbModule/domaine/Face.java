@@ -49,14 +49,6 @@ public class Face {
     @XmlAttribute(name = "nbFaces", required = true)
     protected int nbFaces;
 
-    public Face(String figure, String identif, String src, int nbFaces) {
-		super();
-		this.figure = figure;
-		this.identif = identif;
-		this.src = src;
-		this.nbFaces = nbFaces;
-	}
-
     public Face(){
     	super();
     }
