@@ -13,5 +13,6 @@
 	<label for="mdp">Votre mot de passe : </label><input type="password" id="mdp" name="mdp"/>
 	<br>
 	<input type="submit" value="Se connecter"/>
+	
 </form>
 <a href="inscription.html">S'inscrire</a>
