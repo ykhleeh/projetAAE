@@ -155,5 +155,9 @@ public class De implements Serializable {
 	public void setNbTotalDes(int value) {
 		this.nbTotalDes = value;
 	}
+	
+	public int getId() {
+		return this.id_de;
+	}
 
 }
