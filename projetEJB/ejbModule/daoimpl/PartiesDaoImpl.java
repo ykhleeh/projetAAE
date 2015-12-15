@@ -1,13 +1,15 @@
 package daoimpl;
 
-import java.util.List;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 
 import domaine.Partie;
 
-public class PartiesDaoImpl extends DaoImpl<Integer, Partie>{
-	
+@Stateless
+public class PartiesDaoImpl extends DaoImpl<Integer, Partie> {
+
 	public PartiesDaoImpl() {
 		super(Partie.class);
 	}
-	
+
 }

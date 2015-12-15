@@ -5,8 +5,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
-import javax.ejb.Singleton;
-import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 import daoimpl.JoueurDaoImpl;
@@ -19,8 +17,7 @@ import domaine.Partie;
 import domaine.Partie.Etat;
 import usecases.GestionParties;
 
-@Singleton
-@Startup
+@Stateless
 public class GestionPartiesImpl implements GestionParties {
 	private Partie partie;
 	private static int num = 0;
