@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import domaine.Joueur;
 import usecases.GestionJoueurs;
@@ -45,11 +46,17 @@ public class Login extends HttpServlet {
 //			getServletContext().getNamedDispatcher("login.html").forward(request, response);
 		}
 		Joueur j = gestionJoueurs.rechercherJoueur(pseudo);
+		if (j != null)
+			System.out.println("youhou");
 		if (!gestionJoueurs.authentifier(pseudo, passwd)) {
 			request.setAttribute("message", "Le pseudo ou le mot de passe est incorrect!!");
 			request.getRequestDispatcher("index.html").forward(request, response);
 		}
-		getServletContext().setAttribute("login", pseudo);
+		HttpSession session = request.getSession();
+		synchronized (session) {
+			session.setAttribute("login", pseudo);
+		}
+		request.setAttribute("message", "Connecte MOTHAFUCKA!lljflkhslfh!!!");
 		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
 	}
 

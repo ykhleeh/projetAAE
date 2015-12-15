@@ -2,6 +2,8 @@ package usecasesimpl;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -46,6 +48,11 @@ public class GestionJoueursImpl implements GestionJoueurs {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	@Override
+	public List<Joueur> listerPseudos() {
+		return joueurDao.lister();
 	}
 
 }
