@@ -24,8 +24,7 @@ public class GestionCartesImpl implements GestionCartes {
 
 	@Override
 	public List<Carte> listerCartes() {
-		// TODO Auto-generated method stub
-		return null;
+		return carteDao.lister();
 	}
 
 }
