@@ -54,7 +54,7 @@ public class Partie implements Serializable {
 				partie.joueurCourant = partie.getJoueurs().get(indice);
 				return true;
 			}
-
+//TODO terminer domaine.partie les differents etats
 			/*
 			 * int lancerLesDes(Partie partie) { if
 			 * (partie.getPoints(partie.joueurCourant) >= 21) return -1; int

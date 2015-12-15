@@ -2,11 +2,21 @@ package usecases;
 
 import java.util.List;
 
+import javax.ejb.Remote;
+
 import domaine.Joueur;
 import domaine.Partie;
+import domaine.Partie.Etat;
 
+@Remote
 public interface GestionParties {
-	Partie enregistrer (Partie partie);
-	Partie EnregistrerVainqueur (Partie partie, Joueur vainqueur);
+	boolean rejoindreLaPartie(String pseudo);
+	Partie creer (Partie partie);
+	Partie enregistrerVainqueur (Partie partie, Joueur vainqueur);
 	List<Partie> listerParties();
+	String joueurCourant();
+	boolean auSuivant();
+	boolean estFinie();
+	void annulerPartie();
+	Etat getEtatPartie();
 }
