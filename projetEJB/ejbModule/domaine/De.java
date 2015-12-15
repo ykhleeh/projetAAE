@@ -62,8 +62,6 @@ public class De implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_de;
 
-	@Min(1)
-	@Max(Partie.NB_DES)
 	@NotNull
 	private String valeur;
 

@@ -3,10 +3,13 @@ package usecasesimpl;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
+import javax.ejb.Stateless;
+
 import daoimpl.JoueurDaoImpl;
 import domaine.Joueur;
 import usecases.GestionJoueurs;
 
+@Stateless
 public class GestionJoueursImpl implements GestionJoueurs {
 
 	JoueurDaoImpl dao = new JoueurDaoImpl();
@@ -31,10 +34,10 @@ public class GestionJoueursImpl implements GestionJoueurs {
 		return joueur;
 	}
 	@Override
-	public boolean authentifier(Joueur j){
-		Joueur db = rechercherJoueur(j.getPseudo());
+	public boolean authentifier(String pseudo, String mdp){
+		Joueur db = rechercherJoueur(pseudo);
 		try {
-			return util.PasswordSHA1.authenticate(j.getMdp(), db.getMdp());
+			return util.PasswordSHA1.authenticate(mdp, db.getMdp());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
