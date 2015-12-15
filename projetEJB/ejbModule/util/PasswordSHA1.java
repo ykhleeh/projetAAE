@@ -14,7 +14,9 @@ public  class PasswordSHA1 {
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
 		String encryptedAttemptedPassword = getEncryptedPassword(
 				attemptedPassword);
-
+		
+		System.out.println("Attendu : " + encryptedAttemptedPassword);
+		System.out.println("Recu : " + attemptedPassword + "  :  " + encryptedPassword);
 		return encryptedPassword.equals(encryptedAttemptedPassword);
 	}
 

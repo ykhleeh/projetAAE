@@ -22,7 +22,8 @@ public class GestionJoueursImpl implements GestionJoueurs {
 		String encryptedPwd = null; 
 		try {
 			encryptedPwd = util.PasswordSHA1.getEncryptedPassword(joueur.getMdp());
-			System.out.println(encryptedPwd);
+			
+			System.out.println("Enreg " + joueur.getMdp() + "  :  " +encryptedPwd);
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {
@@ -41,7 +42,9 @@ public class GestionJoueursImpl implements GestionJoueurs {
 	public boolean authentifier(String pseudo, String mdp){
 		Joueur db = rechercherJoueur(pseudo);
 		try {
-			return util.PasswordSHA1.authenticate(mdp, db.getMdp());
+			String encryptedPwd = util.PasswordSHA1.getEncryptedPassword(mdp);
+			return db.getMdp().equals(encryptedPwd);
+			// return util.PasswordSHA1.authenticate(mdp, db.getMdp());
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		} catch (InvalidKeySpecException e) {

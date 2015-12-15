@@ -51,6 +51,7 @@ public class Login extends HttpServlet {
 		if (!gestionJoueurs.authentifier(pseudo, passwd)) {
 			request.setAttribute("message", "Le pseudo ou le mot de passe est incorrect!!");
 			request.getRequestDispatcher("index.html").forward(request, response);
+			return;
 		}
 		HttpSession session = request.getSession();
 		synchronized (session) {
