@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,16 +15,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import domaine.Joueur;
+import usecases.GestionJoueurs;
+import usecasesimpl.GestionJoueursImpl;
+
 @SuppressWarnings("serial")
 @WebServlet("/inscrire.html")
 public class Inscrire extends HttpServlet {
-	//@EJB 
-//	private GestionPartie gestionPartie;
+	@EJB 
+	GestionJoueurs gestion;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+//		GestionJoueurs gestion = new GestionJoueursImpl();
+		String pseudo = request.getParameter("pseudo");
+		String mdp = request.getParameter("mdp");
+
+		gestion.enregistrer(new Joueur(pseudo, mdp));
 		
-		
+		request.setAttribute("message", "Enregistrement ok");
 		
 /*		
 		String pseudo = request.getParameter("pseudo");
