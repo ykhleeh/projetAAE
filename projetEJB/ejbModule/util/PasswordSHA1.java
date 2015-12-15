@@ -30,7 +30,7 @@ public  class PasswordSHA1 {
 		
 		SecretKeyFactory f = SecretKeyFactory.getInstance(algorithm);
 
-		return f.generateSecret(spec).toString();
+		return String.valueOf(f.generateSecret(spec).getEncoded());
 	}
 /*
 	public static byte[] generateSalt() throws NoSuchAlgorithmException {
