@@ -7,4 +7,4 @@
 	</c:if>
 	<a href="lancer.html">Lancer une partie</a>
 	<a href="attente.html">Rejoindre partie</a>
-	<a href="liste.html">Lister parties</a>
+	<a href="lister.html">Lister parties</a>
