@@ -23,13 +23,13 @@ import domaine.Wazabi;
 
 public class JDOM {
 
-	static DocumentBuilderFactory factory;
-	static DocumentBuilder builder;
-	static Document document;
-	static Element racine;
-	static ObjectFactory fabrique = new ObjectFactory();
+	DocumentBuilderFactory factory;
+	 DocumentBuilder builder;
+	 Document document;
+	 Element racine;
+	 ObjectFactory fabrique = new ObjectFactory();
 	
-	public static void main(String[] args) {
+	public Wazabi getJeu(){
 		factory = DocumentBuilderFactory.newInstance();
 		try {
 			builder = factory.newDocumentBuilder();
@@ -41,15 +41,7 @@ public class JDOM {
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
-// RACINE
 		racine = document.getDocumentElement();
-		System.out.println(racine.getNodeName());
-		
-// WAZABI
-
-	}
-	
-	public Wazabi getJeu(){
 		String but = racine.getAttribute("but");
 		int nbCartesParJoueur = Integer.parseInt(racine.getAttribute("nbCartesParJoueur"));
 		int nbCartesTotal = Integer.parseInt(racine.getAttribute("nbCartesTotal"));
@@ -59,6 +51,7 @@ public class JDOM {
 		Wazabi jeu = fabrique.createWazabi();
 		jeu.setBut(but);
 		jeu.setDe(getDe());
+		jeu.setCarte(listeCartes());
 		jeu.setMaxJoueurs(maxJoueurs);
 		jeu.setMinJoueurs(minJoueurs);
 		jeu.setNbCartesParJoueur(nbCartesParJoueur);
