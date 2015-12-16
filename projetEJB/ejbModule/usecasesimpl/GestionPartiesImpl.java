@@ -1,5 +1,6 @@
 package usecasesimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -92,11 +93,21 @@ public class GestionPartiesImpl implements GestionParties {
 		JoueurPartie joueurPart = joueurPartieDao.recherche(partie.getId(), pseudo);
 		if (joueurPart == null) {
 			joueurPart = objFact.createJoueurPartie();
+			joueurPart.setId_partie(partie);
 			joueurPart.setJoueur(joueurDao.recherche(pseudo));
 			joueurPart = joueurPartieDao.enregistrer(joueurPart);
+			List<Carte> main = new ArrayList<>();
+			for (int i = 0; i < 3; i++) {
+				int index = (int) (Math.random() * partie.pioche.size());
+				main.add(partie.pioche.remove(index));
+			}
+			joueurPart.setMainCarte(main);
 		}
-		return partie.ajouterJoueurPartie(joueurPart);
-
+		
+		//partie.ajouterJoueurPartie(joueurPart);
+		joueurPartieDao.mettreAJour(joueurPart);
+		partieDao.mettreAJour(partie);
+		return true;
 	}
 
 	@Override
@@ -186,7 +197,11 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public List<Carte> getCartesJoueur(String pseudo) {
-		JoueurPartie jp = this.joueurPartieDao.recherche(this.partie.getId(), pseudo);
+		System.out.println("****************************** get cartes ******************************");
+		JoueurPartie jp = 
+				joueurPartieDao.recherche(this.partie.getId(), pseudo);
+		System.out.println("****************************** " + jp.getId_joueurPartie() + " ******************************");
+
 		return carteDao.lister(jp);
 	}
 

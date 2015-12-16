@@ -44,9 +44,10 @@ public class JoueurPartie implements Serializable {
 			@JoinColumn(name = "id_carte") })
 	private List<Carte> mainCarte;
 
-	public JoueurPartie(Joueur joueur) {
+	public JoueurPartie(Joueur joueur, Partie partie) {
 		super();
 		this.joueur = joueur;
+		this.partie = partie;
 		mainDe = new ArrayList<De>();
 		for (int i = 0; i < 4; i++) {
 			mainDe.add(new De(Face.WASABI));

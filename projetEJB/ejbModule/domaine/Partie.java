@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import daoimpl.CartesDaoImpl;
 import util.JDOM;
 
 @SuppressWarnings("serial")
@@ -36,7 +38,7 @@ import util.JDOM;
 public class Partie implements Serializable {
 	public static final int NB_DES = 3;
 	public static final int VINGT_ET_UN = 21;
-	// CartesDaoImpl daoCarte = new CartesDaoImpl();
+	@EJB CartesDaoImpl cartes;
 
 	public enum Etat {
 		INITIAL {
@@ -46,12 +48,13 @@ public class Partie implements Serializable {
 					return false;
 				// on attribu des carte aleatoirement au joueur donc on les
 				// retire aussi de la pioche de la partie
-				List<Carte> main = new ArrayList<>();
+/*				List<Carte> main = new ArrayList<>();
 				for (int i = 0; i < 3; i++) {
 					int index = (int) (Math.random() * partie.pioche.size());
 				//	main.add(partie.pioche.remove(index));
 				}
 				j.setMainCarte(main);
+*/				
 				// on ajoute le joueur a la liste des joueurs
 				partie.joueurs.add(j);
 				// si + de 2 joueurs on lance la partie
@@ -171,7 +174,7 @@ public class Partie implements Serializable {
 	@ManyToMany
 	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_partie") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_carte") })
-	private List<Carte> pioche = new ArrayList<Carte>();
+	public List<Carte> pioche = new ArrayList<Carte>();
 
 	@OneToMany(mappedBy = "partie")
 	private List<JoueurPartie> joueurs = new ArrayList<JoueurPartie>();
@@ -201,9 +204,7 @@ public class Partie implements Serializable {
 
 	protected Partie() {
 		dateHeure = Timestamp.valueOf(LocalDateTime.now());
-		JDOM dom = new JDOM();
-		Wazabi jeu = dom.getJeu();
-		pioche = jeu.getCarte();
+		//pioche = cartes.lister();
 	}
 
 	public int getId() {
