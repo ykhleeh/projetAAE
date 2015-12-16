@@ -25,6 +25,7 @@ public class JoueurPartie implements Serializable {
 	private int id_joueurPartie;
 
 	@ManyToOne
+	@JoinColumn(name = "id_joueur")
 	private Joueur joueur;
 
 	@ManyToMany
@@ -34,6 +35,8 @@ public class JoueurPartie implements Serializable {
 
 	int ordreJoueur;
 
+	@ManyToOne
+	@JoinColumn(name = "id_partie")
 	int id_partie;
 
 	@ManyToMany

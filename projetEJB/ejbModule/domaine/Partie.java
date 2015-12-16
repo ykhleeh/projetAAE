@@ -1,12 +1,13 @@
 package domaine;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,11 +16,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
-
-import daoimpl.CartesDaoImpl;
 
 @SuppressWarnings("serial")
 @Entity
@@ -27,7 +29,7 @@ import daoimpl.CartesDaoImpl;
 public class Partie implements Serializable {
 	public static final int NB_DES = 3;
 	public static final int VINGT_ET_UN = 21;
-//	CartesDaoImpl daoCarte = new CartesDaoImpl();
+	// CartesDaoImpl daoCarte = new CartesDaoImpl();
 
 	public enum Etat {
 		INITIAL {
@@ -88,9 +90,15 @@ public class Partie implements Serializable {
 				partie.pioche.add(carte);
 			}
 
-			// A COMPLETER
-			boolean donnerSonDe(De aDonner, JoueurPartie joueurPartie, Partie partie) {
-				return  false;
+			boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
+				partie.joueurCourant.getMainDe().remove(aDonner);
+				for (JoueurPartie jp : partie.joueurs) {
+					if (jp.getOrdreJoueur() == ordre) {
+						jp.ajouterDe(aDonner);
+						return true;
+					}
+				}
+				return false;
 			}
 		},
 		FINIE {
@@ -131,6 +139,10 @@ public class Partie implements Serializable {
 
 		public void jouerCarte(Partie partie, Carte carte) {
 		}
+
+		boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
+			return false;
+		}
 	}
 
 	@Id
@@ -161,19 +173,23 @@ public class Partie implements Serializable {
 	// @MapKeyJoinColumn(name = "JOUEUR_ID")
 	@Transient
 	private List<JoueurPartie> joueurs = new ArrayList<JoueurPartie>();
-
+	@OneToOne(cascade = { CascadeType.ALL })
+	@PrimaryKeyJoinColumn
 	private JoueurPartie joueurCourant;
 
-	private LocalDateTime dateHeure;
+	// TODO changer en timestamp
+	private Timestamp dateHeure;
 
 	private boolean ordreCroissant = true;
 
+	@ManyToOne
+	@JoinColumn(name = "id_joueur")
 	private Joueur vainqueur;
 
 	public Partie(String nom) {
 		this.nom = nom;
-		dateHeure = LocalDateTime.now();
-//		pioche = daoCarte.lister();
+		dateHeure = Timestamp.valueOf(LocalDateTime.now());
+		// pioche = daoCarte.lister();
 	}
 
 	protected void melangerJoueurs() {
@@ -223,10 +239,17 @@ public class Partie implements Serializable {
 	}
 
 	private int prochain() {
-		int indice = getJoueurs().indexOf(joueurCourant) + 1;
-		if (indice >= getJoueurs().size())
-			indice = 0;
-		return indice;
+		if (this.ordreCroissant) {
+			int indice = getJoueurs().indexOf(joueurCourant) + 1;
+			if (indice >= getJoueurs().size())
+				indice = 0;
+			return indice;
+		} else {
+			int indice = getJoueurs().indexOf(joueurCourant) - 1;
+			if (indice >= getJoueurs().size())
+				indice = 0;
+			return indice;
+		}
 	}
 
 	public boolean commencerTourSuivant() {
@@ -256,6 +279,10 @@ public class Partie implements Serializable {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	boolean donnerSonDe(De aDonner, int ordre) {
+		return this.etat.donnerSonDe(aDonner, ordre, this);
 	}
 
 	@Override
