@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class Rejoindre
@@ -29,8 +30,13 @@ public class Rejoindre extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		// TODO recup login
-		String login = (String) getServletContext().getAttribute("login");
-		System.out.println(login);
+		String pseudo;
+		HttpSession session = request.getSession();
+		synchronized (session) {
+			pseudo = (String) session.getAttribute("login");
+		}
+		request.setAttribute("message", "Bienvenue " + pseudo);
+		System.out.println("Bienvenue "+pseudo);
 		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
 	}
 
