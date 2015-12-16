@@ -32,5 +32,9 @@ footer {
 }	
 
 .formLogin {
-	padding-top: 45%;
+	padding-top: 30%;
+}
+
+label {
+	font-size: 2em;
 }

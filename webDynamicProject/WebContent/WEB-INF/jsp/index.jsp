@@ -5,7 +5,7 @@
 	<div class="body">
 		<div class="row">
 			<div class="col-sm-6 pull-left">
-				<h2>Connectez-vous</h2>
+				<h1>Connectez-vous</h1>
 				<br>
 				<c:if test="${message != null}">
 					<div id="erreur">${message}</div>
