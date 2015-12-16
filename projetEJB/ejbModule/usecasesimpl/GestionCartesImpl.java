@@ -3,11 +3,13 @@ package usecasesimpl;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import daoimpl.CartesDaoImpl;
 import domaine.Carte;
 import usecases.GestionCartes;
 
+@Stateless
 public class GestionCartesImpl implements GestionCartes {
 	
 	@EJB CartesDaoImpl carteDao;

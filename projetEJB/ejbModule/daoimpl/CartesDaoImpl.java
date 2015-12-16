@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import domaine.Carte;
 import domaine.Joueur;
 import domaine.JoueurPartie;
+import util.JDOM;
 
 @SuppressWarnings("serial")
 @Stateless
@@ -14,12 +15,15 @@ public class CartesDaoImpl extends DaoImpl<Integer, Carte>{
 	
 	public CartesDaoImpl() {
 		super(Carte.class);
+		
 	}
 
 	public Carte piocher() {
 		
 		return null;
 	}
+	
+	
 
 	public List<Carte> lister(JoueurPartie jp) {
 		String queryString = "SELECT c "

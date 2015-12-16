@@ -25,7 +25,10 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import util.JDOM;
 
 @SuppressWarnings("serial")
 @Entity
@@ -46,7 +49,7 @@ public class Partie implements Serializable {
 				List<Carte> main = new ArrayList<>();
 				for (int i = 0; i < 3; i++) {
 					int index = (int) (Math.random() * partie.pioche.size());
-					main.add(partie.pioche.remove(index));
+				//	main.add(partie.pioche.remove(index));
 				}
 				j.setMainCarte(main);
 				// on ajoute le joueur a la liste des joueurs
@@ -181,6 +184,7 @@ public class Partie implements Serializable {
 	// @Temporal(TemporalType.TIMESTAMP)
 	private Timestamp dateHeure;
 
+	@Transient
 	private boolean ordreCroissant = true;
 
 	@ManyToOne
@@ -190,7 +194,6 @@ public class Partie implements Serializable {
 	public Partie(String nom) {
 		this.nom = nom;
 		dateHeure = Timestamp.valueOf(LocalDateTime.now());
-		// pioche = daoCarte.lister();
 	}
 
 	protected void melangerJoueurs() {
@@ -198,10 +201,49 @@ public class Partie implements Serializable {
 	}
 
 	protected Partie() {
+		dateHeure = Timestamp.valueOf(LocalDateTime.now());
+		JDOM dom = new JDOM();
+		Wazabi jeu = dom.getJeu();
+		pioche = jeu.getCarte();
 	}
 
 	public int getId() {
 		return id_partie;
+	}
+
+	
+	
+	
+	public void setId_partie(int id_partie) {
+		this.id_partie = id_partie;
+	}
+
+	public void setEtat(Etat etat) {
+		this.etat = etat;
+	}
+
+	public void setPioche(List<Carte> pioche) {
+		this.pioche = pioche;
+	}
+
+	public void setJoueurs(List<JoueurPartie> joueurs) {
+		this.joueurs = joueurs;
+	}
+
+	public void setJoueurCourant(JoueurPartie joueurCourant) {
+		this.joueurCourant = joueurCourant;
+	}
+
+	public void setDateHeure(Timestamp dateHeure) {
+		this.dateHeure = dateHeure;
+	}
+
+	public void setOrdreCroissant(boolean ordreCroissant) {
+		this.ordreCroissant = ordreCroissant;
+	}
+
+	public void setVainqueur(Joueur vainqueur) {
+		this.vainqueur = vainqueur;
 	}
 
 	public String getNom() {

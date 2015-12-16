@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 
 import daoimpl.DesDaoImpl;
 import daoimpl.JoueurPartieDaoImpl;
@@ -11,6 +12,7 @@ import domaine.De;
 import domaine.JoueurPartie;
 import usecases.GestionDes;
 
+@Stateless
 public class GestionDesImpl implements GestionDes {
 
 	@EJB

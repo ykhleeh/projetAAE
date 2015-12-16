@@ -41,7 +41,7 @@ public class Rejoindre extends HttpServlet {
 		request.setAttribute("message", "Bienvenue " + pseudo);
 		gp.rejoindreLaPartie(pseudo); // Utiliser la méthode avec dernier id plutot que de tout parcourir pour trouver la bonne partie
 		System.out.println("Bienvenue "+pseudo);
-		request.getRequestDispatcher("/jeumanager.html").forward(request, response);
+		request.getRequestDispatcher("jeumanager.html").forward(request, response);
 	}
 
 	/**

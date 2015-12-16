@@ -14,6 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import daoimpl.CartesDaoImpl;
 import domaine.Carte;
 import domaine.De;
 import domaine.Face;
@@ -22,7 +23,7 @@ import domaine.Wazabi;
 
 public class JDOM {
 
-	DocumentBuilderFactory factory;
+	 DocumentBuilderFactory factory;
 	 DocumentBuilder builder;
 	 Document document;
 	 Element racine;
@@ -36,7 +37,7 @@ public class JDOM {
 			e.printStackTrace();
 		}
 		try {
-			document = builder.parse(new File("ejbModule/META-INF/wazabi.xml"));
+			document = builder.parse(new File("../standalone/deployments/test.ear/projetEJB.jar/xml/wazabi.xml"));
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}
@@ -84,6 +85,7 @@ public class JDOM {
 		d.setFace(listeFaces);
 		d.setNbParJoueur(nbParJoueur);
 		d.setNbTotalDes(nbTotalDes);
+		d.setValeur("w");
 		return d;
 	}
 	

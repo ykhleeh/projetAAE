@@ -8,6 +8,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import daoimpl.CartesDaoImpl;
+import daoimpl.DesDaoImpl;
 import daoimpl.JoueurDaoImpl;
 import daoimpl.JoueurPartieDaoImpl;
 import daoimpl.PartiesDaoImpl;
@@ -19,7 +20,9 @@ import domaine.JoueurPartie;
 import domaine.ObjectFactory;
 import domaine.Partie;
 import domaine.Partie.Etat;
+import domaine.Wazabi;
 import usecases.GestionParties;
+import util.JDOM;
 
 @Stateless
 public class GestionPartiesImpl implements GestionParties {
@@ -35,11 +38,36 @@ public class GestionPartiesImpl implements GestionParties {
 	@EJB
 	CartesDaoImpl carteDao;
 	@EJB
-	CartesDaoImpl deDao;
+	DesDaoImpl deDao;
 
 	@PostConstruct
 	public void postconstruct() {
-		System.out.println("GestionPartieImpl created");
+		ObjectFactory o = new ObjectFactory();
+		JDOM dom = new JDOM();
+		Wazabi jeu = dom.getJeu();
+		for (Carte c : jeu.getCarte()){
+			for (int i=0; i<c.getNb(); i++){
+				Carte clone = o.createCarte();
+				clone.setCodeEffet(c.getCodeEffet());
+				clone.setCout(c.getCout());
+				clone.setEffet(c.getEffet());
+				clone.setNb(c.getNb());
+				clone.setSrc(c.getSrc());
+				carteDao.enregistrer(clone);
+			}
+		}
+		De de = jeu.getDe();
+		for (int i=0; i<de.getNbTotalDes(); i++){
+			De dee = o.createDe();
+			dee.setFace(de.getFace());
+			dee.setNbParJoueur(de.getNbParJoueur());
+			dee.setNbTotalDes(de.getNbTotalDes());
+			dee.setValeur("w");
+			deDao.enregistrer(dee);
+		}
+		
+		
+		System.out.println("********************************* ENREG *****************************");
 	}
 
 	@PreDestroy
@@ -85,6 +113,7 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Partie creer(Partie partie) {
 		this.partie = partie;
+		partie.setPioche(carteDao.lister());
 		return partieDao.enregistrer(partie);
 	}
 
