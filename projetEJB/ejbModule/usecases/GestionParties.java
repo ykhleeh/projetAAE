@@ -42,4 +42,8 @@ public interface GestionParties {
 	List<Joueur> getJoueurs();
 	
 	Partie getDernierePartie();
+	
+	boolean jouerCarte(int codeEffet, Object... params);
+	
+	
 }
