@@ -1,8 +1,23 @@
 body {
 	background-image:url("../images/BambooForest.jpg");
+	text-align: center;
+	padding: 5em;
 }
 
 .body {
 	background-color: #094209;
 }
-	
+
+h1, h2, h3, p {
+	color: white;
+}
+
+footer {
+	position: fixed;
+	bottom: 0;
+	background-color: #094209;
+	text-align: center; 
+	padding-left: 5em;
+	padding-right: 5em;
+	margin: 0;
+}	
