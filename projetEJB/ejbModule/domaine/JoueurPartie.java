@@ -77,6 +77,10 @@ public class JoueurPartie implements Serializable {
 	public List<De> getMainDe() {
 		return mainDe;
 	}
+	
+	public void setMainDe(List<De> mainDe){
+		this.mainDe = mainDe;
+	}
 
 	public List<Carte> getMainCarte() {
 		return mainCarte;

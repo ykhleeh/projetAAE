@@ -92,6 +92,7 @@ public class Partie implements Serializable {
 
 			public void jouerCarte(Partie partie, Carte carte) {
 				partie.pioche.add(carte);
+				partie.joueurCourant.getMainCarte().remove(carte);
 			}
 
 			boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
@@ -170,14 +171,14 @@ public class Partie implements Serializable {
 			@JoinColumn(name = "id_carte") })
 	private List<Carte> pioche = new ArrayList<Carte>();
 
-	@OneToMany(mappedBy="partie")
+	@OneToMany(mappedBy = "partie")
 	private List<JoueurPartie> joueurs = new ArrayList<JoueurPartie>();
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private JoueurPartie joueurCourant;
 
-	//@Temporal(TemporalType.TIMESTAMP)
+	// @Temporal(TemporalType.TIMESTAMP)
 	private Timestamp dateHeure;
 
 	private boolean ordreCroissant = true;
@@ -238,7 +239,7 @@ public class Partie implements Serializable {
 		return etat.commencerPartie(this);
 	}
 
-	private int prochain() {
+	public int prochain() {
 		if (this.ordreCroissant) {
 			int indice = getJoueurs().indexOf(joueurCourant) + 1;
 			if (indice >= getJoueurs().size())
@@ -249,6 +250,14 @@ public class Partie implements Serializable {
 			if (indice >= getJoueurs().size())
 				indice = 0;
 			return indice;
+		}
+	}
+
+	public void changerSens() {
+		if (this.ordreCroissant) {
+			this.ordreCroissant = false;
+		} else {
+			ordreCroissant = true;
 		}
 	}
 
@@ -265,7 +274,6 @@ public class Partie implements Serializable {
 	}
 
 	public void jouerCarte(Carte carte) {
-		this.etat.jouerCarte(this, carte);
 	}
 
 	public Joueur estVainqueur() { // pas de gestion des ex-aequos pour

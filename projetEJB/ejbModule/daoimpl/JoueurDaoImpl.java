@@ -26,11 +26,11 @@ public class JoueurDaoImpl extends DaoImpl<Integer, Joueur> {
 	}
 	
 	public List<Joueur> listerJoueurs(int id_partie) {
-		String queryString = "SELECT j.* "
+		String queryString = "SELECT j "
 				+ "FROM joueursparties jp, joueurs j, parties p "
 				+ "WHERE jp.id_partie = p.id_partie "
 				+ "AND jp.id_joueur= j.id_joueur "
-				+ "AND j.pseudo= ? ";
+				+ "AND j.pseudo= ?1 ";
 		return super.liste(queryString, id_partie);
 	}
 	

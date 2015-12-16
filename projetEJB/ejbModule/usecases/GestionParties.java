@@ -40,4 +40,6 @@ public interface GestionParties {
 	boolean donnerDe(String JoueurDonneur, String joueurReceveur);
 
 	List<Joueur> getJoueurs();
+
+	boolean jouerCarte(int codeEffet, Object... params);
 }
