@@ -42,15 +42,22 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public boolean rejoindreLaPartie(String pseudo) {
-		if (partie != null && partie.getEtat() == Etat.EN_COURS)
-			return false;
-		if (partie == null || partie.getEtat() == Etat.FINIE) {
-
-			partie = objFact.createPartie();
-			partie.setNom("partie" + num);
-			num++;
-			partie = partieDao.enregistrer(partie);
+//		if (partie != null && partie.getEtat() == Etat.EN_COURS)
+//			return false;
+//		if (partie == null || partie.getEtat() == Etat.FINIE) {
+//		partie = objFact.createPartie();
+//		partie.setNom("partie" + num);
+//		num++;
+//		partie = partieDao.enregistrer(partie);
+//	}
+		if (!this.partieEnCours()) return false;
+		List<Partie> parties = partieDao.lister();
+		for (Partie p : parties) {
+			if (p.getEtat() != Etat.FINIE) {
+				this.partie = p;
+			}
 		}
+	
 		partie = partieDao.rechercher(partie.getId());
 		JoueurPartie joueurPart = joueurPartieDao.recherche(partie.getId(), pseudo);
 		if (joueurPart == null) {
@@ -60,6 +67,17 @@ public class GestionPartiesImpl implements GestionParties {
 		}
 		return partie.ajouterJoueurPartie(joueurPart);
 
+	}
+
+	@Override
+	public boolean partieEnCours() {
+		List<Partie> parties = partieDao.lister();
+		for (Partie p : parties) {
+			if (p.getEtat() != Etat.FINIE) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

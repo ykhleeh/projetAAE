@@ -183,7 +183,7 @@ public class Partie implements Serializable {
 	private boolean ordreCroissant = true;
 
 	@ManyToOne
-	@JoinColumn(name = "id_joueur")
+	@JoinColumn(name = "vainqueur")
 	private Joueur vainqueur;
 
 	public Partie(String nom) {

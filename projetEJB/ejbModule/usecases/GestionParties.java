@@ -29,4 +29,6 @@ public interface GestionParties {
 	boolean commencerPartie();
 
 	String vainqueur();
+
+	boolean partieEnCours();
 }
