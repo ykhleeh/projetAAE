@@ -60,7 +60,6 @@ public class Partie implements Serializable {
 				}
 				return true;
 			}
-
 			boolean commencerPartie(Partie partie) {
 				// On commence la partie ==> changement d'etat
 				partie.etat = Etat.EN_COURS;
