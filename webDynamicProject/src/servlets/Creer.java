@@ -35,9 +35,9 @@ public class Creer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nom = request.getParameter("nom");
 		
-		gestion.creer(new Partie(nom));
+		gestion.creer(nom);
 		getServletContext().setAttribute("nomPartie", nom);
-		request.setAttribute("message", "La partie a Ã©tÃ© crÃ©Ã©e! Attendez des joueurs mtn.");
+		request.setAttribute("message", "La partie a été créée! Attendez des joueurs mtn.");
 
 		getServletContext().getNamedDispatcher("attente.html").forward(request, response);
 	}

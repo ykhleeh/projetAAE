@@ -34,8 +34,8 @@ public class Inscrire extends HttpServlet {
 		List<Joueur> autres = gestion.listerPseudos();
 		for (Joueur j : autres){
 			if (pseudo.equals(j.getPseudo())){
-				System.err.println("Pseudo dÃ©jÃ  prÃ©sent");
-				request.setAttribute("message", "Le pseudo est dÃ©jÃ  utilisÃ©. RÃ©essayez!!!");
+				System.err.println("Pseudo déjà  présent");
+				request.setAttribute("message", "Le pseudo est déjÃ  utilisé. Réessayez!!!");
 				getServletContext().getNamedDispatcher("inscription.html").forward(request, response);
 				return;
 			}
