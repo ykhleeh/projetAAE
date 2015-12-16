@@ -126,6 +126,7 @@ public class GestionPartiesImpl implements GestionParties {
 		this.partie = partie;
 		partie.setPioche(carteDao.lister());
 		return partieDao.enregistrer(partie);
+		
 	}
 
 	@Override
@@ -197,7 +198,8 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public List<Carte> getCartesJoueur(String pseudo) {
-		System.out.println("****************************** get cartes ******************************");
+		partie = partieDao.getDernier();
+		System.out.println("****************************** get cartes" +"id parie"+ this.partie.getId() +"******************************");
 		JoueurPartie jp = 
 				joueurPartieDao.recherche(this.partie.getId(), pseudo);
 		System.out.println("****************************** " + jp.getId_joueurPartie() + " ******************************");

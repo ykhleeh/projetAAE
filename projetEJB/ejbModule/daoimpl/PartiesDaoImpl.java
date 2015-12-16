@@ -13,7 +13,7 @@ public class PartiesDaoImpl extends DaoImpl<Integer, Partie> {
 	}
 	
 	public Partie getDernier(){
-		return recherche("select x from koala.parties x where x.id_partie = (select max(id_partie) from koala.parties)");
+		return recherche("select x from Partie x where x.id_partie = (select max(id_partie) from Partie)");
 	}
 
 
