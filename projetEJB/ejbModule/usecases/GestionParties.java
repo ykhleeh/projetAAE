@@ -35,5 +35,9 @@ public interface GestionParties {
 
 	Partie creer(String nom);
 
-	List<Carte> getCarteJoueur(String pseudo);
+	List<Carte> getCartesJoueur(String pseudo);
+
+	boolean donnerDe(String JoueurDonneur, String joueurReceveur);
+
+	List<Joueur> getJoueurs();
 }

@@ -2,9 +2,13 @@ package daoimpl;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
+
 import domaine.Carte;
 import domaine.JoueurPartie;
 
+@SuppressWarnings("serial")
+@Stateless
 public class CartesDaoImpl extends DaoImpl<Integer, Carte>{
 	
 	public CartesDaoImpl() {

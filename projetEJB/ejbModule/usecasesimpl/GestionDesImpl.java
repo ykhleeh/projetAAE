@@ -56,6 +56,7 @@ public class GestionDesImpl implements GestionDes {
 	public boolean donnerDe(De de, JoueurPartie joueurPart) {
 		
 		// TODO faire la meme chose que ce qui suit mais sans passer par un proprietaire dans le de
+		
 		De tmp = deDao.rechercher(de.getId());
 //		JoueurPartie ancienProp = tmp.getProprietaire();
 //		JoueurPartie jp = jpDao.rechercher(joueurPart.getId_joueurPartie());

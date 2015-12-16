@@ -12,6 +12,7 @@ import daoimpl.JoueurDaoImpl;
 import daoimpl.JoueurPartieDaoImpl;
 import daoimpl.PartiesDaoImpl;
 import domaine.Carte;
+import domaine.De;
 import domaine.Joueur;
 import domaine.JoueurPartie;
 import domaine.ObjectFactory;
@@ -32,6 +33,8 @@ public class GestionPartiesImpl implements GestionParties {
 	JoueurPartieDaoImpl joueurPartieDao;
 	@EJB
 	CartesDaoImpl carteDao;
+	@EJB
+	CartesDaoImpl deDao;
 
 	@PostConstruct
 	public void postconstruct() {
@@ -152,9 +155,29 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
-	public List<Carte> getCarteJoueur(String pseudo) {
+	public List<Carte> getCartesJoueur(String pseudo) {
 		JoueurPartie jp = this.joueurPartieDao.recherche(this.partie.getId(), pseudo);
 		return carteDao.lister(jp);
+	}
+
+	@Override
+	public boolean donnerDe(String joueurDonneur, String joueurReceveur) {
+		JoueurPartie joueurDon = joueurPartieDao.recherche(partie.getId(), joueurDonneur);
+		JoueurPartie joueurRecev = joueurPartieDao.recherche(partie.getId(), joueurReceveur);
+		De aDonner = joueurDon.supprimerDe();
+		joueurRecev.ajouterDe(aDonner);
+		joueurPartieDao.mettreAJour(joueurDon);
+		joueurPartieDao.mettreAJour(joueurRecev);
+		return false;
+	}
+	
+
+
+	@Override
+	public List<Joueur> getJoueurs() {
+		if (partie.getEtat() == Etat.FINIE)
+			return null;
+		return joueurDao.listerJoueurs(partie.getId());
 	}
 
 }
