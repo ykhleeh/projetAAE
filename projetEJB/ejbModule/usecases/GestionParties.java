@@ -31,4 +31,6 @@ public interface GestionParties {
 	String vainqueur();
 
 	boolean partieEnCours();
+
+	Partie creer(String nom);
 }

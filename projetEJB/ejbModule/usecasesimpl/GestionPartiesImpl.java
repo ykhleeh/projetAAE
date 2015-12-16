@@ -20,7 +20,6 @@ import usecases.GestionParties;
 @Stateless
 public class GestionPartiesImpl implements GestionParties {
 	private Partie partie;
-	private static int num = 0;
 	private ObjectFactory objFact = new ObjectFactory();
 
 	@EJB
@@ -42,22 +41,17 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public boolean rejoindreLaPartie(String pseudo) {
-//		if (partie != null && partie.getEtat() == Etat.EN_COURS)
-//			return false;
-//		if (partie == null || partie.getEtat() == Etat.FINIE) {
-//		partie = objFact.createPartie();
-//		partie.setNom("partie" + num);
-//		num++;
-//		partie = partieDao.enregistrer(partie);
-//	}
-		if (!this.partieEnCours()) return false;
+		boolean aRenvoyer = false;
 		List<Partie> parties = partieDao.lister();
 		for (Partie p : parties) {
-			if (p.getEtat() != Etat.FINIE) {
+			if (p.getEtat() == Etat.INITIAL) {
 				this.partie = p;
+				aRenvoyer = true;
 			}
 		}
-	
+		if (!aRenvoyer)
+			return false;
+
 		partie = partieDao.rechercher(partie.getId());
 		JoueurPartie joueurPart = joueurPartieDao.recherche(partie.getId(), pseudo);
 		if (joueurPart == null) {
@@ -84,6 +78,13 @@ public class GestionPartiesImpl implements GestionParties {
 	public Partie creer(Partie partie) {
 		this.partie = partie;
 		return partieDao.enregistrer(partie);
+	}
+
+	@Override
+	public Partie creer(String nom) {
+		Partie nouvelle = objFact.createPartie();
+		nouvelle.setNom(nom);
+		return this.creer(nouvelle);
 	}
 
 	@Override
