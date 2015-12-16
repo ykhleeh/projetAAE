@@ -1,5 +1,5 @@
 
-<title>Bienvenue au site de wazabi</title>
+<title>Bienvenue sur Koazabi</title>
 </head>
 <body>
 	<div class="body">
@@ -29,28 +29,3 @@
 				<img class="imageKoala" alt="koala" src="images/SwagDeKoala.png">
 			</div>
 		</div>
-
-
-
-		<!--             <form action="/users/login" name="login" role="form" class="form-horizontal" method="post" accept-charset="utf-8"> -->
-		<!--                 <div class="form-group"> -->
-		<!--                 <div class="col-md-8"><input name="username" placeholder="Idenfiant" class="form-control" type="text" id="UserUsername"/></div> -->
-		<!--                 </div>  -->
-
-		<!--                 <div class="form-group"> -->
-		<!--                 <div class="col-md-8"><input name="password" placeholder="Mot de passe" class="form-control" type="password" id="UserPassword"/></div> -->
-		<!--                 </div>  -->
-
-		<!--                 <div class="form-group"> -->
-		<!--                 <div class="col-md-offset-0 col-md-8"><input  class="btn btn-success btn btn-success" type="submit" value="Connexion"/></div> -->
-		<!--                 </div> -->
-
-		<!--             </form> -->
-		<!--             <p class="credits">Développé par <a href="http://www.monsite.com" target="_blank">une super agence</a>.</p> -->
-		<!--         </div> -->
-		<!--         </div> -->
-
-		<!--     </div> -->
-		<!-- </div> -->
-		<!-- </div> -->
-		<!-- </div> -->
