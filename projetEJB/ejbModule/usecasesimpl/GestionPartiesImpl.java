@@ -180,4 +180,9 @@ public class GestionPartiesImpl implements GestionParties {
 		return joueurDao.listerJoueurs(partie.getId());
 	}
 
+	@Override
+	public Partie getDernierePartie() {
+		return partieDao.getDernier();
+	}
+
 }
