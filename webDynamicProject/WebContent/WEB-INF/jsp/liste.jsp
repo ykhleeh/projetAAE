@@ -2,7 +2,7 @@
 <title>Liste des parties</title>
 </head>
 <body>
-
+	<div class="body">
 	<h1>LISTE</h1>
 	<c:choose>
 		<c:when test="${liste != null}">

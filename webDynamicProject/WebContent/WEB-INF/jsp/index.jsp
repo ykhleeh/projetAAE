@@ -2,6 +2,8 @@
 <title>Bienvenue au site de wazabi</title>
 </head>
 <body>
+<div class="body">
+
 <h2>Connectez-vous</h2><br>
 <h3>Entrez un pseudo pour participer &agrave; une nouvelle partie</h3>
 <c:if test="${message != null}">
