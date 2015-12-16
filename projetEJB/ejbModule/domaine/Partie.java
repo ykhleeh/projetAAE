@@ -10,6 +10,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,10 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @SuppressWarnings("serial")
@@ -153,9 +157,8 @@ public class Partie implements Serializable {
 	@Column(unique = true)
 	private String nom;
 
-	// @NotNull
-	// @Enumerated
-	@Transient
+	@NotNull
+	@Enumerated(EnumType.STRING)
 	private Etat etat = Etat.INITIAL;
 
 	// @OneToMany(cascade = CascadeType.ALL)
@@ -167,17 +170,14 @@ public class Partie implements Serializable {
 			@JoinColumn(name = "id_carte") })
 	private List<Carte> pioche = new ArrayList<Carte>();
 
-	// @ElementCollection
-	// @CollectionTable(schema = "JACK", name = "JOUEURS_PARTIES")
-	// @Column(name = "POINTS")
-	// @MapKeyJoinColumn(name = "JOUEUR_ID")
-	@Transient
+	@OneToMany(mappedBy="partie")
 	private List<JoueurPartie> joueurs = new ArrayList<JoueurPartie>();
+
 	@OneToOne(cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private JoueurPartie joueurCourant;
 
-	// TODO changer en timestamp
+	//@Temporal(TemporalType.TIMESTAMP)
 	private Timestamp dateHeure;
 
 	private boolean ordreCroissant = true;

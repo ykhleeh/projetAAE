@@ -37,7 +37,7 @@ public class JoueurPartie implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "id_partie")
-	int id_partie;
+	private Partie partie;
 
 	@ManyToMany
 	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_joueurPartie") }, inverseJoinColumns = {
@@ -62,12 +62,12 @@ public class JoueurPartie implements Serializable {
 		return joueur;
 	}
 
-	public int getId_partie() {
-		return id_partie;
+	public Partie getPartie() {
+		return partie;
 	}
 
-	public void setId_partie(int id_partie) {
-		this.id_partie = id_partie;
+	public void setId_partie(Partie partie) {
+		this.partie = partie;
 	}
 
 	public void setJoueur(Joueur joueur) {
