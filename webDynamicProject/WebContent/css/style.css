@@ -1,5 +1,10 @@
+html, body {
+	height: 100%;
+}
+
 body {
 	background-image:url("../images/BambooForest.jpg");
+	background-attachment: fixed;
 	text-align: center;
 	padding: 5em;
 }
@@ -8,7 +13,7 @@ body {
 	background-color: #094209;
 }
 
-h1, h2, h3, p {
+h1, h2, h3, p, label {
 	color: white;
 }
 
@@ -20,4 +25,12 @@ footer {
 	padding-left: 5em;
 	padding-right: 5em;
 	margin: 0;
+}
+
+.imageKoala {
+	margin-top: 10px;
 }	
+
+.formLogin {
+	padding-top: 45%;
+}
