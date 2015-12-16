@@ -22,6 +22,6 @@ public class JoueurPartieDaoImpl extends DaoImpl<Integer, JoueurPartie> {
 		String queryString = "SELECT jpd.* from joueursparties_des jpd "
 				+ "WHERE jpd.id_de=? AND jpd.id_joueur_partie =?";
 		return (super.recherche(queryString, id_de, id_joueur_partie) != null);
-
 	}
+	
 }

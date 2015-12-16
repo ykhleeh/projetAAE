@@ -36,6 +36,7 @@ public class Creer extends HttpServlet {
 		String nom = request.getParameter("nom");
 		
 		gestion.creer(new Partie(nom));
+		getServletContext().setAttribute("nomPartie", nom);
 		request.setAttribute("message", "La partie a été créée! Attendez des joueurs mtn.");
 
 		getServletContext().getNamedDispatcher("attente.html").forward(request, response);

@@ -7,6 +7,7 @@ import javax.ejb.Remote;
 import domaine.Joueur;
 import domaine.Partie;
 import domaine.Partie.Etat;
+import domaine.Carte;
 
 @Remote
 public interface GestionParties {
@@ -33,4 +34,6 @@ public interface GestionParties {
 	boolean partieEnCours();
 
 	Partie creer(String nom);
+
+	List<Carte> getCarteJoueur(String pseudo);
 }

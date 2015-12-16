@@ -7,9 +7,11 @@ import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import daoimpl.CartesDaoImpl;
 import daoimpl.JoueurDaoImpl;
 import daoimpl.JoueurPartieDaoImpl;
 import daoimpl.PartiesDaoImpl;
+import domaine.Carte;
 import domaine.Joueur;
 import domaine.JoueurPartie;
 import domaine.ObjectFactory;
@@ -28,6 +30,8 @@ public class GestionPartiesImpl implements GestionParties {
 	PartiesDaoImpl partieDao;
 	@EJB
 	JoueurPartieDaoImpl joueurPartieDao;
+	@EJB
+	CartesDaoImpl carteDao;
 
 	@PostConstruct
 	public void postconstruct() {
@@ -145,6 +149,12 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Etat getEtatPartie() {
 		return partie.getEtat();
+	}
+
+	@Override
+	public List<Carte> getCarteJoueur(String pseudo) {
+		JoueurPartie jp = this.joueurPartieDao.recherche(this.partie.getId(), pseudo);
+		return carteDao.lister(jp);
 	}
 
 }

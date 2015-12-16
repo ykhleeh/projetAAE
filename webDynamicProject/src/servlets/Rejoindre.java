@@ -37,7 +37,7 @@ public class Rejoindre extends HttpServlet {
 		}
 		request.setAttribute("message", "Bienvenue " + pseudo);
 		System.out.println("Bienvenue "+pseudo);
-		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
+		request.getRequestDispatcher("/jeumanager.html").forward(request, response);
 	}
 
 	/**

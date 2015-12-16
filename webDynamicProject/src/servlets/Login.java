@@ -34,8 +34,6 @@ public class Login extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// TODO mettre le login courant dans le context pour gérer l'attente
 		String pseudo = request.getParameter("pseudo");
 		String passwd = request.getParameter("mdp");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -58,7 +56,8 @@ public class Login extends HttpServlet {
 			session.setAttribute("login", pseudo);
 		}
 		request.setAttribute("message", "Connecte MOTHAFUCKA!lljflkhslfh!!!");
-		getServletContext().getNamedDispatcher("menu.html").forward(request, response);
+//		getServletContext().getNamedDispatcher("/menuverif.html").forward(request, response);
+		request.getRequestDispatcher("/menuverif.html").forward(request, response);
 	}
 
 	/**
