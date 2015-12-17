@@ -39,18 +39,16 @@ public class JeuManager extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String pseudo = (String) session.getAttribute("user");
-		List<Joueur> joueurs = gj.listerPseudos();
-		for (Joueur j : joueurs){
-			JoueurPartie joueurPartie = gp.getJoueurPartie(j.getPseudo());
+
+		Info info = new Info();
+		info.setUser(gp.joueurCourant());
+		JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
+		List<Carte> mainCarte = joueurPartie.getMainCarte();
+		info.setCartes(mainCarte);
+		info.setDes(joueurPartie.getMainDe());
+		info.setEtat(gp.getDernierePartie().getEtat());
+	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
 			
-			List<Carte> mainCarte = joueurPartie.getMainCarte();
-			System.out.println(j.getPseudo());
-			for (Carte c : mainCarte){
-				System.out.println(c.getCodeEffet());
-			}
-		}
-		
-		
 //		request.setAttribute("listeCarte", mainCarte);
 		request.setAttribute("message", "C'est parti pour une nouvelle partie");		
 		request.setAttribute("nbJoueurs", gp.getJoueurs().size());		

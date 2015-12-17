@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 import domaine.De;
+import domaine.Partie.Etat;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -39,7 +40,7 @@ public class Info implements Serializable {
 	@XmlElement
 	private List<String> joueurs = new ArrayList<String>();
 	@XmlElement
-	private String etat;
+	private Etat etat;
 	@XmlElement
 	private String nbDes;
 	@XmlElement
@@ -68,11 +69,8 @@ public class Info implements Serializable {
 	public void setVainqueur(String vainqueur) {
 		this.vainqueur = vainqueur;
 	}
-	public String getEtat() {
+	public Etat getEtat() {
 		return etat;
-	}
-	public void setEtat(String etat) {
-		this.etat = etat;
 	}
 	public String getNbDes() {
 		return nbDes;
@@ -103,6 +101,9 @@ public class Info implements Serializable {
 	}
 	public void setJoueurs(List<String> joueurs) {
 		this.joueurs = joueurs;
+	}
+	public void setEtat(Etat etat2) {
+		this.etat = etat2;
 	}
 	
 }

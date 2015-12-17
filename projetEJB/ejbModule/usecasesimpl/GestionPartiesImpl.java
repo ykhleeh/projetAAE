@@ -18,6 +18,7 @@ import daoimpl.PartiesDaoImpl;
 import domaine.Carte;
 import domaine.De;
 import domaine.Face;
+import domaine.Info;
 import domaine.Joueur;
 import domaine.JoueurPartie;
 import domaine.ObjectFactory;
@@ -334,7 +335,8 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
-	public void lancerDes() {
+	public Info lancerDes() {
+		Info info = new Info();
 		JoueurPartie jp = partie.getJoueurCourant();
 		jp.lancerDes();
 		List<De> des = jp.getMainDe();
@@ -343,6 +345,18 @@ public class GestionPartiesImpl implements GestionParties {
 			if (de.getValeur().equals("p")) 
 				piocherCartes();
 		}
+		info.setCartes(jp.getMainCarte());
+		info.setDes(jp.getMainDe());
+		info.setEtat(partie.getEtat().name());
+		info.setJoueurCourant(jp.getJoueur().getPseudo());
+		List<String> listeJoueurs = new ArrayList<String>();
+		for (JoueurPartie j : partie.getJoueursParties()) {
+			listeJoueurs.add(j.getJoueur().getPseudo());
+		}
+		info.setJoueurs(listeJoueurs);
+		info.setUser(jp.getJoueur().getPseudo());
+		info.setVainqueur("");
+		return info;
 	}
 
 	@Override
