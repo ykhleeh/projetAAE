@@ -99,6 +99,10 @@ public class GestionPartiesImpl implements GestionParties {
 		partie = partieDao.rechercher(partie.getId()); */
 		partie = getDernierePartie();
 		partie = partieDao.chargerJoueurs(partie);
+		for (JoueurPartie jp : partie.getJoueursParties()){
+			if (jp.getJoueur().getPseudo().equals(pseudo))
+				return true;
+		}
 		JoueurPartie joueurPart ;
 		//= joueurPartieDao.recherche(partie.getId(), pseudo);
 //		joueurPart=joueurPartieDao.chargerJoueur(joueurPart);
