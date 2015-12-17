@@ -2,6 +2,7 @@ package usecasesimpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -222,7 +223,7 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
-	public boolean jouerCarte(int codeEffet, Object... params) {
+	public boolean jouerCarte(int codeEffet, String cible) {
 		switch (codeEffet) {
 		case 1:
 			// Supprimez 1 de vos dés
@@ -236,15 +237,13 @@ public class GestionPartiesImpl implements GestionParties {
 			if (nbFigure >= 2) {
 				return false;
 			}
-			JoueurPartie tmp = partie.getJoueurCourant();
-			tmp.supprimerDe();
-			joueurPartieDao.mettreAJour(tmp);
-			return true;
+			partie.getJoueurCourant().supprimerDe();
+			break;
 		case 2:
 			// tous les joueurs donnent leurs des à leur voisin de droite ou de
 			// gauche
-
-			if ((String) params[0] == "g") {
+			// voisin de gauche
+			if (cible == "g") {
 				List<De> ancienne;
 				List<De> nouvelle = partie.getJoueursParties().get(partie.getJoueursParties().size() - 1).getMainDe();
 				for (int i = 0; i < partie.getJoueursParties().size(); i++) {
@@ -252,6 +251,7 @@ public class GestionPartiesImpl implements GestionParties {
 					partie.getJoueursParties().get(i).setMainDe(nouvelle);
 				}
 			} else {
+				// voisin de droite
 				List<De> ancienne;
 				List<De> nouvelle = partie.getJoueursParties().get(0).getMainDe();
 				for (int i = partie.getJoueursParties().size(); i > 0; i--) {
@@ -259,44 +259,102 @@ public class GestionPartiesImpl implements GestionParties {
 					partie.getJoueursParties().get(i).setMainDe(nouvelle);
 				}
 			}
-			return true;
+			break;
 		case 3:
-			JoueurPartie tmp1 = partie.getJoueurCourant();
-			tmp1.supprimerDe();
-			tmp1.supprimerDe();
-			joueurPartieDao.mettreAJour(tmp1);
+			// Supprimez 2 de vos dés
+			JoueurPartie tmp = partie.getJoueurCourant();
+			tmp.supprimerDe();
+			tmp.supprimerDe();
+			joueurPartieDao.mettreAJour(tmp);
 			break;
 		case 4:
 			// Donnez 1 de vos dés au joueur de votre choix
+			JoueurPartie tmp3 = partie.getJoueurCourant();
+			De de = tmp3.supprimerDe();
+			joueurPartieDao.mettreAJour(tmp3);
+
+			String pseudo = cible;
+			JoueurPartie jpTmp = joueurPartieDao.recherche(partie.getId(), pseudo);
+			jpTmp.ajouterDe(de);
+			for (JoueurPartie jp : partie.getJoueursParties()) {
+				if (jp.equals(jpTmp)) {
+					jp.ajouterDe(de);
+					break;
+				}
+			}
+			joueurPartieDao.mettreAJour(jpTmp);
 			break;
 		case 5:
 			// Prenez 1 carte au joueur de votre choix
+			String pseudoCible = cible;
+			JoueurPartie jpCible = joueurPartieDao.recherche(partie.getId(), pseudoCible);
+			Random rdm = new Random();
+			int index = rdm.nextInt(jpCible.getMainCarte().size());
+			Carte cartePrise = jpCible.getMainCarte().remove(index);
+			partie.getJoueurCourant().getMainCarte().add(cartePrise);
+			joueurPartieDao.mettreAJour(jpCible);
 			break;
 		case 6:
 			// Le joueur de votre choix n’a plus qu’1 carte
+			String pseudoCible2 = cible;
+			JoueurPartie jpCible2 = joueurPartieDao.recherche(partie.getId(), pseudoCible2);
+
+			List<Carte> main = jpCible2.getMainCarte();
+			Random rdm2 = new Random();
+			int index2 = rdm2.nextInt(main.size());
+			Carte carteRestante = main.remove(index2);
+			List<Carte> nouvelleMain = new ArrayList<Carte>();
+			nouvelleMain.add(carteRestante);
+			jpCible2.setMainCarte(nouvelleMain);
+
+			joueurPartieDao.mettreAJour(jpCible2);
+			// on remet la "main" dans la pioche de la partie
+			partie.remettreCartesDansPioche(main);
+			partieDao.mettreAJour(partie);
+
 			break;
 		case 7:
 			// Piochez 3 cartes dans la pioche
+			List<Carte> nouvellesCartes = new ArrayList<Carte>();
+			nouvellesCartes.add(partie.piocherCarte());
+			nouvellesCartes.add(partie.piocherCarte());
+			nouvellesCartes.add(partie.piocherCarte());
+			partie.getJoueurCourant().getMainCarte().addAll(nouvellesCartes);
 			break;
 		case 8:
 			// Tous les joueurs sauf vous n’ont plus que 2 cartes
+			List<Carte> mainRestante;
+			for (JoueurPartie jp : partie.getJoueursParties()) {
+				if (jp.equals(partie.getJoueurCourant()) || jp.getMainCarte().size() <= 2)
+					continue;
+				mainRestante = jp.getMainCarte();
+				int nbARetirer = mainRestante.size() - 2;
+				List<Carte> carteARemettre = new ArrayList<>();
+				Random rdm3 = new Random();
+				for (; nbARetirer > 0; nbARetirer--) {
+					carteARemettre.add(jp.getMainCarte().remove(rdm3.nextInt(nbARetirer)));
+				}
+				partie.remettreCartesDansPioche(carteARemettre);
+				joueurPartieDao.mettreAJour(jp);
+			}
 			break;
 		case 9:
 			// Le joueur de votre choix passe son tour
+			// TODO rajouter une liste de joueurPartie qui doivent passer leur tour dans Partie +modifier la methode suivant
 			break;
 		case 10:
 			// Rejouez et changement de sens
+			//TODO  signaler que le prochain joueur à jouer ets le joueurcourantActuel
 			
-		//	this.partie.
+			partie.changerSens();
 			break;
 
 		}
-
-		Carte carte = this.carteDao.recherche(this.partie.getJoueurCourant(), codeEffet);
-		partie.jouerCarte(carte);
+		Carte carteJouee = partie.getJoueurCourant().supprimerCarte(codeEffet);
+		partie.jouerCarte(carteJouee);
 		joueurPartieDao.mettreAJour(partie.getJoueurCourant());
 		partieDao.mettreAJour(partie);
-		return false;
+		return true;
 	}
 
 	@Override
