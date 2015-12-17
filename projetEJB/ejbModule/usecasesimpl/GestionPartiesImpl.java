@@ -370,7 +370,7 @@ public class GestionPartiesImpl implements GestionParties {
 			joueurPartieDao.chargerJoueur(jp);
 			liste.add(jp.getJoueur());
 			joueurDao.chargerJoueursParties(jp.getJoueur());
-		}
+		} 
 		return liste;
 	}
 	
