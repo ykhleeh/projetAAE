@@ -333,4 +333,24 @@ public class GestionPartiesImpl implements GestionParties {
 		return joueurPartieDao.chargerMain(jp);
 	}
 
+	@Override
+	public void lancerDes() {
+		JoueurPartie jp = partie.getJoueurCourant();
+		jp.lancerDes();
+		List<De> des = jp.getMainDe();
+		joueurPartieDao.mettreAJour(jp);
+		for (De de : jp.getMainDe()) {
+			if (de.getValeur().equals("p")) 
+				piocherCartes();
+		}
+	}
+
+	@Override
+	public void piocherCartes() {
+		JoueurPartie jp = partie.getJoueurCourant();
+		jp.getMainCarte().add(partie.piocherCarte());
+		joueurPartieDao.mettreAJour(jp);
+		partieDao.mettreAJour(partie);
+	}
+
 }
