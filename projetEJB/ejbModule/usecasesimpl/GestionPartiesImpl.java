@@ -223,8 +223,8 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public boolean auSuivant() {
-		if (partie == null)
-			return false;
+//		if (partie == null)
+//			return false;
 		partie = partieDao.rechercher(partie.getId());
 		return partie.commencerTourSuivant();
 	}
@@ -296,6 +296,7 @@ public class GestionPartiesImpl implements GestionParties {
 				for (int i = 0; i < partie.getJoueursParties().size(); i++) {
 					ancienne = partie.getJoueursParties().get(i).getMainDe();
 					partie.getJoueursParties().get(i).setMainDe(nouvelle);
+					joueurPartieDao.mettreAJour(partie.getJoueursParties().get(i));
 					nouvelle = ancienne;
 				}
 			} else {
@@ -305,6 +306,7 @@ public class GestionPartiesImpl implements GestionParties {
 				for (int i = partie.getJoueursParties().size(); i > 0; i--) {
 					ancienne = partie.getJoueursParties().get(i).getMainDe();
 					partie.getJoueursParties().get(i).setMainDe(nouvelle);
+					joueurPartieDao.mettreAJour(partie.getJoueursParties().get(i));
 					nouvelle = ancienne;
 				}
 			}
