@@ -10,7 +10,7 @@
 			<div id="erreur">${message}</div>
 		</c:if>
 			<button value="ok" id="ok">OK</button>
-		<img class="imageKoala" alt="koala" src="images/KoaJoinMe.jpg">µ
+		<img class="imageKoala" alt="koala" src="images/KoaJoinMe.jpg">
 		
 		
 		<script type="text/javascript" src="js/jquery.js"></script>

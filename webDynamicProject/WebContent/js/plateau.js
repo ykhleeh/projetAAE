@@ -9,12 +9,12 @@ function afficher(response, textStatus, xhr){
 function refresh() {
 	var $request = $.ajax({
 		url: 'jeu.html',
-		type: "get",
-		data: "pseudo=" + user,
-		dataType : 'json',
-		assync: false
+		type: "get"
 	})
-	.done(afficher)
+	.done(function() {
+		console.log("refreshing");
+		refresh();
+	})
 	.fail(function (xhr, textStatus, errorThrown) {
 		alert(errorThrown);
 	});
@@ -22,26 +22,19 @@ function refresh() {
 }
 
 $(function () {
-	console.log("hello = ");
-
+//	console.log("hello = " + request.user);
+	//$('#info').html(response.joueurCourant);
 	//user = window.location.search;
 	//user = user.substring(user.lastIndexOf('=') + 1);
-	$('#ok').click(function (e) {
-		$request = $.ajax({
-			url: 'jeu.html',
-			type: "get"
-		})
-		.done(function(data){
-			window.location.href='rejoindre.html';
-			
-			//console.log("data = " +data);
-		})
-		.fail(function (xhr, textStatus, errorThrown) {
-			alert(errorThrown);
-		});
+	var $request = $.ajax({
+		url: 'rejoindre.html',
+		type: "get"
+	})
+	.done(refresh())
+	.fail(function (xhr, textStatus, errorThrown) {
+		alert(errorThrown);
 	});
 	
-	//afficher();
 	//refresh();
 	//t = setInterval(refresh, 1000);
 });

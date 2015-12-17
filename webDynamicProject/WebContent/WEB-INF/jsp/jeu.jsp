@@ -27,6 +27,10 @@
 		<button>jouer une carte</button>
 	</form>
 	
+			
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/plateau.js"></script>
+	
 	<div ><h4 id="info"></h4></div>
 	<div id="lancer"></div>
 	<div id="jouer"></div>

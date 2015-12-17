@@ -54,7 +54,7 @@ public class JouerCarte extends HttpServlet {
 			pseudo = (String) session.getAttribute("user");
 			//cible = (String) session.getAttribute("cible");
 		}
-		//TODO Gérer la cible
+		//TODO Gï¿½rer la cible
 		Info info = gp.jouerCarte(codeS, "");
 		Partie partie = gp.getDernierePartie();
 		JoueurPartie joueurcourant = partie.getJoueurCourant();

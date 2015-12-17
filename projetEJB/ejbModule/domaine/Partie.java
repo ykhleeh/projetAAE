@@ -369,6 +369,8 @@ public class Partie implements Serializable {
 	boolean donnerSonDe(De aDonner, int ordre) {
 		return this.etat.donnerSonDe(aDonner, ordre, this);
 	}
+	
+
 
 	@Override
 	public int hashCode() {

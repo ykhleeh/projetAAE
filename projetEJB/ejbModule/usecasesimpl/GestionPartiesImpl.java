@@ -3,6 +3,7 @@ package usecasesimpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -34,6 +35,7 @@ import util.JDOM;
 public class GestionPartiesImpl implements GestionParties {
 	private Partie partie;
 	private ObjectFactory objFact = new ObjectFactory();
+	private static AtomicInteger num = new AtomicInteger(0);
 
 	@EJB
 	JoueurDaoImpl joueurDao;
@@ -110,7 +112,7 @@ public class GestionPartiesImpl implements GestionParties {
 			int index = (int) (Math.random() * partie.pioche.size());
 			main.add(partie.pioche.remove(index));
 		}
-		/***********Tester les différentes cartes ***************/
+		/***********Tester les diffï¿½rentes cartes ***************/
 	//	main.add(carteDao.rechercher(26));
 		/**************************/
 		joueurPart.setMainCarte(main);
@@ -197,6 +199,14 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
+	public void initialiser() {
+		if (partie == null || partie.getEtat() == Etat.FINIE) {
+			partie = new Partie("partie" + num.getAndIncrement());
+			partie = partieDao.enregistrer(partie);
+		}
+	}	
+	
+	@Override
 	public String vainqueur() {
 		if (partie == null)
 			return null;
@@ -239,8 +249,10 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public void annulerPartie() {
-		if (partie != null)
+		if (partie != null) {
+			partie = partieDao.rechercher(partie.getId());
 			partie.annuler();
+		}
 	}
 
 	@Override
@@ -273,8 +285,8 @@ public class GestionPartiesImpl implements GestionParties {
 		
 		switch (codeEffet) {
 		case "1":
-			// Supprimez 1 de vos dés
-			// On ne peut pas jouer cette carte si on obtient dans le même tour
+			// Supprimez 1 de vos dï¿½s
+			// On ne peut pas jouer cette carte si on obtient dans le mï¿½me tour
 			// 2 figures
 			int nbFigure = 0;
 			for (De de : partie.getJoueurCourant().getMainDe()) {
@@ -287,7 +299,7 @@ public class GestionPartiesImpl implements GestionParties {
 			partie.getJoueurCourant().supprimerDe();
 			break;
 		case "2":
-			// tous les joueurs donnent leurs des à leur voisin de droite ou de
+			// tous les joueurs donnent leurs des ï¿½ leur voisin de droite ou de
 			// gauche
 			// voisin de gauche
 			if (cible == "g") {
@@ -312,12 +324,12 @@ public class GestionPartiesImpl implements GestionParties {
 			}
 			break;
 		case "3":
-			// Supprimez 2 de vos dés
+			// Supprimez 2 de vos dï¿½s
 			partie.getJoueurCourant().supprimerDe();
 			partie.getJoueurCourant().supprimerDe();
 			break;
 		case "4":
-			// Donnez 1 de vos dés au joueur de votre choix
+			// Donnez 1 de vos dï¿½s au joueur de votre choix
 			JoueurPartie tmp3 = partie.getJoueurCourant();
 			De de = tmp3.supprimerDe();
 			joueurPartieDao.mettreAJour(tmp3);
@@ -344,7 +356,7 @@ public class GestionPartiesImpl implements GestionParties {
 			joueurPartieDao.mettreAJour(jpCible);
 			break;
 		case "6":
-			// Le joueur de votre choix n’a plus qu’1 carte
+			// Le joueur de votre choix nï¿½a plus quï¿½1 carte
 			String pseudoCible2 = cible;
 			JoueurPartie jpCible2 = joueurPartieDao.recherche(partie.getId(), pseudoCible2);
 
@@ -373,7 +385,7 @@ public class GestionPartiesImpl implements GestionParties {
 			joueurPartieDao.mettreAJour(tmp);
 			break;
 		case "8":
-			// Tous les joueurs sauf vous n’ont plus que 2 cartes
+			// Tous les joueurs sauf vous nï¿½ont plus que 2 cartes
 			List<Carte> mainRestante;
 			for (JoueurPartie jp : partie.getJoueursParties()) {
 				if (jp.equals(partie.getJoueurCourant()) || jp.getMainCarte().size() <= 2)

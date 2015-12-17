@@ -53,5 +53,7 @@ public interface GestionParties {
 	Info lancerDes();
 	
 	void piocherCartes();
+
+	void initialiser();
 	
 }

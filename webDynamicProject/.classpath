@@ -10,6 +10,15 @@
 	</classpathentry>
 	<classpathentry combineaccessrules="false" kind="src" path="/projetEJB"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jackson"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-annotations-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-core-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-core-asl-1.9.12.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-databind-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-jaxrs-1.9.12.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-jaxrs-base-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-jaxrs-json-provider-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-mapper-asl-1.9.12.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-module-jaxb-annotations-2.4.1.jar"/>
+	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-xc-1.9.12.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
