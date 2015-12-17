@@ -347,7 +347,7 @@ public class GestionPartiesImpl implements GestionParties {
 		}
 		info.setCartes(jp.getMainCarte());
 		info.setDes(jp.getMainDe());
-		info.setEtat(partie.getEtat().name());
+		info.setEtat(partie.getEtat());
 		info.setJoueurCourant(jp.getJoueur().getPseudo());
 		List<String> listeJoueurs = new ArrayList<String>();
 		for (JoueurPartie j : partie.getJoueursParties()) {
