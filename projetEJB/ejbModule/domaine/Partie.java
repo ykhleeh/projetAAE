@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -38,7 +40,7 @@ import util.JDOM;
 public class Partie implements Serializable {
 	public static final int NB_DES = 3;
 	public static final int VINGT_ET_UN = 21;
-	@EJB CartesDaoImpl cartes;
+
 
 	public enum Etat {
 		INITIAL {
@@ -56,9 +58,9 @@ public class Partie implements Serializable {
 				j.setMainCarte(main);
 */				
 				// on ajoute le joueur a la liste des joueurs
-				partie.joueurs.add(j);
+				partie.joueursParties.add(j);
 				// si + de 2 joueurs on lance la partie
-				if (partie.getJoueurs().size() == 2) {
+				if (partie.getJoueursParties().size() == 2) {
 					commencerPartie(partie);
 				}
 				return true;
@@ -69,7 +71,7 @@ public class Partie implements Serializable {
 				// on melange les joueurs aleatoirement
 				partie.melangerJoueurs();
 				// celui a l'indice 0 sera le premier a jouer
-				partie.joueurCourant = partie.getJoueurs().get(0);
+				partie.joueurCourant = partie.getJoueursParties().get(0);
 				return true;
 			}
 		},
@@ -82,7 +84,7 @@ public class Partie implements Serializable {
 					partie.joueurCourant = null;
 					return false;
 				}
-				partie.joueurCourant = partie.getJoueurs().get(indice);
+				partie.joueurCourant = partie.getJoueursParties().get(indice);
 				return true;
 			}
 
@@ -102,7 +104,7 @@ public class Partie implements Serializable {
 
 			boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
 				partie.joueurCourant.getMainDe().remove(aDonner);
-				for (JoueurPartie jp : partie.joueurs) {
+				for (JoueurPartie jp : partie.joueursParties) {
 					if (jp.getOrdreJoueur() == ordre) {
 						jp.ajouterDe(aDonner);
 						return true;
@@ -114,9 +116,9 @@ public class Partie implements Serializable {
 		FINIE {
 			Joueur estVainqueur(Partie partie) {
 				Joueur aRenvoyer = null;
-				for (int i = 0; i < partie.getJoueurs().size(); i++) {
-					if (partie.getJoueurs().get(i).getMainDe().size() == 0) {
-						aRenvoyer = partie.getJoueurs().get(i).getJoueur();
+				for (int i = 0; i < partie.getJoueursParties().size(); i++) {
+					if (partie.getJoueursParties().get(i).getMainDe().size() == 0) {
+						aRenvoyer = partie.getJoueursParties().get(i).getJoueur();
 					}
 				}
 				return aRenvoyer;
@@ -177,17 +179,41 @@ public class Partie implements Serializable {
 	public List<Carte> pioche = new ArrayList<Carte>();
 
 	@OneToMany(mappedBy = "partie")
-	private List<JoueurPartie> joueurs = new ArrayList<JoueurPartie>();
+	private List<JoueurPartie> joueursParties = new ArrayList<JoueurPartie>();
 
 	@OneToOne(cascade = { CascadeType.ALL })
 	@PrimaryKeyJoinColumn
 	private JoueurPartie joueurCourant;
 
-	// @Temporal(TemporalType.TIMESTAMP)
-	private Timestamp dateHeure;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar dateHeure;
 
-	@Transient
+	@Column
 	private boolean ordreCroissant = true;
+
+	public static int getNbDes() {
+		return NB_DES;
+	}
+
+	public static int getVingtEtUn() {
+		return VINGT_ET_UN;
+	}
+
+	public int getId_partie() {
+		return id_partie;
+	}
+
+	public List<Carte> getPioche() {
+		return pioche;
+	}
+
+	public Calendar getDateHeure() {
+		return dateHeure;
+	}
+
+	public boolean isOrdreCroissant() {
+		return ordreCroissant;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "vainqueur")
@@ -195,15 +221,15 @@ public class Partie implements Serializable {
 
 	public Partie(String nom) {
 		this.nom = nom;
-		dateHeure = Timestamp.valueOf(LocalDateTime.now());
+		dateHeure =  new GregorianCalendar();
 	}
 
 	protected void melangerJoueurs() {
-		Collections.shuffle(joueurs);
+		Collections.shuffle(joueursParties);
 	}
 
 	protected Partie() {
-		dateHeure = Timestamp.valueOf(LocalDateTime.now());
+		dateHeure = new GregorianCalendar();
 		//pioche = cartes.lister();
 	}
 
@@ -227,14 +253,14 @@ public class Partie implements Serializable {
 	}
 
 	public void setJoueurs(List<JoueurPartie> joueurs) {
-		this.joueurs = joueurs;
+		this.joueursParties = joueurs;
 	}
 
 	public void setJoueurCourant(JoueurPartie joueurCourant) {
 		this.joueurCourant = joueurCourant;
 	}
 
-	public void setDateHeure(Timestamp dateHeure) {
+	public void setDateHeure(Calendar dateHeure) {
 		this.dateHeure = dateHeure;
 	}
 
@@ -254,8 +280,8 @@ public class Partie implements Serializable {
 		return etat;
 	}
 
-	public List<JoueurPartie> getJoueurs() {
-		return Collections.unmodifiableList(joueurs);
+	public List<JoueurPartie> getJoueursParties() {
+		return Collections.unmodifiableList(joueursParties);
 	}
 
 	public JoueurPartie getJoueurCourant() {
@@ -263,7 +289,7 @@ public class Partie implements Serializable {
 	}
 
 	public Joueur getJoueur(String pseudo) {
-		for (JoueurPartie joueur : joueurs)
+		for (JoueurPartie joueur : joueursParties)
 			if (joueur.getJoueur().getPseudo().equals(pseudo))
 				return joueur.getJoueur();
 		return null;
@@ -283,13 +309,13 @@ public class Partie implements Serializable {
 
 	public int prochain() {
 		if (this.ordreCroissant) {
-			int indice = getJoueurs().indexOf(joueurCourant) + 1;
-			if (indice >= getJoueurs().size())
+			int indice = getJoueursParties().indexOf(joueurCourant) + 1;
+			if (indice >= getJoueursParties().size())
 				indice = 0;
 			return indice;
 		} else {
-			int indice = getJoueurs().indexOf(joueurCourant) - 1;
-			if (indice >= getJoueurs().size())
+			int indice = getJoueursParties().indexOf(joueurCourant) - 1;
+			if (indice >= getJoueursParties().size())
 				indice = 0;
 			return indice;
 		}

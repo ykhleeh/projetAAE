@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.EJB;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.ejb.Stateless;
 
 import daoimpl.CartesDaoImpl;
@@ -25,7 +27,8 @@ import domaine.Wazabi;
 import usecases.GestionParties;
 import util.JDOM;
 
-@Stateless
+@Singleton
+@Startup
 public class GestionPartiesImpl implements GestionParties {
 	private Partie partie;
 	private ObjectFactory objFact = new ObjectFactory();
@@ -243,17 +246,17 @@ public class GestionPartiesImpl implements GestionParties {
 
 			if ((String) params[0] == "g") {
 				List<De> ancienne;
-				List<De> nouvelle = partie.getJoueurs().get(partie.getJoueurs().size() - 1).getMainDe();
-				for (int i = 0; i < partie.getJoueurs().size(); i++) {
-					ancienne = partie.getJoueurs().get(i).getMainDe();
-					partie.getJoueurs().get(i).setMainDe(nouvelle);
+				List<De> nouvelle = partie.getJoueursParties().get(partie.getJoueursParties().size() - 1).getMainDe();
+				for (int i = 0; i < partie.getJoueursParties().size(); i++) {
+					ancienne = partie.getJoueursParties().get(i).getMainDe();
+					partie.getJoueursParties().get(i).setMainDe(nouvelle);
 				}
 			} else {
 				List<De> ancienne;
-				List<De> nouvelle = partie.getJoueurs().get(0).getMainDe();
-				for (int i = partie.getJoueurs().size(); i > 0; i--) {
-					ancienne = partie.getJoueurs().get(i).getMainDe();
-					partie.getJoueurs().get(i).setMainDe(nouvelle);
+				List<De> nouvelle = partie.getJoueursParties().get(0).getMainDe();
+				for (int i = partie.getJoueursParties().size(); i > 0; i--) {
+					ancienne = partie.getJoueursParties().get(i).getMainDe();
+					partie.getJoueursParties().get(i).setMainDe(nouvelle);
 				}
 			}
 			return true;
@@ -300,8 +303,19 @@ public class GestionPartiesImpl implements GestionParties {
 	public List<Joueur> getJoueurs() {
 		if (partie.getEtat() == Etat.FINIE)
 			return null;
-		return joueurDao.listerJoueurs(partie.getId());
+		//return joueurDao.listerJoueurs(partie.getId());
+		partie = partieDao.recharger(partie.getId());
+		partieDao.chargerJoueurs(partie);
+		List<Joueur> liste = new ArrayList<>();
+		for(JoueurPartie jp : partie.getJoueursParties()){
+			joueurPartieDao.chargerJoueur(jp);
+			liste.add(jp.getJoueur());
+			joueurDao.chargerJoueursParties(jp.getJoueur());
+		}
+		return liste;
 	}
+	
+	
 	
 	public int getNombreDe(String pseudo) {
 		JoueurPartie jp = this.joueurPartieDao.recherche(this.partie.getId(), pseudo);
@@ -316,7 +330,7 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public JoueurPartie getJoueurPartie(String pseudo){
 		JoueurPartie jp = joueurPartieDao.recherche(getDernierePartie().getId(), pseudo);
-		return jp;
+		return joueurPartieDao.chargerMain(jp);
 	}
 
 }

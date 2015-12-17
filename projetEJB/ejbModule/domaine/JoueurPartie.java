@@ -31,7 +31,7 @@ public class JoueurPartie implements Serializable {
 	@ManyToMany
 	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_joueurPartie") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_de") })
-	private List<De> mainDe;
+	private List<De> mainDe = new ArrayList<>();
 
 	int ordreJoueur;
 
@@ -42,7 +42,7 @@ public class JoueurPartie implements Serializable {
 	@ManyToMany
 	@JoinTable(schema = "koala", joinColumns = { @JoinColumn(name = "id_joueurPartie") }, inverseJoinColumns = {
 			@JoinColumn(name = "id_carte") })
-	private List<Carte> mainCarte;
+	private List<Carte> mainCarte = new ArrayList<>();
 
 	public JoueurPartie(Joueur joueur, Partie partie) {
 		super();
@@ -78,8 +78,8 @@ public class JoueurPartie implements Serializable {
 	public List<De> getMainDe() {
 		return mainDe;
 	}
-	
-	public void setMainDe(List<De> mainDe){
+
+	public void setMainDe(List<De> mainDe) {
 		this.mainDe = mainDe;
 	}
 

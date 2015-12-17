@@ -1,15 +1,19 @@
 package domaine;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
 
 @SuppressWarnings("serial")
 @Entity
@@ -34,6 +38,9 @@ public class Joueur implements Serializable {
 	protected Joueur() {
 	}
 
+	@OneToMany(mappedBy="joueur")
+	private List<JoueurPartie> joueursParties = new ArrayList<JoueurPartie>();
+	
 	public int getId() {
 		return id_joueur;
 	}
@@ -56,6 +63,10 @@ public class Joueur implements Serializable {
 
 	public void setMdp(String mdp) {
 		this.mdp = mdp;
+	}
+
+	public List<JoueurPartie> getJoueursParties() {
+		return joueursParties;
 	}
 
 	@Override

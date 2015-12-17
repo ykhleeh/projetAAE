@@ -34,4 +34,10 @@ public class JoueurDaoImpl extends DaoImpl<Integer, Joueur> {
 		return super.liste(queryString, id_partie);
 	}
 	
+	public Joueur chargerJoueursParties(Joueur joueur) {
+		joueur = rechercher(joueur.getId());
+		joueur.getJoueursParties().size();
+		return joueur;
+	}
+
 }

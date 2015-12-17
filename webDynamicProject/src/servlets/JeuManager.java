@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import domaine.Carte;
 import domaine.Joueur;
+import domaine.JoueurPartie;
 import usecases.GestionJoueurs;
 import usecases.GestionParties;
 
@@ -40,7 +41,9 @@ public class JeuManager extends HttpServlet {
 		String pseudo = (String) session.getAttribute("user");
 		List<Joueur> joueurs = gj.listerPseudos();
 		for (Joueur j : joueurs){
-			List<Carte> mainCarte = gp.getJoueurPartie(j.getPseudo()).getMainCarte();
+			JoueurPartie joueurPartie = gp.getJoueurPartie(j.getPseudo());
+			
+			List<Carte> mainCarte = joueurPartie.getMainCarte();
 			System.out.println(j.getPseudo());
 			for (Carte c : mainCarte){
 				System.out.println(c.getCodeEffet());
