@@ -1,4 +1,4 @@
-package servlets;
+package domaine;
 
 
 import java.io.Serializable;
@@ -47,7 +47,7 @@ public class Info implements Serializable {
 	@XmlElement
 	private String nbCartes;
 	@XmlElement
-	private List<De> cartes;
+	private List<Carte> cartes;
 
 	
 	public String getUser() {
@@ -95,10 +95,10 @@ public class Info implements Serializable {
 	public void setNbCartes(String nbCartes) {
 		this.nbCartes = nbCartes;
 	}
-	public List<De> getCartes() {
+	public List<Carte> getCartes() {
 		return cartes;
 	}
-	public void setCartes(List<De> cartes) {
+	public void setCartes(List<Carte> cartes) {
 		this.cartes = cartes;
 	}
 	public void setJoueurs(List<String> joueurs) {
