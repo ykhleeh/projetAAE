@@ -106,13 +106,12 @@ public class GestionPartiesImpl implements GestionParties {
 		joueurPart.setJoueur(joueurDao.recherche(pseudo));
 		joueurPart = joueurPartieDao.enregistrer(joueurPart);
 		List<Carte> main = new ArrayList<>();
-		//TODO remettre la limite à 3
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 3; i++) {
 			int index = (int) (Math.random() * partie.pioche.size());
 			main.add(partie.pioche.remove(index));
 		}
-		/**************************/
-		main.add(carteDao.rechercher(11));
+		/***********Tester les différentes cartes ***************/
+	//	main.add(carteDao.rechercher(26));
 		/**************************/
 		joueurPart.setMainCarte(main);
 		for (int i = 0; i < 4; i++) {
@@ -367,7 +366,9 @@ public class GestionPartiesImpl implements GestionParties {
 			nouvellesCartes.add(partie.piocherCarte());
 			nouvellesCartes.add(partie.piocherCarte());
 			nouvellesCartes.add(partie.piocherCarte());
-			partie.getJoueurCourant().getMainCarte().addAll(nouvellesCartes);
+			JoueurPartie tmp = partie.getJoueurCourant();
+			tmp.getMainCarte().addAll(nouvellesCartes);
+			joueurPartieDao.mettreAJour(tmp);
 			break;
 		case "8":
 			// Tous les joueurs sauf vous n’ont plus que 2 cartes
@@ -400,7 +401,7 @@ public class GestionPartiesImpl implements GestionParties {
 
 		}
 		Carte carteJouee = partie.getJoueurCourant().supprimerCarte(Integer.parseInt(codeEffet));
-		partie.jouerCarte(carteJouee);
+		partie.remettreCarte(carteJouee);
 		joueurPartieDao.mettreAJour(partie.getJoueurCourant());
 		partieDao.mettreAJour(partie);
 		Info info = new Info();

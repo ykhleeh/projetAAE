@@ -87,15 +87,6 @@ public class Partie implements Serializable {
 				partie.getJoueurCourant().lancerDes();
 			}
 
-			Carte piocherCarte(Partie partie) {
-				int index = (int) (Math.random() * partie.pioche.size());
-				return partie.pioche.remove(index);
-			}
-
-			public void jouerCarte(Partie partie, Carte carte) {
-				partie.pioche.add(carte);
-			}
-
 			boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
 				partie.joueurCourant.getMainDe().remove(aDonner);
 				for (JoueurPartie jp : partie.joueursParties) {
@@ -135,15 +126,8 @@ public class Partie implements Serializable {
 
 		}
 
-		Carte piocherCarte(Partie partie) {
-			return null;
-		}
-
 		Joueur estVainqueur(Partie partie) {
 			return null;
-		}
-
-		public void jouerCarte(Partie partie, Carte carte) {
 		}
 
 		boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
@@ -352,7 +336,8 @@ public class Partie implements Serializable {
 	}
 
 	public boolean commencerTourSuivant() {
-		return etat.commencerTourSuivant(this);
+		this.joueurCourant = prochain();
+		return true;
 	}
 
 	public void lancerLesDes() {
@@ -360,10 +345,12 @@ public class Partie implements Serializable {
 	}
 
 	public Carte piocherCarte() {
-		return etat.piocherCarte(this);
+		int index = (int) (Math.random() * pioche.size());
+		return pioche.remove(index);
 	}
 
-	public void jouerCarte(Carte carte) {
+	public void remettreCarte(Carte carte) {
+		this.pioche.add(carte);
 	}
 
 	public Joueur estVainqueur() { // pas de gestion des ex-aequos pour
