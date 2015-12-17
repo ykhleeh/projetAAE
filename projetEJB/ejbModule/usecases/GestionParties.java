@@ -46,7 +46,7 @@ public interface GestionParties {
 	
 	Partie getDernierePartie();
 	
-	boolean jouerCarte(int codeEffet, String cible);
+	Info jouerCarte(String code, String cible);
 
 	JoueurPartie getJoueurPartie(String pseudo);
 	

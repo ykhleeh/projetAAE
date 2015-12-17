@@ -22,6 +22,11 @@
 		<button>Lancer vos dés</button>
 	</form>
 	
+	<form method="get" action="jouercarte.html">
+		<input type="text" id="code" name="code">
+		<button>jouer une carte</button>
+	</form>
+	
 	<div ><h4 id="info"></h4></div>
 	<div id="lancer"></div>
 	<div id="jouer"></div>

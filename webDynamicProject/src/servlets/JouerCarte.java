@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -10,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import domaine.Info;
 import domaine.JoueurPartie;
 import domaine.Partie;
@@ -18,7 +23,7 @@ import usecases.GestionParties;
 /**
  * Servlet implementation class JouerCarte
  */
-@WebServlet("/JouerCarte")
+@WebServlet("/jouercarte.html")
 public class JouerCarte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -38,30 +43,27 @@ public class JouerCarte extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());		
+		String codeS = (String) request.getParameter("code");
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String pseudo;
 		int codeEffet;
 		String cible;
 		HttpSession session = request.getSession();
+		//codeEffet = Integer.parseInt(codeS);
 		synchronized (session) {
 			pseudo = (String) session.getAttribute("user");
-			codeEffet = Integer.parseInt(request.getParameter("codeEffet"));
-			cible = (String) session.getAttribute("cible");
-		}		
-		gp.jouerCarte(codeEffet, cible);
+			//cible = (String) session.getAttribute("cible");
+		}
+		//TODO Gérer la cible
+		Info info = gp.jouerCarte(codeS, "");
 		Partie partie = gp.getDernierePartie();
 		JoueurPartie joueurcourant = partie.getJoueurCourant();
 		synchronized (session) {
 			session.setAttribute("joueurCourant", joueurcourant);
 		}
-		Info info = new Info();
-		info.setCartes(joueurcourant.getMainCarte());
-		info.setDes(joueurcourant.getMainDe());
-		info.setEtat(partie.getEtat());
-		info.setJoueurCourant(joueurcourant.getJoueur().getPseudo());
-		info.setNbCartes(""+joueurcourant.getMainCarte().size());
-		info.setNbDes(""+joueurcourant.getMainDe().size());
-		info.setUser(pseudo);
+		ObjectMapper om = new ObjectMapper();
+		PrintWriter pw = response.getWriter();
+		om.writeValue(pw, info);
 		
 //		request.getRequestDispatcher("jeumanager.html").forward(request, response);
 		//getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
