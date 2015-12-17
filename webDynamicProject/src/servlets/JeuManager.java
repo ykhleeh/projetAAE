@@ -40,7 +40,11 @@ public class JeuManager extends HttpServlet {
 		String pseudo = (String) session.getAttribute("user");
 		List<Joueur> joueurs = gj.listerPseudos();
 		for (Joueur j : joueurs){
-			List<Carte> mainCarte = gp.getCartesJoueur("kal");
+			List<Carte> mainCarte = gp.getJoueurPartie(j.getPseudo()).getMainCarte();
+			System.out.println(j.getPseudo());
+			for (Carte c : mainCarte){
+				System.out.println(c.getCodeEffet());
+			}
 		}
 		
 		

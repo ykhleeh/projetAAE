@@ -203,7 +203,7 @@ public class GestionPartiesImpl implements GestionParties {
 		JoueurPartie jp = 
 				joueurPartieDao.recherche(this.partie.getId(), pseudo);
 		System.out.println("****************************** " + jp.getId_joueurPartie() + " ******************************");
-
+		
 		return carteDao.lister(jp);
 	}
 
@@ -311,6 +311,12 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Partie getDernierePartie() {
 		return partieDao.getDernier();
+	}
+	
+	@Override
+	public JoueurPartie getJoueurPartie(String pseudo){
+		JoueurPartie jp = joueurPartieDao.recherche(getDernierePartie().getId(), pseudo);
+		return jp;
 	}
 
 }
