@@ -13,12 +13,10 @@
 				<c:url var="index" value="/inscrire.html" />
 				<form class="formSignIn" method="post" action="${index}">
 					<div class="login">
-						<label for="pseudo">Votre pseudo :</label><input type="text"
-							id="pseudo" name="pseudo" />
+						<input type="text" id="pseudo" name="pseudo" placeholder="Login" class="form-control"/>
 					</div>
 					<div class="mdp">
-						<label for="mdp">Votre mot de passe : </label><input
-							type="password" id="mdp" name="mdp" />
+						<input type="password" id="mdp" name="mdp" placeholder="Mot de passe" class="form-control"/>
 					</div>
 					<input type="submit" value="S'inscrire" />
 				</form>

@@ -4,7 +4,7 @@
 <body>
 	<div class="body">
 		<div class="row">
-			<div class="col-sm-6 pull-left">
+			<div class="col-sm-6 pull-left col-xs-12">">
 				<h1>Connectez-vous</h1>
 				<br>
 				<c:if test="${message != null}">
@@ -13,12 +13,10 @@
 				<c:url var="login" value="login.html" />
 					<form class="formLogin" method="post" action="${login}">
 						<div class="login">
-						<label for="pseudo">Votre pseudo :</label><input type="text"
-							id="pseudo" name="pseudo" /> 
+						<input type="text" id="pseudo" name="pseudo" class="form-control" placeholder="Login"/> 
 						</div>
 						<div class="mdp">
-						<label for="mdp">Votre mot
-							de passe : </label><input type="password" id="mdp" name="mdp" />
+							<input type="password" id="mdp" name="mdp" class="form-control" placeholder="Mot de passe"/>
 						</div>	
 						<input type="submit" value="Se connecter" />
 
