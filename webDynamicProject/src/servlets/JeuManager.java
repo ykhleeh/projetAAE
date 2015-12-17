@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domaine.Carte;
 import domaine.Info;
@@ -40,6 +43,7 @@ public class JeuManager extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String pseudo = (String) session.getAttribute("user");
+
 		Info info = new Info();
 		info.setUser(gp.joueurCourant());
 		JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
@@ -47,13 +51,16 @@ public class JeuManager extends HttpServlet {
 		info.setCartes(mainCarte);
 		info.setDes(joueurPartie.getMainDe());
 		info.setEtat(gp.getDernierePartie().getEtat());
+		info.setJoueurCourant(joueurPartie.getJoueur().getPseudo());
+		info.setDes(joueurPartie.getMainDe());
+		info.setCartes(joueurPartie.getMainCarte());
+		ObjectMapper mapper = new ObjectMapper();
+		PrintWriter out = response.getWriter();
+		mapper.writeValue(out, info);	
+		
+		
 	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
-		
-		
-	
-		
-		
-//		request.setAttribute("listeCarte", mainCarte);
+			
 		request.setAttribute("message", "C'est parti pour une nouvelle partie");		
 		request.setAttribute("nbJoueurs", gp.getJoueurs().size());		
 		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domaine.Info;
 import domaine.JoueurPartie;
 import usecases.GestionParties;
 import usecasesimpl.GestionDesImpl;
@@ -34,8 +35,9 @@ public class LancerDe extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		gp.lancerDes();
-		getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
+		Info info = gp.lancerDes();
+		request.setAttribute("info", info);
+		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
 	}
 
 	/**
