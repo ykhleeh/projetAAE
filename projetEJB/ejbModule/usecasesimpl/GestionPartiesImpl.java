@@ -106,10 +106,14 @@ public class GestionPartiesImpl implements GestionParties {
 		joueurPart.setJoueur(joueurDao.recherche(pseudo));
 		joueurPart = joueurPartieDao.enregistrer(joueurPart);
 		List<Carte> main = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
+		//TODO remettre la limite à 3
+		for (int i = 0; i < 2; i++) {
 			int index = (int) (Math.random() * partie.pioche.size());
 			main.add(partie.pioche.remove(index));
 		}
+		/**************************/
+		main.add(carteDao.rechercher(11));
+		/**************************/
 		joueurPart.setMainCarte(main);
 		for (int i = 0; i < 4; i++) {
 			De de = deDao.rechercher(nbDes + 1);
@@ -308,10 +312,8 @@ public class GestionPartiesImpl implements GestionParties {
 			break;
 		case "3":
 			// Supprimez 2 de vos dés
-			JoueurPartie tmp = partie.getJoueurCourant();
-			tmp.supprimerDe();
-			tmp.supprimerDe();
-			joueurPartieDao.mettreAJour(tmp);
+			partie.getJoueurCourant().supprimerDe();
+			partie.getJoueurCourant().supprimerDe();
 			break;
 		case "4":
 			// Donnez 1 de vos dés au joueur de votre choix
