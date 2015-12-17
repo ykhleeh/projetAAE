@@ -36,7 +36,7 @@ public interface GestionParties {
 
 	boolean partieEnCours();
 
-	Partie creer(String nom);
+	Partie creer(String nom, String pseudo);
 
 	List<Carte> getCartesJoueur(String pseudo);
 

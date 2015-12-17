@@ -45,6 +45,8 @@ public class GestionPartiesImpl implements GestionParties {
 	CartesDaoImpl carteDao;
 	@EJB
 	DesDaoImpl deDao;
+	
+	int nbDes=0;
 
 	@PostConstruct
 	public void postconstruct() {
@@ -83,7 +85,7 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public boolean rejoindreLaPartie(String pseudo) {
-		boolean aRenvoyer = false;
+/*		boolean aRenvoyer = false;
 		List<Partie> parties = partieDao.lister();
 		for (Partie p : parties) {
 			if (p.getEtat() == Etat.INITIAL) {
@@ -93,10 +95,14 @@ public class GestionPartiesImpl implements GestionParties {
 		}
 		if (!aRenvoyer)
 			return false;
-
-		partie = partieDao.rechercher(partie.getId());
-		JoueurPartie joueurPart = joueurPartieDao.recherche(partie.getId(), pseudo);
-		if (joueurPart == null) {
+		
+		partie = partieDao.rechercher(partie.getId()); */
+		partie = getDernierePartie();
+		partie = partieDao.chargerJoueurs(partie);
+		JoueurPartie joueurPart ;
+		//= joueurPartieDao.recherche(partie.getId(), pseudo);
+//		joueurPart=joueurPartieDao.chargerJoueur(joueurPart);
+//		if (joueurPart == null) {
 			joueurPart = objFact.createJoueurPartie();
 			joueurPart.setId_partie(partie);
 			joueurPart.setJoueur(joueurDao.recherche(pseudo));
@@ -107,10 +113,16 @@ public class GestionPartiesImpl implements GestionParties {
 				main.add(partie.pioche.remove(index));
 			}
 			joueurPart.setMainCarte(main);
-		}
-		
-		//partie.ajouterJoueurPartie(joueurPart);
-		joueurPartieDao.mettreAJour(joueurPart);
+			for (int i = 0; i<4; i++){
+				De de = deDao.rechercher(nbDes+1);
+				joueurPart.ajouterDe(de);
+				nbDes++;
+			}
+			joueurPartieDao.mettreAJour(joueurPart);
+//		}
+		System.out.println("**************** JOUEUR PART = " + joueurPart);
+		partie.ajouterJoueurPartie(joueurPart);
+		joueurPartieDao.enregistrer(joueurPart);
 		partieDao.mettreAJour(partie);
 		return true;
 	}
@@ -127,26 +139,59 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
-	public Partie creer(Partie partie) {
-		this.partie = partie;
+	public Partie creer(Partie part) {
+		this.partie = part;
+		partieDao.enregistrer(partie);
+		partie = partieDao.chargerJoueurs(partie);
 		partie.setPioche(carteDao.lister());
-		return partieDao.enregistrer(partie);
+		partie.setJoueurCourant(partie.getJoueursParties().get(0));
+		return partieDao.mettreAJour(partie);
 		
 	}
 
 	@Override
-	public Partie creer(String nom) {
+	public Partie creer(String nom, String pseudo) {
 		Partie nouvelle = objFact.createPartie();
+		Joueur joueur = joueurDao.recherche(pseudo);
+		JoueurPartie jp = objFact.createJoueurPartie();
+		jp.setId_partie(nouvelle);
+		jp.setJoueur(joueur);
+		nouvelle.ajouterJoueurPartie(jp);
 		nouvelle.setNom(nom);
-		return this.creer(nouvelle);
+		this.partie = nouvelle;
+		partieDao.enregistrer(partie);
+		partie = partieDao.chargerJoueurs(partie);
+		partie.setPioche(carteDao.lister());
+		partie.setJoueurCourant(partie.getJoueursParties().get(0));
+		List<Carte> main = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			int index = (int) (Math.random() * partie.pioche.size());
+			main.add(partie.pioche.remove(index));
+		}
+		jp.setMainCarte(main);
+		for (int i = 0; i<4; i++){
+			De de = deDao.rechercher(nbDes+1);
+			jp.ajouterDe(de);
+			nbDes++;
+		}
+		joueurPartieDao.enregistrer(jp);
+		return partieDao.mettreAJour(partie);
 	}
 
 	@Override
 	public boolean commencerPartie() {
+		
+		partie = partieDao.chargerJoueurs(partie);
+		partie.setJoueurCourant(partie.getJoueursParties().get(0));
+		partieDao.mettreAJour(partie);
+		//partie = partieDao.rechercher(partie.getId());
 		if (partie == null || partie.getEtat() != Etat.INITIAL)
-			return false;
-		partie = partieDao.rechercher(partie.getId());
-		return partie.commencerPartie();
+			return false;		
+		if( partie.commencerPartie()){
+			partieDao.mettreAJour(partie);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -204,10 +249,8 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public List<Carte> getCartesJoueur(String pseudo) {
 		partie = partieDao.getDernier();
-		System.out.println("****************************** get cartes" +"id parie"+ this.partie.getId() +"******************************");
 		JoueurPartie jp = 
 				joueurPartieDao.recherche(this.partie.getId(), pseudo);
-		System.out.println("****************************** " + jp.getId_joueurPartie() + " ******************************");
 		
 		return carteDao.lister(jp);
 	}
@@ -395,12 +438,16 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Info lancerDes() {
 		Info info = new Info();
+		partie = partieDao.chargerJoueurs(partie);
 		JoueurPartie jp = partie.getJoueurCourant();
+		jp = joueurPartieDao.chargerJoueur(jp);
+		System.out.println("************************** JOUEUR COURANT = " + jp.getId_joueurPartie());
+		jp = joueurPartieDao.chargerJoueur(jp);
 		jp.lancerDes();
 		List<De> des = jp.getMainDe();
 		joueurPartieDao.mettreAJour(jp);
 		for (De de : jp.getMainDe()) {
-			if (de.getValeur().equals("p")) 
+			if (de.getValeur().equals("c")) 
 				piocherCartes();
 		}
 		info.setCartes(jp.getMainCarte());

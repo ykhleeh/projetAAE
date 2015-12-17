@@ -31,6 +31,7 @@ public class JoueurPartieDaoImpl extends DaoImpl<Integer, JoueurPartie> {
 	}
 
 	public JoueurPartie chargerJoueur(JoueurPartie joueurPartie) {
+		System.out.println("**************** " + joueurPartie);
 		joueurPartie = rechercher(joueurPartie.getId_joueurPartie());
 		joueurPartie.getJoueur();
 		return joueurPartie;

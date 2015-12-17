@@ -38,10 +38,13 @@ public class Rejoindre extends HttpServlet {
 		synchronized (session) {
 			pseudo = (String) session.getAttribute("user");
 		}
+		gp.rejoindreLaPartie(pseudo);
 		request.setAttribute("message", "Bienvenue " + pseudo);
 		gp.rejoindreLaPartie(pseudo); // Utiliser la méthode avec dernier id plutot que de tout parcourir pour trouver la bonne partie
 		System.out.println("Bienvenue "+pseudo);
-		request.getRequestDispatcher("jeumanager.html").forward(request, response);
+	//	request.getRequestDispatcher("jeu.html").forward(request, response);
+		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
+		
 		//getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
 	}
 

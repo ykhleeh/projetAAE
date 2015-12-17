@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import domaine.Partie;
 import usecases.GestionParties;
@@ -34,12 +35,17 @@ public class Creer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nom = request.getParameter("nom");
-		
-		gestion.creer(nom);
+		String pseudo;
+		HttpSession session = request.getSession();
+		synchronized (session) {
+			pseudo = (String) session.getAttribute("user");
+		}
+		gestion.creer(nom, pseudo);
 		getServletContext().setAttribute("nomPartie", nom);
 		request.setAttribute("message", "La partie a été créée! Attendez des joueurs mtn.");
 
-		getServletContext().getNamedDispatcher("attente.html").forward(request, response);
+		response.sendRedirect("attente.html");
+		//getServletContext().getNamedDispatcher("attente.html").forward(request, response);
 	}
 
 	/**

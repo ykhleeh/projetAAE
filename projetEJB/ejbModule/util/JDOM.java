@@ -37,7 +37,7 @@ public class JDOM {
 			e.printStackTrace();
 		}
 		try {
-			document = builder.parse(new File("../standalone/deployments/Wazabi.ear/projetEJB.jar/xml/wazabi.xml"));
+			document = builder.parse(new File("../standalone/deployments/Test.ear/projetEJB.jar/xml/wazabi.xml"));
 		} catch (SAXException | IOException e) {
 			e.printStackTrace();
 		}

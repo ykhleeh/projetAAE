@@ -175,7 +175,9 @@ public class Partie implements Serializable {
 	@OneToMany(mappedBy = "partie")
 	private List<JoueurPartie> joueursParties = new ArrayList<JoueurPartie>();
 
+	
 	@OneToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name="id_joueurPartie")
 	private JoueurPartie joueurCourant;
 
 	@Temporal(TemporalType.TIMESTAMP)

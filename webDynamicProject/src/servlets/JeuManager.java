@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +26,7 @@ import usecases.GestionParties;
 /**
  * Servlet implementation class JeuManager
  */
-@WebServlet("/jeumanager.html")
+@WebServlet("/jeu.html")
 public class JeuManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB GestionParties gp;
@@ -43,7 +45,7 @@ public class JeuManager extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String pseudo = (String) session.getAttribute("user");
-
+		gp.commencerPartie();
 		Info info = new Info();
 		info.setUser(gp.joueurCourant());
 		JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
@@ -61,9 +63,9 @@ public class JeuManager extends HttpServlet {
 		
 	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
 			
-		request.setAttribute("message", "C'est parti pour une nouvelle partie");		
-		request.setAttribute("nbJoueurs", gp.getJoueurs().size());		
-		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
+	//	request.setAttribute("message", "C'est parti pour une nouvelle partie");		
+	//	request.setAttribute("nbJoueurs", gp.getJoueurs().size());		
+	//	getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
 	}
 
 	/**
