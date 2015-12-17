@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -11,9 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import domaine.Carte;
 import domaine.Info;
-import domaine.Joueur;
 import domaine.JoueurPartie;
 import usecases.GestionJoueurs;
 import usecases.GestionParties;
@@ -47,10 +49,12 @@ public class JeuManager extends HttpServlet {
 		info.setCartes(mainCarte);
 		info.setDes(joueurPartie.getMainDe());
 		info.setEtat(gp.getDernierePartie().getEtat());
-	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
-		
-		
-	
+		info.setJoueurCourant(joueurPartie.getJoueur().getPseudo());
+		info.setDes(joueurPartie.getMainDe());
+		info.setCartes(joueurPartie.getMainCarte());
+		ObjectMapper mapper = new ObjectMapper();
+		PrintWriter out = response.getWriter();
+		mapper.writeValue(out, info);	
 		
 		
 //		request.setAttribute("listeCarte", mainCarte);
