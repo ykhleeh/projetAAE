@@ -45,18 +45,12 @@ public class JeuManager extends HttpServlet {
 		JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
 		List<Carte> mainCarte = joueurPartie.getMainCarte();
 		info.setCartes(mainCarte);
+		info.setDes(joueurPartie.getMainDe());
+		info.setEtat(gp.getDernierePartie().getEtat());
+	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
 		
 		
-		List<Joueur> joueurs = gj.listerPseudos();
-		for (Joueur j : joueurs){
-			JoueurPartie joueurPartie = gp.getJoueurPartie(j.getPseudo());
-			
-			List<Carte> mainCarte = joueurPartie.getMainCarte();
-			System.out.println(j.getPseudo());
-			for (Carte c : mainCarte){
-				System.out.println(c.getCodeEffet());
-			}
-		}
+	
 		
 		
 //		request.setAttribute("listeCarte", mainCarte);
