@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.persistence.CascadeType;
@@ -41,7 +43,6 @@ public class Partie implements Serializable {
 	public static final int NB_DES = 3;
 	public static final int VINGT_ET_UN = 21;
 
-
 	public enum Etat {
 		INITIAL {
 			boolean ajouterJoueurPartie(JoueurPartie j, Partie partie) {
@@ -50,13 +51,13 @@ public class Partie implements Serializable {
 					return false;
 				// on attribu des carte aleatoirement au joueur donc on les
 				// retire aussi de la pioche de la partie
-/*				List<Carte> main = new ArrayList<>();
-				for (int i = 0; i < 3; i++) {
-					int index = (int) (Math.random() * partie.pioche.size());
-				//	main.add(partie.pioche.remove(index));
-				}
-				j.setMainCarte(main);
-*/				
+				/*
+				 * List<Carte> main = new ArrayList<>(); for (int i = 0; i < 3;
+				 * i++) { int index = (int) (Math.random() *
+				 * partie.pioche.size()); //
+				 * main.add(partie.pioche.remove(index)); }
+				 * j.setMainCarte(main);
+				 */
 				// on ajoute le joueur a la liste des joueurs
 				partie.joueursParties.add(j);
 				// si + de 2 joueurs on lance la partie
@@ -65,6 +66,7 @@ public class Partie implements Serializable {
 				}
 				return true;
 			}
+
 			boolean commencerPartie(Partie partie) {
 				// On commence la partie ==> changement d'etat
 				partie.etat = Etat.EN_COURS;
@@ -77,14 +79,7 @@ public class Partie implements Serializable {
 		},
 		EN_COURS {
 			boolean commencerTourSuivant(Partie partie) {
-				// partie.preparerPourUnNouveauLancer();
-				int indice = partie.prochain();
-				if (indice == 0) {
-					partie.etat = Etat.FINIE;
-					partie.joueurCourant = null;
-					return false;
-				}
-				partie.joueurCourant = partie.getJoueursParties().get(indice);
+				partie.joueurCourant = partie.prochain();
 				return true;
 			}
 
@@ -189,6 +184,20 @@ public class Partie implements Serializable {
 	@Column
 	private boolean ordreCroissant = true;
 
+	@ManyToOne
+	@JoinColumn(name = "vainqueur")
+	private Joueur vainqueur;
+
+	@Transient
+	private Set<JoueurPartie> jpPassTour = new HashSet<JoueurPartie>();
+
+	@Transient
+	private boolean rejoue = false;
+
+	public void joueurCourantRejoue() {
+		rejoue = true;
+	}
+
 	public static int getNbDes() {
 		return NB_DES;
 	}
@@ -213,21 +222,13 @@ public class Partie implements Serializable {
 		return ordreCroissant;
 	}
 
-	
-	
 	public void setJoueursParties(List<JoueurPartie> joueursParties) {
 		this.joueursParties = joueursParties;
 	}
 
-
-
-	@ManyToOne
-	@JoinColumn(name = "vainqueur")
-	private Joueur vainqueur;
-
 	public Partie(String nom) {
 		this.nom = nom;
-		dateHeure =  new GregorianCalendar();
+		dateHeure = new GregorianCalendar();
 	}
 
 	protected void melangerJoueurs() {
@@ -236,16 +237,13 @@ public class Partie implements Serializable {
 
 	protected Partie() {
 		dateHeure = new GregorianCalendar();
-		//pioche = cartes.lister();
+		// pioche = cartes.lister();
 	}
 
 	public int getId() {
 		return id_partie;
 	}
 
-	
-	
-	
 	public void setId_partie(int id_partie) {
 		this.id_partie = id_partie;
 	}
@@ -313,18 +311,30 @@ public class Partie implements Serializable {
 		return etat.commencerPartie(this);
 	}
 
-	public int prochain() {
-		if (this.ordreCroissant) {
-			int indice = getJoueursParties().indexOf(joueurCourant) + 1;
-			if (indice >= getJoueursParties().size())
-				indice = 0;
-			return indice;
-		} else {
-			int indice = getJoueursParties().indexOf(joueurCourant) - 1;
-			if (indice >= getJoueursParties().size())
-				indice = 0;
-			return indice;
+	public JoueurPartie prochain() {
+		if (this.rejoue) {
+			rejoue = false;
+			return this.joueurCourant;
 		}
+		if (joueurCourant == null) {
+			return this.getJoueursParties().get(0);
+		}
+		int indice;
+		if (this.ordreCroissant) {
+			indice = getJoueursParties().indexOf(joueurCourant) + 1;
+			if (indice >= getJoueursParties().size())
+				indice = 0;
+		} else {
+			indice = getJoueursParties().indexOf(joueurCourant) - 1;
+			if (indice < 0)
+				indice = getJoueursParties().size();
+		}
+		JoueurPartie tmp = getJoueursParties().get(indice);
+		if (jpPassTour.contains(tmp)) {
+			jpPassTour.remove(tmp);
+			return prochain();
+		}
+		return tmp;
 	}
 
 	public void changerSens() {
@@ -333,6 +343,10 @@ public class Partie implements Serializable {
 		} else {
 			ordreCroissant = true;
 		}
+	}
+
+	public void passeSonTour(JoueurPartie jp) {
+		this.jpPassTour.add(jp);
 	}
 
 	public boolean commencerTourSuivant() {
