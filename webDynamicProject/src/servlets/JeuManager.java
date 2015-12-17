@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domaine.Carte;
 import domaine.Info;
+import domaine.Joueur;
 import domaine.JoueurPartie;
 import usecases.GestionJoueurs;
 import usecases.GestionParties;
@@ -42,6 +43,7 @@ public class JeuManager extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String pseudo = (String) session.getAttribute("user");
+
 		Info info = new Info();
 		info.setUser(gp.joueurCourant());
 		JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
@@ -57,7 +59,8 @@ public class JeuManager extends HttpServlet {
 		mapper.writeValue(out, info);	
 		
 		
-//		request.setAttribute("listeCarte", mainCarte);
+	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
+			
 		request.setAttribute("message", "C'est parti pour une nouvelle partie");		
 		request.setAttribute("nbJoueurs", gp.getJoueurs().size());		
 		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
