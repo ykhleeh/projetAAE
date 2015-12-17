@@ -16,4 +16,6 @@
 				<li><a href="lister.html">Lister parties</a></li>
 			</ul>
 		</div>
-	</div>
+		<div>
+			<img class="imageKoala" alt="koala" src="images/KoalaChelou.jpg">
+		</div>

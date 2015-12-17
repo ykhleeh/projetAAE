@@ -3,7 +3,7 @@
 </head>
 <body>
 	<div class="body">
-	<h1>LISTE</h1>
+	<h1>Liste des parties</h1>
 	<c:choose>
 		<c:when test="${liste != null}">
 			<div class="container">
@@ -26,6 +26,8 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<p>Pas de parties en DB</p>
+			<p>Pas de parties en DB :(</p>
+			<br>
+			<img class="imageKoala" alt="koala" src="images/KoalaTriste.jpg">
 		</c:otherwise>
 	</c:choose>

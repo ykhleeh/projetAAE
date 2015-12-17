@@ -12,10 +12,10 @@
 				</c:if>
 				<c:url var="index" value="/inscrire.html" />
 				<form class="formSignIn" method="post" action="${index}">
-					<div class="login">
+					<div class="col-md-8">
 						<input type="text" id="pseudo" name="pseudo" placeholder="Login" class="form-control"/>
 					</div>
-					<div class="mdp">
+					<div class="col-md-8">
 						<input type="password" id="mdp" name="mdp" placeholder="Mot de passe" class="form-control"/>
 					</div>
 					<input type="submit" value="S'inscrire" />

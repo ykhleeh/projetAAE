@@ -12,10 +12,10 @@
 				</c:if>
 				<c:url var="login" value="login.html" />
 					<form class="formLogin" method="post" action="${login}">
-						<div class="login">
+						<div class="col-md-8">
 						<input type="text" id="pseudo" name="pseudo" class="form-control" placeholder="Login"/> 
 						</div>
-						<div class="mdp">
+						<div class="col-md-8">
 							<input type="password" id="mdp" name="mdp" class="form-control" placeholder="Mot de passe"/>
 						</div>	
 						<input type="submit" value="Se connecter" />
