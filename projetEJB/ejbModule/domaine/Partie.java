@@ -99,7 +99,6 @@ public class Partie implements Serializable {
 
 			public void jouerCarte(Partie partie, Carte carte) {
 				partie.pioche.add(carte);
-				partie.joueurCourant.getMainCarte().remove(carte);
 			}
 
 			boolean donnerSonDe(De aDonner, int ordre, Partie partie) {
@@ -388,6 +387,10 @@ public class Partie implements Serializable {
 		if (id_partie != other.id_partie)
 			return false;
 		return true;
+	}
+
+	public void remettreCartesDansPioche(List<Carte> main) {
+		this.pioche.addAll(main);
 	}
 
 }

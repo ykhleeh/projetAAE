@@ -162,4 +162,14 @@ public class JoueurPartie implements Serializable {
 	public De supprimerDe() {
 		return this.mainDe.remove(0);
 	}
+
+	public Carte supprimerCarte(int codeEffet) {
+		for (Carte carte: mainCarte){
+			if (carte.getCodeEffet() == codeEffet){
+				mainCarte.remove(carte);
+				return carte;
+			}
+		}
+		return null;
+	}
 }
