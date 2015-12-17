@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -58,10 +59,12 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "DES", schema = "koala")
 public class De implements Serializable {
+	@XmlTransient
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_de;
 
+	@XmlTransient
 	@NotNull
 	private String valeur;
 
@@ -107,12 +110,17 @@ public class De implements Serializable {
 	 * 
 	 * 
 	 */
+	
 
 	public List<Face> getFace() {
 		if (face == null) {
 			face = new ArrayList<Face>();
 		}
 		return this.face;
+	}
+
+	public int getId_de() {
+		return id_de;
 	}
 
 	public void setFace(List<Face> face) {

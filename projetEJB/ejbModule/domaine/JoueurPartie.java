@@ -14,12 +14,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "joueursparties", schema = "koala")
 public class JoueurPartie implements Serializable {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_joueurPartie;
@@ -54,6 +54,14 @@ public class JoueurPartie implements Serializable {
 		}
 
 	}
+	
+	
+
+	public void setPartie(Partie partie) {
+		this.partie = partie;
+	}
+
+
 
 	protected JoueurPartie() {
 		super();

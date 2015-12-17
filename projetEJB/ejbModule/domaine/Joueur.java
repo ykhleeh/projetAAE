@@ -13,12 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "JOUEURS", schema = "koala")
 public class Joueur implements Serializable {
+	@XmlTransient
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_joueur;
@@ -37,6 +39,14 @@ public class Joueur implements Serializable {
 
 	protected Joueur() {
 	}
+
+	
+	
+	public void setJoueursParties(List<JoueurPartie> joueursParties) {
+		this.joueursParties = joueursParties;
+	}
+
+
 
 	@OneToMany(mappedBy="joueur")
 	private List<JoueurPartie> joueursParties = new ArrayList<JoueurPartie>();

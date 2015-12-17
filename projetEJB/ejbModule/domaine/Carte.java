@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -68,6 +69,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @Table(name = "CARTES", schema = "koala")
 public class Carte implements Serializable {
+	@XmlTransient
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id_carte;
@@ -95,6 +97,7 @@ public class Carte implements Serializable {
 	@XmlAttribute(name = "src")
 	@Transient
 	protected String src;
+	
 
 	public Carte() {
 		super();
@@ -124,11 +127,19 @@ public class Carte implements Serializable {
 	 * 
 	 * 
 	 */
+	
+	
+	
 	public List<Serializable> getContent() {
 		if (content == null) {
 			content = new ArrayList<Serializable>();
 		}
 		return this.content;
+	}
+
+
+	public int getId_carte() {
+		return id_carte;
 	}
 
 	/**

@@ -182,7 +182,6 @@ public class Partie implements Serializable {
 	private List<JoueurPartie> joueursParties = new ArrayList<JoueurPartie>();
 
 	@OneToOne(cascade = { CascadeType.ALL })
-	@PrimaryKeyJoinColumn
 	private JoueurPartie joueurCourant;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -214,6 +213,14 @@ public class Partie implements Serializable {
 	public boolean isOrdreCroissant() {
 		return ordreCroissant;
 	}
+
+	
+	
+	public void setJoueursParties(List<JoueurPartie> joueursParties) {
+		this.joueursParties = joueursParties;
+	}
+
+
 
 	@ManyToOne
 	@JoinColumn(name = "vainqueur")
