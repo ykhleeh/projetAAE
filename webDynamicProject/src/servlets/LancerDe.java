@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domaine.JoueurPartie;
 import usecases.GestionParties;
 import usecasesimpl.GestionDesImpl;
 
@@ -19,7 +20,7 @@ import usecasesimpl.GestionDesImpl;
 public class LancerDe extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
-	@EJB GestionParties gd;
+	@EJB GestionParties gp;
 	
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,8 +34,8 @@ public class LancerDe extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	
+		gp.lancerDes();
+		getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
 	}
 
 	/**

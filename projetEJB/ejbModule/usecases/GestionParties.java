@@ -9,6 +9,7 @@ import domaine.JoueurPartie;
 import domaine.Partie;
 import domaine.Partie.Etat;
 import domaine.Carte;
+import domaine.De;
 
 @Remote
 public interface GestionParties {
@@ -48,5 +49,8 @@ public interface GestionParties {
 
 	JoueurPartie getJoueurPartie(String pseudo);
 	
+	void lancerDes();
+	
+	void piocherCartes();
 	
 }
