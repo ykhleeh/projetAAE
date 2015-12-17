@@ -156,13 +156,12 @@ public class GestionPartiesImpl implements GestionParties {
 		JoueurPartie jp = objFact.createJoueurPartie();
 		jp.setId_partie(nouvelle);
 		jp.setJoueur(joueur);
-		nouvelle.ajouterJoueurPartie(jp);
+	
 		nouvelle.setNom(nom);
 		this.partie = nouvelle;
 		partieDao.enregistrer(partie);
 		partie = partieDao.chargerJoueurs(partie);
 		partie.setPioche(carteDao.lister());
-		partie.setJoueurCourant(partie.getJoueursParties().get(0));
 		List<Carte> main = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			int index = (int) (Math.random() * partie.pioche.size());
@@ -175,6 +174,8 @@ public class GestionPartiesImpl implements GestionParties {
 			nbDes++;
 		}
 		joueurPartieDao.enregistrer(jp);
+		nouvelle.ajouterJoueurPartie(jp);
+		partie.setJoueurCourant(partie.getJoueursParties().get(0));
 		return partieDao.mettreAJour(partie);
 	}
 
