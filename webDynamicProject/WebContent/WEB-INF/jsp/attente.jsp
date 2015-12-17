@@ -9,11 +9,11 @@
 		<c:if test="${message != null}">
 			<div id="erreur">${message}</div>
 		</c:if>
-			<button value="ok" id="ok">OK</button>
+			<button value="ok" id="jouer">Jouer</button>
 		<img class="imageKoala" alt="koala" src="images/KoaJoinMe.jpg">
 		
 		
 		<script type="text/javascript" src="js/jquery.js"></script>
-		<script type="text/javascript" src="js/plateau.js"></script>
+		<script type="text/javascript" src="js/timer.js"></script>
 
 		<%-- 	<jsp:forward page="rejoindre.html"></jsp:forward> --%>

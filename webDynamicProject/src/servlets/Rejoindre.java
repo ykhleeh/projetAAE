@@ -48,7 +48,7 @@ public class Rejoindre extends HttpServlet {
 		gp.initialiser();
 		List<Joueur> joueurs = gp.getJoueurs();
 		int t = joueurs.size();
-		if (joueurs.size() == 1){
+/*		if (joueurs.size() == 1){
 			System.out.println("Lancement timer");
 			Timer timer = new Timer();
 			TimerTask task = new TimerTask() {
@@ -59,12 +59,21 @@ public class Rejoindre extends HttpServlet {
 					}else{
 						System.out.println("ANNULE");
 						gp.annulerPartie();
+						timer.cancel();
+						timer.purge();
+						request.setAttribute("message", "La partie a été annulée. Pas assez de joueurs.");
+						try {
+							response.sendRedirect("menu.html");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						return;
 					}
 				}
 			};
 			timer.schedule(task, 10000);
 		}
-		HttpSession session = request.getSession();
+*/		HttpSession session = request.getSession();
 		synchronized (session) {
 			pseudo = (String) session.getAttribute("user");
 		}
@@ -80,11 +89,11 @@ public class Rejoindre extends HttpServlet {
 			return; 
 	}
 		request.setAttribute("message", "Bienvenue " + pseudo);
-		gp.rejoindreLaPartie(pseudo); // Utiliser la m�thode avec dernier id plutot que de tout parcourir pour trouver la bonne partie
+	//	gp.rejoindreLaPartie(pseudo); // Utiliser la m�thode avec dernier id plutot que de tout parcourir pour trouver la bonne partie
 		System.out.println("Bienvenue "+pseudo);
 	//	request.getRequestDispatcher("jeu.html").forward(request, response);
 		//getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
-		response.sendRedirect("jeu.html");
+	//	response.sendRedirect("jeu.html");
 		//getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
 	}
 
