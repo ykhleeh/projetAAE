@@ -41,7 +41,7 @@ public class Login extends HttpServlet {
 			System.out.println("merde");
 			request.setAttribute("message", "Veuillez remplir tous les champs!!");
 			request.getRequestDispatcher("index.html").forward(request, response);
-//			getServletContext().getNamedDispatcher("login.html").forward(request, response);
+			getServletContext().getNamedDispatcher("index.html").forward(request, response);
 		}
 		Joueur j = gestionJoueurs.rechercherJoueur(pseudo);
 		if (!gestionJoueurs.authentifier(pseudo, passwd)) {

@@ -93,11 +93,14 @@ public class GestionPartiesImpl implements GestionParties {
 		 * 
 		 * partie = partieDao.rechercher(partie.getId());
 		 */
+		System.out.println("********** creation joueur partie " + pseudo + "*****************");
 		partie = getDernierePartie();
-		partie = partieDao.chargerJoueurs(partie);
+		partie = partieDao.chargerPartie(partie);
 		for (JoueurPartie jp : partie.getJoueursParties()) {
-			if (jp.getJoueur().getPseudo().equals(pseudo))
+			if (jp.getJoueur().getPseudo().equals(pseudo)) 
+//				System.out.println("********************************************Joueur " + jp.getJoueur().getPseudo() + " déjà dans le jeu");
 				return true;
+			
 		}
 		JoueurPartie joueurPart;
 		// = joueurPartieDao.recherche(partie.getId(), pseudo);
@@ -107,6 +110,7 @@ public class GestionPartiesImpl implements GestionParties {
 		joueurPart.setId_partie(partie);
 		joueurPart.setJoueur(joueurDao.recherche(pseudo));
 		joueurPart = joueurPartieDao.enregistrer(joueurPart);
+		System.out.println("********** creation joueur partie " + pseudo + "*****************");
 		List<Carte> main = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			int index = (int) (Math.random() * partie.pioche.size());
@@ -145,7 +149,7 @@ public class GestionPartiesImpl implements GestionParties {
 	public Partie creer(Partie part) {
 		this.partie = part;
 		partieDao.enregistrer(partie);
-		partie = partieDao.chargerJoueurs(partie);
+		partie = partieDao.chargerPartie(partie);
 		partie.setPioche(carteDao.lister());
 		partie.setJoueurCourant(partie.getJoueursParties().get(0));
 		return partieDao.mettreAJour(partie);
@@ -163,7 +167,7 @@ public class GestionPartiesImpl implements GestionParties {
 		nouvelle.setNom(nom);
 		this.partie = nouvelle;
 		partieDao.enregistrer(partie);
-		partie = partieDao.chargerJoueurs(partie);
+		partie = partieDao.chargerPartie(partie);
 		partie.setPioche(carteDao.lister());
 		List<Carte> main = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
@@ -185,7 +189,7 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public boolean commencerPartie() {
 
-		partie = partieDao.chargerJoueurs(partie);
+		partie = partieDao.chargerPartie(partie);
 		partie.setJoueurCourant(partie.getJoueursParties().get(0));
 		partieDao.mettreAJour(partie);
 		// partie = partieDao.rechercher(partie.getId());
@@ -439,7 +443,7 @@ public class GestionPartiesImpl implements GestionParties {
 			return null;
 		// return joueurDao.listerJoueurs(partie.getId());
 		partie = partieDao.recharger(partie.getId());
-		partieDao.chargerJoueurs(partie);
+		partieDao.chargerPartie(partie);
 		List<Joueur> liste = new ArrayList<>();
 		for (JoueurPartie jp : partie.getJoueursParties()) {
 			joueurPartieDao.chargerJoueur(jp);
@@ -471,7 +475,7 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Info lancerDes() {
 		Info info = new Info();
-		partie = partieDao.chargerJoueurs(partie);
+		partie = partieDao.chargerPartie(partie);
 		JoueurPartie jp = partie.getJoueurCourant();
 		jp = joueurPartieDao.chargerJoueur(jp);
 		System.out.println("************************** JOUEUR COURANT = " + jp.getId_joueurPartie());

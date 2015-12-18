@@ -8,7 +8,7 @@
 				<h1>Connectez-vous</h1>
 				<br>
 				<c:if test="${message != null}">
-					<div id="erreur">${message}</div>
+						<div id="erreur"><p class="message">${message}</p></div>				
 				</c:if>
 				<c:url var="login" value="login.html" />
 					<form class="formLogin" method="post" action="${login}">

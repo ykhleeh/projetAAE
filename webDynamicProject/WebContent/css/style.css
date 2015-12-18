@@ -57,3 +57,7 @@ th {
 	font-weight: bold;
 	font-size: 2em;
 }
+
+.message {
+	color: red;
+}
