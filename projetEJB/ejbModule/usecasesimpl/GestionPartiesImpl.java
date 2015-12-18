@@ -113,12 +113,18 @@ public class GestionPartiesImpl implements GestionParties {
 		joueurPart = joueurPartieDao.enregistrer(joueurPart);
 		System.out.println("********** creation joueur partie " + pseudo + "*****************");
 		List<Carte> main = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
+		/*********** Tester les diff�rentes cartes ***************/
+		int limite = 3;
+		if (joueurPart.getJoueur().getPseudo().equals("a")) {
+			main.add(carteDao.rechercher(21));
+			limite = 2;
+		}
+		for (int i = 0; i < limite; i++) {
 			int index = (int) (Math.random() * partie.pioche.size());
 			main.add(partie.pioche.remove(index));
 		}
-		/*********** Tester les diff�rentes cartes ***************/
-		// main.add(carteDao.rechercher(26));
+		
+		
 		/**************************/
 		joueurPart.setMainCarte(main);
 		for (int i = 0; i < 4; i++) {
@@ -293,7 +299,7 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Info jouerCarte(String codeEffet, String cible) {
 		partie = partieDao.getDernier();
-
+		System.out.println("*******************************  pseudo joueur courant" +partie.getJoueurCourant().getJoueur().getPseudo());
 		switch (codeEffet) {
 		case "1":
 			// Supprimez 1 de vos des
@@ -387,7 +393,7 @@ public class GestionPartiesImpl implements GestionParties {
 			joueurPartieDao.mettreAJour(tmp3);
 			break;
 		case "8":
-			// Tous les joueurs sauf vous n�ont plus que 2 cartes
+			// Tous les joueurs sauf vous n ont plus que 2 cartes
 			List<Carte> mainRestante;
 			for (JoueurPartie jp : partie.getJoueursParties()) {
 				if (jp.equals(partie.getJoueurCourant()) || jp.getMainCarte().size() <= 2)
