@@ -1,10 +1,4 @@
 
-function afficher(response, textStatus, xhr){
-	
-	$('#info').empty();
-	$('#info').html(response.user);
-
-}
 
 $(function(){
 	$.ajax({
@@ -14,13 +8,23 @@ $(function(){
 		//response.overrideMimeType("application/json");
 		//$('#info').html(response.user);
 		console.log("AFFICHAGEEEE USER " + response.user);
-		console.log("AFFICHAGEEEE TOUT " + response);
+		console.log("Joueur courant " + response.joueurCourant);
 		var nbWazabi = 0;
+		var listeAdversaires = $("<h3>Vos adversaires</h3><table><th>Id</th><th>Nom</th></table>");
+		response.joueurs.forEach(function(joueur) {
+			var aa = $("<tr><td>"+joueur+"</td></tr>");
+			listeAdversaires.append(aa);
+		});
+		$('#adversaires').append(listeAdversaires);
+		var listeDes = $("<h3>Vos des</h3><br><table><th>Id</th><th>Valeur</th></table>");
 		response.des.forEach(function(de) {
+			var bb = $("<tr><td>"+de.id_de+"</td><td>"+de.valeur+"</td></tr>");
 			if (de.valeur=='w')
 				nbWazabi++;
 			console.log("DEEE " + de.id_de);
+			listeDes.append(bb);
 		});
+		$('#des').append(listeDes);
 		console.log("Nb de wazabis = " + nbWazabi);
 		response.cartes.forEach(function(carte) {
 			$('#cartes').append("<img src=" + carte.src +" alt="+ carte.codeEffet +" class=carte"+ carte.codeEffet +"  style=\"width:200px;height:200px;\"> ");
@@ -72,21 +76,16 @@ $(function(){
 			var aAjouter = $("<ul id=\"choix\"></ul>");
 			response.joueurs.forEach(function(joueur) {
 				var a =$("<li class=\"joueur\" id="+joueur+">"+joueur+"</li>");
-				
+				console.log("c = " + c);
 				a.click(function() {
-					console.log($(this).text());
+					console.log($(this).text() + "   " + c);
 					$.ajax({
 						url: 'jouercarte.html',
 						type: 'post', 
 						data: {code : c, cible : $(this).text()}
 					})
 					.done(function(response) {
-						console.log("envoi jouerCarte");
-						$.ajax({
-							url: 'jeu.html',
-							type: 'get', 
-							data: {response:response}
-						})
+						window.location.href = 'jeu.html';
 					})
 					.fail(function (xhr, textStatus, errorThrown) {
 						alert("jeeuuuuu ko "+errorThrown);
@@ -98,23 +97,56 @@ $(function(){
 			console.log("Joueursss "+response.joueurs);
 		};
 		
-		var demanderGouD = function(callback){
-			
+		var demanderGouD = function(c){
+			$('#dialog').dialog({
+				  dialogClass: "no-close",
+				  buttons: [
+				    {
+				      text: "Gauche",
+				      click: function() {
+				        $( this ).dialog( "close" );
+							$.ajax({
+								url: 'jouercarte.html',
+								type: 'post', 
+								data: {code : c, cible : "g"}
+							})
+							.done(function(response) {
+								window.location.href = 'jeu.html';
+							})
+							.fail(function (xhr, textStatus, errorThrown) {
+								alert("jeeuuuuu ko "+errorThrown);
+							});					        
+				      }
+				    }, 
+				    {
+					    text: "Droite",
+					      click: function() {
+					        $( this ).dialog( "close" );
+					        	$.ajax({
+									url: 'jouercarte.html',
+									type: 'post', 
+									data: {code : c, cible : "d"}
+								})
+								.done(function(response) {
+									window.location.href = 'jeu.html';
+								})
+								.fail(function (xhr, textStatus, errorThrown) {
+									alert("jeeuuuuu ko "+errorThrown);
+								});						        
+					      }
+					    }				    
+				  ]
+				});			
 		}
 		
-		var jouerCarteSimple = function (code){
+		var jouerCarteSimple = function (c){
 			$.ajax({
 				url: 'jouercarte.html',
 				type: 'post', 
 				data: {code : c, cible : ""}
 			})
 			.done(function(response) {
-				console.log("envoi jouerCarte");
-				$.ajax({
-					url: 'jeu.html',
-					type: 'get', 
-					data: {response:response}
-				})
+				window.location.href = 'jeu.html';
 			})
 			.fail(function (xhr, textStatus, errorThrown) {
 				alert("jeeuuuuu ko "+errorThrown);

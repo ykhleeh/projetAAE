@@ -67,7 +67,7 @@ public class JouerCarte extends HttpServlet {
 		
 //		request.getRequestDispatcher("jeumanager.html").forward(request, response);
 		//getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
-		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
+		//getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
 	}
 
 	/**
