@@ -29,19 +29,19 @@ import domaine.Partie.Etat;
 @XmlRootElement(name="info")
 public class Info implements Serializable {
 	@XmlElement
-	private String user;
+	private String user="";
 	@XmlElement
-	private String joueurCourant;
+	private String joueurCourant="";
 	@XmlElement
-	private String vainqueur;
+	private String vainqueur="";
 	@XmlElement
 	private List<String> joueurs = new ArrayList<String>();
 	@XmlElement
 	private Etat etat;
 	@XmlElement
-	private String nbDes;
+	private String nbDes="";
 	@XmlElement
-	private String nbCartes;
+	private String nbCartes="";
 	@XmlElement
 	private List<De> des = new ArrayList<>();
 	@XmlElement
