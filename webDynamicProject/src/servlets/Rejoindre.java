@@ -77,7 +77,7 @@ public class Rejoindre extends HttpServlet {
 		synchronized (session) {
 			pseudo = (String) session.getAttribute("user");
 		}
-		if (gp.rejoindreLaPartie(joueurs.get(t-1).getPseudo())) {
+		if (gp.rejoindreLaPartie(pseudo)) {
 			System.out.println(pseudo + " a rejoint la partie");
 			joueurs = gp.getJoueurs();
 			info.setUser(pseudo);

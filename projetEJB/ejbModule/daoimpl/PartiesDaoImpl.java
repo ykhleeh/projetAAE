@@ -17,7 +17,7 @@ public class PartiesDaoImpl extends DaoImpl<Integer, Partie> {
 		return recherche("select x from Partie x where x.id_partie = (select max(id_partie) from Partie)");
 	}
 	
-	public Partie chargerJoueurs(Partie partie) {
+	public Partie chargerPartie(Partie partie) {
 		partie = rechercher(partie.getId());
 		partie.getJoueursParties().size();
 		return partie;
