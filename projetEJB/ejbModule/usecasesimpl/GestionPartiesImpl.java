@@ -98,7 +98,7 @@ public class GestionPartiesImpl implements GestionParties {
 		partie = partieDao.chargerPartie(partie);
 		for (JoueurPartie jp : partie.getJoueursParties()) {
 			if (jp.getJoueur().getPseudo().equals(pseudo)) 
-//				System.out.println("********************************************Joueur " + jp.getJoueur().getPseudo() + " déjà dans le jeu");
+//				System.out.println("********************************************Joueur " + jp.getJoueur().getPseudo() + " dï¿½jï¿½ dans le jeu");
 				return true;
 			
 		}
@@ -465,7 +465,7 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public JoueurPartie getJoueurPartie(String pseudo) {
-		Partie partie = partieDao.chargerJoueurs(getDernierePartie());
+		Partie partie = partieDao.chargerPartie(getDernierePartie());
 		JoueurPartie jp = joueurPartieDao.recherche(partie.getId(), pseudo);
 		jp = joueurPartieDao.chargerJoueur(jp);
 		jp = joueurPartieDao.chargerMain(jp);

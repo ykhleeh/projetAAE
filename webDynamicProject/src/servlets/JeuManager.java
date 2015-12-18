@@ -47,6 +47,7 @@ public class JeuManager extends HttpServlet {
 		System.out.println("Jeumanager envoyé");
 		HttpSession session = request.getSession();
 		String pseudo = (String) session.getAttribute("user");
+		System.out.println("PSEUDO = " + pseudo);
 		gp.commencerPartie();
 		Info info = new Info();
 		info.setUser(gp.joueurCourant());
