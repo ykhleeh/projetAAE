@@ -31,11 +31,21 @@ public class Inscrire extends HttpServlet {
 		String pseudo = request.getParameter("pseudo");
 		String mdp = request.getParameter("mdp");
 		
+		if (pseudo.equals("") || mdp.equals("")) {
+			System.out.println("merde");
+			request.setAttribute("message", "Veuillez remplir tous les champs!!");
+			request.getRequestDispatcher("index.html").forward(request, response);
+			System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ YOUHOU");
+//			getServletContext().getNamedDispatcher("inscription.html").forward(request, response);
+//			response.sendRedirect("inscription.html");
+//			request.getRequestDispatcher("inscription.html").forward(request, response);
+		}
+		
 		List<Joueur> autres = gestion.listerPseudos();
 		for (Joueur j : autres){
 			if (pseudo.equals(j.getPseudo())){
 				System.err.println("Pseudo déjà  présent");
-				request.setAttribute("message", "Le pseudo est déjÃ  utilisé. Réessayez!!!");
+				request.setAttribute("message", "Le pseudo est déjà  utilisé. Réessayez!!!");
 				getServletContext().getNamedDispatcher("inscription.html").forward(request, response);
 				return;
 			}

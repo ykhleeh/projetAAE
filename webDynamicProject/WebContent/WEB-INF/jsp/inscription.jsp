@@ -8,7 +8,7 @@
 				<h1>Inscrivez-vous</h1>
 				<br>
 				<c:if test="${message != null}">
-					<div id="erreur">${message}</div>
+					<div id="erreur"><p class="message">${message}</p></div>
 				</c:if>
 				<c:url var="index" value="/inscrire.html" />
 				<form class="formSignIn" method="post" action="${index}">
