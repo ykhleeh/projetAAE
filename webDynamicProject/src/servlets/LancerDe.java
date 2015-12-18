@@ -41,8 +41,7 @@ public class LancerDe extends HttpServlet {
 		Info info = gp.lancerDes();
 		ObjectMapper om = new ObjectMapper();
 		PrintWriter pw = response.getWriter();
-		om.writeValue(pw, info);
-		getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
+		om.writeValue(pw, info);		
 	}
 
 	/**
