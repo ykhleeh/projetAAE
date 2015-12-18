@@ -444,7 +444,7 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public List<Joueur> getJoueurs() {
-		if (partie.getEtat() == Etat.FINIE)
+		if (partie == null || partie.getEtat() != Etat.INITIAL)
 			return null;
 		// return joueurDao.listerJoueurs(partie.getId());
 		partie = partieDao.recharger(partie.getId());
@@ -483,10 +483,10 @@ public class GestionPartiesImpl implements GestionParties {
 		JoueurPartie jp = partie.getJoueurCourant();
 		jp = joueurPartieDao.chargerJoueur(jp);
 		System.out.println("************************** JOUEUR COURANT = " + jp.getId_joueurPartie());
-		jp = joueurPartieDao.chargerJoueur(jp);
+		
 		jp.lancerDes();
 		joueurPartieDao.mettreAJour(jp);
-		List<De> des = jp.getMainDe();
+		jp.getMainDe().size();
 		for (De de : jp.getMainDe()) {
 			if (de.getValeur().equals("c"))
 				piocherCartes();

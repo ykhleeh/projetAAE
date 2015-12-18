@@ -34,12 +34,13 @@ public class Inscrire extends HttpServlet {
 		if (pseudo.equals("") || mdp.equals("")) {
 			System.out.println("merde");
 			request.setAttribute("message", "Veuillez remplir tous les champs!!");
-			request.getRequestDispatcher("index.html").forward(request, response);
+			//request.getRequestDispatcher("inscription.html").forward(request, response);
+			getServletContext().getNamedDispatcher("inscription.html").forward(request, response);
 			System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ YOUHOU");
 //			getServletContext().getNamedDispatcher("inscription.html").forward(request, response);
 //			response.sendRedirect("inscription.html");
 //			request.getRequestDispatcher("inscription.html").forward(request, response);
-		}
+		} else {
 		
 		List<Joueur> autres = gestion.listerPseudos();
 		for (Joueur j : autres){
@@ -56,7 +57,7 @@ public class Inscrire extends HttpServlet {
 		request.setAttribute("message", "Enregistrement ok");
 
 		getServletContext().getNamedDispatcher("index.html").forward(request, response);
-
+		}
 	}
 
 	@Override
