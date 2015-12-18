@@ -223,6 +223,7 @@ public class GestionPartiesImpl implements GestionParties {
 			return null;
 		partie = partieDao.rechercher(partie.getId());
 		Joueur v = partie.estVainqueur();
+		v = joueurDao.chargerJoueursParties(v);
 		if (v == null)
 			return null;
 		return v.getPseudo();
@@ -234,11 +235,12 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
-	public String joueurCourant() {
+	public String joueurCourant() {		
 		if (partie == null)
 			return null;
 		if (partie.getJoueurCourant() == null)
 			return null;
+		partie = partieDao.rechercher(partie.getId());
 		return partie.getJoueurCourant().getJoueur().getPseudo();
 	}
 
@@ -247,7 +249,11 @@ public class GestionPartiesImpl implements GestionParties {
 		// if (partie == null)
 		// return false;
 		partie = partieDao.rechercher(partie.getId());
-		return partie.commencerTourSuivant();
+		if (partie.commencerTourSuivant()){
+			partieDao.mettreAJour(partie);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
