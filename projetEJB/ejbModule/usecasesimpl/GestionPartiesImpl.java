@@ -97,10 +97,11 @@ public class GestionPartiesImpl implements GestionParties {
 		partie = getDernierePartie();
 		partie = partieDao.chargerPartie(partie);
 		for (JoueurPartie jp : partie.getJoueursParties()) {
-			if (jp.getJoueur().getPseudo().equals(pseudo)) 
-//				System.out.println("********************************************Joueur " + jp.getJoueur().getPseudo() + " d�j� dans le jeu");
+			if (jp.getJoueur().getPseudo().equals(pseudo))
+				// System.out.println("********************************************Joueur
+				// " + jp.getJoueur().getPseudo() + " d�j� dans le jeu");
 				return true;
-			
+
 		}
 		JoueurPartie joueurPart;
 		// = joueurPartieDao.recherche(partie.getId(), pseudo);
@@ -116,8 +117,8 @@ public class GestionPartiesImpl implements GestionParties {
 			int index = (int) (Math.random() * partie.pioche.size());
 			main.add(partie.pioche.remove(index));
 		}
-		/***********Tester les diff�rentes cartes ***************/
-	//	main.add(carteDao.rechercher(26));
+		/*********** Tester les diff�rentes cartes ***************/
+		// main.add(carteDao.rechercher(26));
 		/**************************/
 		joueurPart.setMainCarte(main);
 		for (int i = 0; i < 4; i++) {
@@ -208,8 +209,8 @@ public class GestionPartiesImpl implements GestionParties {
 			partie = new Partie("partie" + num.getAndIncrement());
 			partie = partieDao.enregistrer(partie);
 		}
-	}	
-	
+	}
+
 	@Override
 	public String vainqueur() {
 		if (partie == null)
@@ -237,8 +238,8 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public boolean auSuivant() {
-//		if (partie == null)
-//			return false;
+		// if (partie == null)
+		// return false;
 		partie = partieDao.rechercher(partie.getId());
 		return partie.commencerTourSuivant();
 	}
@@ -267,15 +268,21 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public List<Carte> getCartesJoueur(String pseudo) {
 		partie = partieDao.getDernier();
-		JoueurPartie jp = joueurPartieDao.recherche(this.partie.getId(), pseudo);
-
+		Joueur tmp = joueurDao.recherche(pseudo);
+		JoueurPartie jp = joueurPartieDao.recherche(this.partie, tmp);
 		return carteDao.lister(jp);
 	}
 
 	@Override
 	public boolean donnerDe(String joueurDonneur, String joueurReceveur) {
-		JoueurPartie joueurDon = joueurPartieDao.recherche(partie.getId(), joueurDonneur);
-		JoueurPartie joueurRecev = joueurPartieDao.recherche(partie.getId(), joueurReceveur);
+		Joueur jDonneur = joueurDao.recherche(joueurDonneur);
+		JoueurPartie joueurDon = joueurPartieDao.recherche(partie, jDonneur);
+
+		Joueur jReceveur = joueurDao.recherche(joueurReceveur);
+		JoueurPartie joueurRecev = joueurPartieDao.recherche(partie, jReceveur);
+
+		joueurDon = joueurPartieDao.chargerJoueur(joueurDon);
+		joueurRecev = joueurPartieDao.chargerJoueur(joueurRecev);
 		De aDonner = joueurDon.supprimerDe();
 		joueurRecev.ajouterDe(aDonner);
 		joueurPartieDao.mettreAJour(joueurDon);
@@ -286,29 +293,30 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Info jouerCarte(String codeEffet, String cible) {
 		partie = partieDao.getDernier();
-		
+
 		switch (codeEffet) {
 		case "1":
-			// Supprimez 1 de vos d�s
-			// On ne peut pas jouer cette carte si on obtient dans le m�me tour
+			// Supprimez 1 de vos des
+			// On ne peut pas jouer cette carte si on obtient dans le meme tour
 			// 2 figures
 			int nbFigure = 0;
 			for (De de : partie.getJoueurCourant().getMainDe()) {
 				if (de.getValeur().equals(Face.DE))
 					nbFigure++;
 			}
-//			if (nbFigure >= 2) {
-//				return false;
-//			}
+			// if (nbFigure >= 2) {
+			// return false;
+			// }
 			partie.getJoueurCourant().supprimerDe();
 			break;
 		case "2":
-			// tous les joueurs donnent leurs des � leur voisin de droite ou de
+			// tous les joueurs donnent leurs des a leur voisin de droite ou de
 			// gauche
 			// voisin de gauche
-			if (cible == "g") {
+			if (cible.equals("g")) {
 				List<De> ancienne;
 				List<De> nouvelle = partie.getJoueursParties().get(partie.getJoueursParties().size() - 1).getMainDe();
+				System.out.println("*****************    Je suis a gauche ******************");
 				for (int i = 0; i < partie.getJoueursParties().size(); i++) {
 					ancienne = partie.getJoueursParties().get(i).getMainDe();
 					partie.getJoueursParties().get(i).setMainDe(nouvelle);
@@ -319,7 +327,8 @@ public class GestionPartiesImpl implements GestionParties {
 				// voisin de droite
 				List<De> ancienne;
 				List<De> nouvelle = partie.getJoueursParties().get(0).getMainDe();
-				for (int i = partie.getJoueursParties().size(); i > 0; i--) {
+				System.out.println("*****************    Je suis a droite ******************");
+				for (int i = partie.getJoueursParties().size() - 1; i >= 0; i--) {
 					ancienne = partie.getJoueursParties().get(i).getMainDe();
 					partie.getJoueursParties().get(i).setMainDe(nouvelle);
 					joueurPartieDao.mettreAJour(partie.getJoueursParties().get(i));
@@ -328,31 +337,19 @@ public class GestionPartiesImpl implements GestionParties {
 			}
 			break;
 		case "3":
-			// Supprimez 2 de vos d�s
+			// Supprimez 2 de vos des
 			partie.getJoueurCourant().supprimerDe();
 			partie.getJoueurCourant().supprimerDe();
 			break;
 		case "4":
-			// Donnez 1 de vos d�s au joueur de votre choix
-			JoueurPartie tmp3 = partie.getJoueurCourant();
-			De de = tmp3.supprimerDe();
-			joueurPartieDao.mettreAJour(tmp3);
-
-			String pseudo = cible;
-			JoueurPartie jpTmp = joueurPartieDao.recherche(partie.getId(), pseudo);
-			jpTmp.ajouterDe(de);
-			for (JoueurPartie jp : partie.getJoueursParties()) {
-				if (jp.equals(jpTmp)) {
-					jp.ajouterDe(de);
-					break;
-				}
-			}
-			joueurPartieDao.mettreAJour(jpTmp);
+			// Donnez 1 de vos des au joueur de votre choix
+			donnerDe(partie.getJoueurCourant().getJoueur().getPseudo(), cible);
 			break;
 		case "5":
 			// Prenez 1 carte au joueur de votre choix
 			String pseudoCible = cible;
-			JoueurPartie jpCible = joueurPartieDao.recherche(partie.getId(), pseudoCible);
+			Joueur tmp = joueurDao.recherche(pseudoCible);
+			JoueurPartie jpCible = joueurPartieDao.recherche(this.partie, tmp);
 			Random rdm = new Random();
 			int index = rdm.nextInt(jpCible.getMainCarte().size());
 			Carte cartePrise = jpCible.getMainCarte().remove(index);
@@ -360,9 +357,10 @@ public class GestionPartiesImpl implements GestionParties {
 			joueurPartieDao.mettreAJour(jpCible);
 			break;
 		case "6":
-			// Le joueur de votre choix n�a plus qu�1 carte
+			// Le joueur de votre choix n a plus que une carte
 			String pseudoCible2 = cible;
-			JoueurPartie jpCible2 = joueurPartieDao.recherche(partie.getId(), pseudoCible2);
+			Joueur tmp2 = joueurDao.recherche(pseudoCible2);
+			JoueurPartie jpCible2 = joueurPartieDao.recherche(this.partie, tmp2);
 
 			List<Carte> main = jpCible2.getMainCarte();
 			Random rdm2 = new Random();
@@ -384,9 +382,9 @@ public class GestionPartiesImpl implements GestionParties {
 			nouvellesCartes.add(partie.piocherCarte());
 			nouvellesCartes.add(partie.piocherCarte());
 			nouvellesCartes.add(partie.piocherCarte());
-			JoueurPartie tmp = partie.getJoueurCourant();
-			tmp.getMainCarte().addAll(nouvellesCartes);
-			joueurPartieDao.mettreAJour(tmp);
+			JoueurPartie tmp3 = partie.getJoueurCourant();
+			tmp3.getMainCarte().addAll(nouvellesCartes);
+			joueurPartieDao.mettreAJour(tmp3);
 			break;
 		case "8":
 			// Tous les joueurs sauf vous n�ont plus que 2 cartes
@@ -408,7 +406,8 @@ public class GestionPartiesImpl implements GestionParties {
 		case "9":
 			// Le joueur de votre choix passe son tour
 			String pseudoCible3 = cible;
-			JoueurPartie jpCible3 = joueurPartieDao.recherche(partie.getId(), pseudoCible3);
+			Joueur tmp4 = joueurDao.recherche(pseudoCible3);
+			JoueurPartie jpCible3 = joueurPartieDao.recherche(this.partie, tmp4);
 			partie.passeSonTour(jpCible3);
 			break;
 		case "10":
@@ -454,7 +453,8 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	public int getNombreDe(String pseudo) {
-		JoueurPartie jp = this.joueurPartieDao.recherche(this.partie.getId(), pseudo);
+		Joueur tmp = joueurDao.recherche(pseudo);
+		JoueurPartie jp = joueurPartieDao.recherche(this.partie, tmp);
 		return jp.getMainDe().size();
 	}
 
@@ -465,11 +465,9 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public JoueurPartie getJoueurPartie(String pseudo) {
-		Partie partie = partieDao.chargerPartie(getDernierePartie());
-		JoueurPartie jp = joueurPartieDao.recherche(partie.getId(), pseudo);
-		jp = joueurPartieDao.chargerJoueur(jp);
-		jp = joueurPartieDao.chargerMain(jp);
-		return jp;
+		Joueur tmp = joueurDao.recherche(pseudo);
+		JoueurPartie jp = joueurPartieDao.recherche(this.partie, tmp);
+		return joueurPartieDao.chargerMain(jp);
 	}
 
 	@Override
@@ -485,7 +483,7 @@ public class GestionPartiesImpl implements GestionParties {
 		List<De> des = jp.getMainDe();
 		for (De de : jp.getMainDe()) {
 			if (de.getValeur().equals("c"))
-				piocherCartes();	
+				piocherCartes();
 		}
 		info.setCartes(jp.getMainCarte());
 		info.setDes(jp.getMainDe());

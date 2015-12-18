@@ -24,6 +24,7 @@
 	
 	<form method="get" action="jouercarte.html">
 		<input type="text" id="code" name="code">
+		<input type="text" id ="cible" name="cible">
 		<button>jouer une carte</button>
 	</form>
 	
