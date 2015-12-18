@@ -7,5 +7,13 @@ function afficher(response, textStatus, xhr){
 }
 
 $(function(){
-	afficher;
+	$.ajax({
+		url: 'jeumanager.html',
+		type: 'get'
+	}).done(function () {
+		console.log("AFFICHAGEEEE");
+		afficher;
+	}).fail(function () {
+		alert("affichage ko");
+	});
 });

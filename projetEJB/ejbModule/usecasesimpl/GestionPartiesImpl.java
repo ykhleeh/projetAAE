@@ -99,7 +99,7 @@ public class GestionPartiesImpl implements GestionParties {
 		for (JoueurPartie jp : partie.getJoueursParties()) {
 			if (jp.getJoueur().getPseudo().equals(pseudo))
 				// System.out.println("********************************************Joueur
-				// " + jp.getJoueur().getPseudo() + " déjà dans le jeu");
+				// " + jp.getJoueur().getPseudo() + " dï¿½jï¿½ dans le jeu");
 				return true;
 
 		}
