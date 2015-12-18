@@ -2,7 +2,9 @@ package daoimpl;
 
 import javax.ejb.Stateless;
 
+import domaine.Joueur;
 import domaine.JoueurPartie;
+import domaine.Partie;
 
 @SuppressWarnings("serial")
 @Stateless
@@ -12,10 +14,10 @@ public class JoueurPartieDaoImpl extends DaoImpl<Integer, JoueurPartie> {
 		super(JoueurPartie.class);
 	}
 
-	public JoueurPartie recherche(int id_partie, String pseudo) {
-		String queryString = "SELECT jp from JoueurPartie jp, Joueur j "
-				+ "WHERE jp.id_joueurPartie =?1 AND j.pseudo =?2 AND jp.id_joueurPartie = j.id_joueur";
-		return super.recherche(queryString, id_partie, pseudo);
+	public JoueurPartie recherche(Partie partie, Joueur joueur) {
+		String queryString = "SELECT jp from JoueurPartie jp  "
+				+ "WHERE jp.partie =?1 AND jp.joueur = ?2";
+		return super.recherche(queryString, partie, joueur);
 	}
 
 	public boolean possede(int id_de, int id_joueur_partie) {

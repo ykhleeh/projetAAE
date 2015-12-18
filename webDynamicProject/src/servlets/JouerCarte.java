@@ -44,10 +44,9 @@ public class JouerCarte extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String codeS = (String) request.getParameter("code");
+		String cible = (String) request.getParameter("cible");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		String pseudo;
-		int codeEffet;
-		String cible;
 		HttpSession session = request.getSession();
 		//codeEffet = Integer.parseInt(codeS);
 		synchronized (session) {
@@ -55,7 +54,7 @@ public class JouerCarte extends HttpServlet {
 			//cible = (String) session.getAttribute("cible");
 		}
 		//TODO G�rer la cible
-		Info info = gp.jouerCarte(codeS, "");
+		Info info = gp.jouerCarte(codeS, cible);
 		Partie partie = gp.getDernierePartie();
 		JoueurPartie joueurcourant = partie.getJoueurCourant();
 		synchronized (session) {
