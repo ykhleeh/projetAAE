@@ -3,20 +3,20 @@
 function afficher(response, textStatus, xhr){
 	
 	$('#info').empty();
-	$('#info').html(response.joueurCourant);
+	$('#info').html(response.user);
 
 }
 function refresh() {
 	var $request = $.ajax({
-		url: 'jeu.html',
-		type: "get"
+		url: 'attente.html',
+		type: 'get'
 	})
 	.done(function() {
 		console.log("refreshing");
 		refresh();
 	})
 	.fail(function (xhr, textStatus, errorThrown) {
-		alert(errorThrown);
+		alert("jeeuuuuu ko "+errorThrown);
 	});
 	
 }
@@ -26,31 +26,43 @@ $(function () {
 	//$('#info').html(response.joueurCourant);
 	//user = window.location.search;
 	//user = user.substring(user.lastIndexOf('=') + 1);
+	var ok = false;
 	$('#jouer').click(function() {
 		$.ajax({
 			url: 'jeu.html',
 			type: "get"
 		})
-		.done(function() {
+		.done(function(response) {
+			ok=true;
+			$.ajax({
+				url: 'jeu.html',
+				type: 'post',
+				data: response
+			});
 			window.location.href = "jeu.html";
-			afficher;
+			//afficher(response);
 			console.log("JOUEZZZZZ");
 			return;
 		})
 		
 		.fail(function (xhr, textStatus, errorThrown) {
-			alert(errorThrown);
+			window.location.href = "index.html";
+			alert("jeu ko : " + errorThrown);
 		});		
 	});
+	console.log("Encore refresh");
+	if (!ok){
 	
-	$request = $.ajax({
-		url: 'rejoindre.html',
-		type: "get"
-	})
-	.done(refresh())
-	.fail(function (xhr, textStatus, errorThrown) {
-		alert(errorThrown);
-	});
+		$.ajax({
+			url: 'rejoindre.html',
+			type: 'get'
+		})
+		.done(refresh())
+		.fail(function (xhr, textStatus, errorThrown) {
+			window.location.href = "index.html";			
+			alert("rejoindre ko " + errorThrown);
+		});
+	}
 	
 	
 	

@@ -48,7 +48,7 @@ public class Rejoindre extends HttpServlet {
 		gp.initialiser();
 		List<Joueur> joueurs = gp.getJoueurs();
 		int t = joueurs.size();
-/*		if (joueurs.size() == 1){
+		if (joueurs.size() == 1){
 			System.out.println("Lancement timer");
 			Timer timer = new Timer();
 			TimerTask task = new TimerTask() {
@@ -73,11 +73,11 @@ public class Rejoindre extends HttpServlet {
 			};
 			timer.schedule(task, 10000);
 		}
-*/		HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
 		synchronized (session) {
 			pseudo = (String) session.getAttribute("user");
 		}
-		if (gp.rejoindreLaPartie(joueurs.get(t-1).getPseudo())) {
+		if (gp.rejoindreLaPartie(pseudo)) {
 			System.out.println(pseudo + " a rejoint la partie");
 			joueurs = gp.getJoueurs();
 			info.setUser(pseudo);

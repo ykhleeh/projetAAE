@@ -461,8 +461,11 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public JoueurPartie getJoueurPartie(String pseudo) {
-		JoueurPartie jp = joueurPartieDao.recherche(getDernierePartie().getId(), pseudo);
-		return joueurPartieDao.chargerMain(jp);
+		Partie partie = partieDao.chargerJoueurs(getDernierePartie());
+		JoueurPartie jp = joueurPartieDao.recherche(partie.getId(), pseudo);
+		jp = joueurPartieDao.chargerJoueur(jp);
+		jp = joueurPartieDao.chargerMain(jp);
+		return jp;
 	}
 
 	@Override

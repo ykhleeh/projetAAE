@@ -26,7 +26,7 @@ import usecases.GestionParties;
 /**
  * Servlet implementation class JeuManager
  */
-@WebServlet("/jeu.html")
+@WebServlet("/jeumanager.html")
 public class JeuManager extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@EJB GestionParties gp;
@@ -40,6 +40,11 @@ public class JeuManager extends HttpServlet {
     }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Jeumanager envoyé");
 		HttpSession session = request.getSession();
 		String pseudo = (String) session.getAttribute("user");
 		gp.commencerPartie();
@@ -56,18 +61,6 @@ public class JeuManager extends HttpServlet {
 		ObjectMapper mapper = new ObjectMapper();
 		PrintWriter out = response.getWriter();
 		mapper.writeValue(out, info);	
-		
-		
-	//	info.setJoueurCourant(gp.getDernierePartie().getJoueurCourant().);
-			
-	//	request.setAttribute("message", "C'est parti pour une nouvelle partie");		
-	//	request.setAttribute("nbJoueurs", gp.getJoueurs().size());		
-	//	getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
-	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
 
 }
