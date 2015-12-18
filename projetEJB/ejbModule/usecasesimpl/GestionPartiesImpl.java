@@ -113,12 +113,18 @@ public class GestionPartiesImpl implements GestionParties {
 		joueurPart = joueurPartieDao.enregistrer(joueurPart);
 		System.out.println("********** creation joueur partie " + pseudo + "*****************");
 		List<Carte> main = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
+		/*********** Tester les diff�rentes cartes ***************/
+		int limite = 3;
+		if (joueurPart.getJoueur().getPseudo().equals("a")) {
+			main.add(carteDao.rechercher(21));
+			limite = 2;
+		}
+		for (int i = 0; i < limite; i++) {
 			int index = (int) (Math.random() * partie.pioche.size());
 			main.add(partie.pioche.remove(index));
 		}
-		/*********** Tester les diff�rentes cartes ***************/
-		// main.add(carteDao.rechercher(26));
+		
+		
 		/**************************/
 		joueurPart.setMainCarte(main);
 		for (int i = 0; i < 4; i++) {
@@ -217,6 +223,7 @@ public class GestionPartiesImpl implements GestionParties {
 			return null;
 		partie = partieDao.rechercher(partie.getId());
 		Joueur v = partie.estVainqueur();
+		v = joueurDao.chargerJoueursParties(v);
 		if (v == null)
 			return null;
 		return v.getPseudo();
@@ -228,11 +235,12 @@ public class GestionPartiesImpl implements GestionParties {
 	}
 
 	@Override
-	public String joueurCourant() {
+	public String joueurCourant() {		
 		if (partie == null)
 			return null;
 		if (partie.getJoueurCourant() == null)
 			return null;
+		partie = partieDao.rechercher(partie.getId());
 		return partie.getJoueurCourant().getJoueur().getPseudo();
 	}
 
@@ -241,7 +249,11 @@ public class GestionPartiesImpl implements GestionParties {
 		// if (partie == null)
 		// return false;
 		partie = partieDao.rechercher(partie.getId());
-		return partie.commencerTourSuivant();
+		if (partie.commencerTourSuivant()){
+			partieDao.mettreAJour(partie);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -293,7 +305,7 @@ public class GestionPartiesImpl implements GestionParties {
 	@Override
 	public Info jouerCarte(String codeEffet, String cible) {
 		partie = partieDao.getDernier();
-
+		System.out.println("*******************************  pseudo joueur courant" +partie.getJoueurCourant().getJoueur().getPseudo());
 		switch (codeEffet) {
 		case "1":
 			// Supprimez 1 de vos des
@@ -387,7 +399,7 @@ public class GestionPartiesImpl implements GestionParties {
 			joueurPartieDao.mettreAJour(tmp3);
 			break;
 		case "8":
-			// Tous les joueurs sauf vous n�ont plus que 2 cartes
+			// Tous les joueurs sauf vous n ont plus que 2 cartes
 			List<Carte> mainRestante;
 			for (JoueurPartie jp : partie.getJoueursParties()) {
 				if (jp.equals(partie.getJoueurCourant()) || jp.getMainCarte().size() <= 2)
@@ -438,7 +450,7 @@ public class GestionPartiesImpl implements GestionParties {
 
 	@Override
 	public List<Joueur> getJoueurs() {
-		if (partie.getEtat() == Etat.FINIE)
+		if (partie == null || partie.getEtat() == Etat.FINIE)
 			return null;
 		// return joueurDao.listerJoueurs(partie.getId());
 		partie = partieDao.recharger(partie.getId());
@@ -477,10 +489,11 @@ public class GestionPartiesImpl implements GestionParties {
 		JoueurPartie jp = partie.getJoueurCourant();
 		jp = joueurPartieDao.chargerJoueur(jp);
 		System.out.println("************************** JOUEUR COURANT = " + jp.getId_joueurPartie());
-		jp = joueurPartieDao.chargerJoueur(jp);
+		
 		jp.lancerDes();
+		jp.getMainDe().size();
 		joueurPartieDao.mettreAJour(jp);
-		List<De> des = jp.getMainDe();
+		
 		for (De de : jp.getMainDe()) {
 			if (de.getValeur().equals("c"))
 				piocherCartes();

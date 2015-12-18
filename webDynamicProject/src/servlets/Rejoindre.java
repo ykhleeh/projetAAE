@@ -51,6 +51,15 @@ public class Rejoindre extends HttpServlet {
 		Info info = new Info();
 		gp.initialiser();
 		List<Joueur> joueurs = gp.getJoueurs();
+		if (joueurs == null) {
+			System.out.println("****************** pas de partie dispo ************");
+		//	request.setAttribute("message", "Il n'y a aucune partie en attente");
+			response.sendRedirect("/menuVerif.html");
+			return;
+//			request.getRequestDispatcher("/menuverif.html").forward(request, response);
+		} else {
+			System.out.println("****************** pas de partie dispo fail ************");
+
 		int t = joueurs.size();
 		if (joueurs.size() == 1){
 			System.out.println("Lancement timer");
@@ -112,6 +121,7 @@ public class Rejoindre extends HttpServlet {
 	//	response.sendRedirect("jeu.html");
 		//getServletContext().getNamedDispatcher("jeumanager.html").forward(request, response);
 	}
+}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
