@@ -478,7 +478,7 @@ public class GestionPartiesImpl implements GestionParties {
 		List<De> des = jp.getMainDe();
 		for (De de : jp.getMainDe()) {
 			if (de.getValeur().equals("c"))
-				piocherCartes();
+				piocherCartes();	
 		}
 		info.setCartes(jp.getMainCarte());
 		info.setDes(jp.getMainDe());
