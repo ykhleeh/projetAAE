@@ -474,8 +474,8 @@ public class GestionPartiesImpl implements GestionParties {
 		System.out.println("************************** JOUEUR COURANT = " + jp.getId_joueurPartie());
 		jp = joueurPartieDao.chargerJoueur(jp);
 		jp.lancerDes();
-		List<De> des = jp.getMainDe();
 		joueurPartieDao.mettreAJour(jp);
+		List<De> des = jp.getMainDe();
 		for (De de : jp.getMainDe()) {
 			if (de.getValeur().equals("c"))
 				piocherCartes();
