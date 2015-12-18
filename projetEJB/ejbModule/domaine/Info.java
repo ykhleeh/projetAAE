@@ -3,9 +3,7 @@ package domaine;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,7 +11,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import domaine.De;
 import domaine.Partie.Etat;
 
 @SuppressWarnings("serial")
@@ -27,7 +24,7 @@ import domaine.Partie.Etat;
 		"nbDes",
 		"nbCartes",
 		"des",
-		"cartes",
+		"cartes"
 })
 @XmlRootElement(name="info")
 public class Info implements Serializable {
@@ -44,11 +41,11 @@ public class Info implements Serializable {
 	@XmlElement
 	private String nbDes;
 	@XmlElement
-	private List<De> des;
-	@XmlElement
 	private String nbCartes;
 	@XmlElement
-	private List<Carte> cartes;
+	private List<De> des = new ArrayList<>();
+	@XmlElement
+	private List<Carte> cartes= new ArrayList<>();
 
 	
 	public String getUser() {

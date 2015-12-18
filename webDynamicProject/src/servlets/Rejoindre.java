@@ -15,10 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
+import domaine.Carte;
+import domaine.De;
 import domaine.Info;
 import domaine.Joueur;
+import domaine.JoueurPartie;
+import domaine.Partie.Etat;
+import javafx.print.PageOrientation;
 import usecases.GestionParties;
 
 /**
@@ -61,36 +65,47 @@ public class Rejoindre extends HttpServlet {
 						gp.annulerPartie();
 						timer.cancel();
 						timer.purge();
-						request.setAttribute("message", "La partie a été annulée. Pas assez de joueurs.");
-						try {
-							response.sendRedirect("menu.html");
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+
 						return;
 					}
 				}
 			};
-			timer.schedule(task, 10000);
+			timer.schedule(task, 9000);
 		}
 		HttpSession session = request.getSession();
 		synchronized (session) {
 			pseudo = (String) session.getAttribute("user");
 		}
-		if (gp.rejoindreLaPartie(pseudo)) {
+		if (gp.getEtatPartie()!=Etat.FINIE){
+			if (gp.rejoindreLaPartie(pseudo)) {
+		
 			System.out.println(pseudo + " a rejoint la partie");
-			joueurs = gp.getJoueurs();
 			info.setUser(pseudo);
+			JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
+			List<Carte> mainCarte = joueurPartie.getMainCarte();
+			info.setCartes(mainCarte);
+			System.out.println(joueurPartie.getMainDe().size());
+			List<De> mainDe = joueurPartie.getMainDe();
+			if (!mainDe.isEmpty())
+				info.setDes(mainDe);
+	//		for (De de : mainDe){
+	//			System.out.println("De n° " + de.getId());
+	//		}
+			//info.setEtat(gp.getDernierePartie().getEtat());
+			info.setJoueurCourant(gp.joueurCourant());
+			info.setDes(joueurPartie.getMainDe());
+			info.setCartes(joueurPartie.getMainCarte());
 			info.getJoueurs().add(pseudo);
 			info.setEtat(gp.getEtatPartie());
 			ObjectMapper mapper = new ObjectMapper();
 			PrintWriter out = response.getWriter();
 			mapper.writeValue(out, info);
 			return; 
-	}
-		request.setAttribute("message", "Bienvenue " + pseudo);
+			}
+		}
+		//request.setAttribute("message", "Bienvenue " + pseudo);
 	//	gp.rejoindreLaPartie(pseudo); // Utiliser la m�thode avec dernier id plutot que de tout parcourir pour trouver la bonne partie
-		System.out.println("Bienvenue "+pseudo);
+		//System.out.println("Bienvenue "+pseudo);
 	//	request.getRequestDispatcher("jeu.html").forward(request, response);
 		//getServletContext().getNamedDispatcher("jeu.html").forward(request, response);
 	//	response.sendRedirect("jeu.html");
