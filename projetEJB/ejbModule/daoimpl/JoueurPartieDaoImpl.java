@@ -31,6 +31,7 @@ public class JoueurPartieDaoImpl extends DaoImpl<Integer, JoueurPartie> {
 
 		joueurPartie = rechercher(joueurPartie.getId_joueurPartie());
 		joueurPartie.getMainCarte().size();
+		joueurPartie.getMainDe().size();
 		return joueurPartie;
 	}
 

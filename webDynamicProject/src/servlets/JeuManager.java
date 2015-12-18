@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domaine.Carte;
+import domaine.De;
 import domaine.Info;
 import domaine.Joueur;
 import domaine.JoueurPartie;
@@ -50,15 +52,28 @@ public class JeuManager extends HttpServlet {
 		System.out.println("PSEUDO = " + pseudo);
 		gp.commencerPartie();
 		Info info = new Info();
-		info.setUser(gp.joueurCourant());
+		info.setUser(pseudo);
 		JoueurPartie joueurPartie = gp.getJoueurPartie(pseudo);
 		List<Carte> mainCarte = joueurPartie.getMainCarte();
 		info.setCartes(mainCarte);
-		info.setDes(joueurPartie.getMainDe());
+		List<De> mainDe = joueurPartie.getMainDe();
+		for (De de : mainDe){
+			System.out.println("De n° " + de.getId());
+		}
+		if (!mainDe.isEmpty())
+			info.setDes(mainDe);
+			
 		info.setEtat(gp.getDernierePartie().getEtat());
 		info.setJoueurCourant(joueurPartie.getJoueur().getPseudo());
-		info.setDes(joueurPartie.getMainDe());
+		List<De> des = joueurPartie.getMainDe();
+		info.setDes(des);
+		List<String> list = new ArrayList<>();
+		for (Joueur j : gp.getJoueurs()){
+			list.add(j.getPseudo());
+		}
+		info.setJoueurs(list);
 		info.setCartes(joueurPartie.getMainCarte());
+		System.out.println(info.toString());
 		ObjectMapper mapper = new ObjectMapper();
 		PrintWriter out = response.getWriter();
 		mapper.writeValue(out, info);	

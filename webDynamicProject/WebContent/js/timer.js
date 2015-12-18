@@ -13,7 +13,6 @@ function refresh() {
 	})
 	.done(function() {
 		console.log("refreshing");
-		refresh();
 	})
 	.fail(function (xhr, textStatus, errorThrown) {
 		alert("jeeuuuuu ko "+errorThrown);
@@ -57,7 +56,9 @@ $(function () {
 			url: 'rejoindre.html',
 			type: 'get'
 		})
-		.done(refresh())
+		.done(function (){
+			
+		})
 		.fail(function (xhr, textStatus, errorThrown) {
 			window.location.href = "index.html";			
 			alert("rejoindre ko " + errorThrown);
@@ -66,7 +67,7 @@ $(function () {
 	
 	
 	
-	//refresh();
-	//t = setInterval(refresh, 1000);
+	refresh();
+	t = setInterval(refresh, 1000);
 });
 
