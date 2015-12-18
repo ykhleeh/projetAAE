@@ -97,6 +97,7 @@ public class Rejoindre extends HttpServlet {
 			info.setCartes(joueurPartie.getMainCarte());
 			info.getJoueurs().add(pseudo);
 			info.setEtat(gp.getEtatPartie());
+			response.setContentType("application/json");
 			ObjectMapper mapper = new ObjectMapper();
 			PrintWriter out = response.getWriter();
 			mapper.writeValue(out, info);

@@ -95,7 +95,6 @@ public class Carte implements Serializable {
 	protected int codeEffet;
 
 	@XmlAttribute(name = "src")
-	@Transient
 	protected String src;
 	
 

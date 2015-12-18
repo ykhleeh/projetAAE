@@ -18,6 +18,10 @@
 			<c:out value="truc"></c:out>
 		</c:forEach>
 	</c:if>	
+	<div id="cartes"></div>
+	
+	<div id="des"></div>
+	<form id="autres"></form>
 	<form method="get" action="lancerdes.html">
 		<button>Lancer vos dés</button>
 	</form>

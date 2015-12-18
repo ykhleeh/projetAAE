@@ -45,7 +45,8 @@ public class JouerCarte extends HttpServlet {
 		// TODO Auto-generated method stub
 		String codeS = (String) request.getParameter("code");
 		String cible = (String) request.getParameter("cible");
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("CODE S = " +codeS);
+		System.out.println("CIBLE = " + cible);
 		String pseudo;
 		HttpSession session = request.getSession();
 		//codeEffet = Integer.parseInt(codeS);

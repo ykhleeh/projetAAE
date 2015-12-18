@@ -41,6 +41,7 @@ $(function () {
 			window.location.href = "jeu.html";
 			//afficher(response);
 			console.log("JOUEZZZZZ");
+
 			return;
 		})
 		

@@ -74,6 +74,8 @@ public class JeuManager extends HttpServlet {
 		info.setJoueurs(list);
 		info.setCartes(joueurPartie.getMainCarte());
 		System.out.println(info.toString());
+		response.setContentType("application/json");
+
 		ObjectMapper mapper = new ObjectMapper();
 		PrintWriter out = response.getWriter();
 		mapper.writeValue(out, info);	
