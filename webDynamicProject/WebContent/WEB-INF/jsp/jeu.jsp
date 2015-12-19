@@ -1,5 +1,5 @@
-
 <title>JEU</title>
+<meta http-equiv="refresh" content="10" />
 </head>
 <body>
 	<div ><h4 id="info"></h4></div>
@@ -37,6 +37,7 @@
 			
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/plateau.js"></script>
+<!-- 	<script type="text/javascript" src="js/refresh.js"></script> -->
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
  	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 	<hr>
