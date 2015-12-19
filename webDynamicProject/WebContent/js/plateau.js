@@ -16,14 +16,29 @@ $(function(){
 			listeAdversaires.append(aa);
 		});
 		$('#adversaires').append(listeAdversaires);
-		var listeDes = $("<h3>Vos des</h3><br><table><th>Id</th><th>Valeur</th></table>");
+		var listeDes = $("<h3>Vos des</h3>")
+		listeDes.append("<br><table class=\"tableDes\">");
 		response.des.forEach(function(de) {
-			var bb = $("<tr><td>"+de.id_de+"</td><td>"+de.valeur+"</td></tr>");
-			if (de.valeur=='w')
-				nbWazabi++;
-			console.log("DEEE " + de.id_de);
-			listeDes.append(bb);
-		});
+			var d = $("<th>");
+			switch (de.valeur) {
+			case "w" : d.append("<img class=\"de\" alt=\"de\" src=\"images/wasabi.PNG\"/>");
+						break;
+			case "d" : d.append("<img class=\"de\" alt=\"de\" src=\"images/de.PNG\"/>");
+						break;
+			default : d.append("<img class=\"de\" alt=\"de\" src=\"images/pioche.PNG\"/>");
+						break;
+			}
+			//d.append("/></th>")
+			listeDes.append(d);
+		})
+//		var listeDes = $("<h3>Vos des</h3><br><table><th>Id</th><th>Valeur</th></table>");
+//		response.des.forEach(function(de) {
+//			var bb = $("<tr><td>"+de.id_de+"</td><td>"+de.valeur+"</td></tr>");
+//			if (de.valeur=='w')
+//				nbWazabi++;
+//			console.log("DEEE " + de.id_de);
+//			listeDes.append(bb);
+//		});
 		$('#des').append(listeDes);
 		console.log("Nb de wazabis = " + nbWazabi);
 		response.cartes.forEach(function(carte) {
