@@ -7,13 +7,38 @@ $(function(){
 	}).done(function (response) {
 		//response.overrideMimeType("application/json");
 		//$('#info').html(response.user);
+		if(response.vainqueur){
+			alert('Le vainqueur est ' + response.vainqueur);
+			console.log('Le vainqueur est ' + response.vainqueur);
+			window.location.href = 'menuverif.html';
+		}
 		console.log("AFFICHAGEEEE USER " + response.user);
 		console.log("Joueur courant " + response.joueurCourant);
+		if (response.user !== response.joueurCourant){
+			$('#boutonLancerDe').hide();
+		}
 		var nbWazabi = 0;
-		var listeAdversaires = $("<h3>Vos adversaires</h3><table><th>Id</th><th>Nom</th></table>");
+		var listeAdversaires = $("<h3>Vos adversaires</h3><table><th>Nom</th><th>Nb Dés</th><th>Nb cartes</th></table>");
+		
 		response.joueurs.forEach(function(joueur) {
-			var aa = $("<tr><td>"+joueur+"</td></tr>");
-			listeAdversaires.append(aa);
+			var aa = $("<tr></tr>");
+			var ab = $("<td>"+joueur+"</td>");
+			aa.append(ab);
+				$.ajax({
+					url: 'affichermains.html',
+					type: 'post', 
+					data: {pseudo : joueur}
+				})
+				.done(function(response) {
+					var ac = $("<td>"+response.nbDes+"</td><td>"+response.nbCartes+"</td>");					
+					aa.append(ac);
+				})
+				.fail(function (xhr, textStatus, errorThrown) {
+					alert("jeeuuuuu ko "+errorThrown);
+				});	
+			
+				listeAdversaires.append(aa);
+			
 		});
 		$('#adversaires').append(listeAdversaires);
 		var listeDes = $("<h3>Vos des</h3>")
@@ -87,12 +112,16 @@ $(function(){
 			demanderUser(9);
 		});
 
+		var afficherAutres = function (joueurs){
+			
+		}
+		
 		var demanderUser = function(c) {
-			var aAjouter = $("<ul id=\"choix\"></ul>");
 			response.joueurs.forEach(function(joueur) {
-				var a =$("<li class=\"joueur\" id="+joueur+">"+joueur+"</li>");
+				var aAjouter = $("<button id=\"choix\" name=\""+joueur+"\">"+joueur+"</button><br>");
 				console.log("c = " + c);
-				a.click(function() {
+				aAjouter.click(function() {
+					alert($(this).text() + "   " + c);
 					console.log($(this).text() + "   " + c);
 					$.ajax({
 						url: 'jouercarte.html',
@@ -106,9 +135,8 @@ $(function(){
 						alert("jeeuuuuu ko "+errorThrown);
 					});
 				});
-				aAjouter.append(a);
+				$('#autres').append(aAjouter);
 			});
-			$('#autres').append(aAjouter);
 			console.log("Joueursss "+response.joueurs);
 		};
 		

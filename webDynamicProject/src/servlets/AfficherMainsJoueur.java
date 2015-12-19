@@ -13,23 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import domaine.Info;
+import domaine.Joueur;
 import domaine.JoueurPartie;
 import usecases.GestionParties;
-import usecasesimpl.GestionDesImpl;
 
 /**
- * Servlet implementation class LancerDe
+ * Servlet implementation class AfficherMainsJoueur
  */
-@WebServlet("/lancerdes.html")
-public class LancerDe extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-    
+@WebServlet("/affichermains.html")
+public class AfficherMainsJoueur extends HttpServlet {
 	@EJB GestionParties gp;
+
 	
+	private static final long serialVersionUID = 1L;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LancerDe() {
+    public AfficherMainsJoueur() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -38,11 +39,17 @@ public class LancerDe extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Info info = gp.lancerDes();
+		String pseudo = (String) request.getParameter("pseudo");
+		JoueurPartie j = gp.getJoueurPartie(pseudo);
+		Info info = new Info();
+		info.setNbCartes(String.valueOf(j.getMainCarte().size()));
+		info.setNbDes(String.valueOf(j.getMainDe().size()));
+		
 		response.setContentType("application/json");
 		ObjectMapper om = new ObjectMapper();
 		PrintWriter pw = response.getWriter();
-		om.writeValue(pw, info);		
+		om.writeValue(pw, info);
+
 	}
 
 	/**

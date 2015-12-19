@@ -22,6 +22,7 @@ import domaine.De;
 import domaine.Info;
 import domaine.Joueur;
 import domaine.JoueurPartie;
+import domaine.Partie.Etat;
 import usecases.GestionJoueurs;
 import usecases.GestionParties;
 
@@ -57,6 +58,10 @@ public class JeuManager extends HttpServlet {
 		List<Carte> mainCarte = joueurPartie.getMainCarte();
 		info.setCartes(mainCarte);
 		List<De> mainDe = joueurPartie.getMainDe();
+		if(mainDe.isEmpty()){
+			gp.definirVainqueur(pseudo);
+			info.setVainqueur(pseudo);	
+		}
 		for (De de : mainDe){
 			System.out.println("De n° " + de.getId());
 		}
@@ -64,15 +69,19 @@ public class JeuManager extends HttpServlet {
 			info.setDes(mainDe);
 			
 		info.setEtat(gp.getDernierePartie().getEtat());
-		info.setJoueurCourant(joueurPartie.getJoueur().getPseudo());
-		List<De> des = joueurPartie.getMainDe();
-		info.setDes(des);
-		List<String> list = new ArrayList<>();
-		for (Joueur j : gp.getJoueurs()){
-			list.add(j.getPseudo());
+		if (info.getEtat()!=Etat.FINIE){
+			info.setJoueurCourant(gp.joueurCourant());
+			List<De> des = joueurPartie.getMainDe();
+			info.setDes(des);
+			List<String> list = new ArrayList<>();
+			for (Joueur j : gp.getJoueurs()){
+				list.add(j.getPseudo());
+			}
+			info.setJoueurs(list);
+			info.setCartes(joueurPartie.getMainCarte());
+		}else{
+			info.setVainqueur(gp.getDernierePartie().getVainqueur().getPseudo());
 		}
-		info.setJoueurs(list);
-		info.setCartes(joueurPartie.getMainCarte());
 		System.out.println(info.toString());
 		response.setContentType("application/json");
 

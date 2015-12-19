@@ -79,7 +79,7 @@ public class Rejoindre extends HttpServlet {
 					}
 				}
 			};
-			timer.schedule(task, 9000);
+			timer.schedule(task, 30000);
 		}
 		HttpSession session = request.getSession();
 		synchronized (session) {

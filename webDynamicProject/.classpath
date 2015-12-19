@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-mapper-asl-1.9.12.jar"/>
 	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-module-jaxb-annotations-2.4.1.jar"/>
 	<classpathentry kind="lib" path="/projetEJB/librairie/jackson-xc-1.9.12.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/wildfly-9.0.1.Final/modules/system/layers/base/javax/servlet/api/main/jboss-servlet-api_3.1_spec-1.0.0.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

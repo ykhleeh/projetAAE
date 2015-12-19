@@ -20,6 +20,7 @@ public class PartiesDaoImpl extends DaoImpl<Integer, Partie> {
 	public Partie chargerPartie(Partie partie) {
 		partie = rechercher(partie.getId());
 		partie.getJoueursParties().size();
+		partie.getEtat();
 		return partie;
 	}
 

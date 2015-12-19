@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
+import daoimpl.DesDaoImpl;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "joueursparties", schema = "koala")
@@ -115,27 +117,7 @@ public class JoueurPartie implements Serializable {
 		this.mainDe.add(aAjouter);
 	}
 
-	public void lancerDes() {
-		Random rdm = new Random();
-		for (De de : mainDe) {
-			int res = rdm.nextInt(6);
-			switch (res) {
-			case 0:
-			case 1:
-			case 2:
-				de.setValeur(Face.WASABI);
-				break;
 
-			case 3:
-			case 4:
-				de.setValeur(Face.CARTE);
-				break;
-
-			default:
-				de.setValeur(Face.DE);
-			}
-		}
-	}
 
 	@Override
 	public int hashCode() {

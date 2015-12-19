@@ -33,15 +33,19 @@ $(function () {
 		})
 		.done(function(response) {
 			ok=true;
-			$.ajax({
-				url: 'jeu.html',
-				type: 'post',
-				data: response
-			});
-			window.location.href = "jeu.html";
-			//afficher(response);
-			console.log("JOUEZZZZZ");
-
+			if (response.joueurs){
+				$.ajax({
+					url: 'jeu.html',
+					type: 'post',
+					data: response
+				});
+				window.location.href = "jeu.html";
+				//afficher(response);
+				console.log("JOUEZZZZZ");
+			}else{
+				alert("Il n'y a pas assez de joueurs, débrouillez-vous.");
+				window.location.href = "menuverif.html";
+			}
 			return;
 		})
 		

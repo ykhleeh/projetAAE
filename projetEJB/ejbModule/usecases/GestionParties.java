@@ -55,5 +55,9 @@ public interface GestionParties {
 	void piocherCartes();
 
 	void initialiser();
+
+	List<De>  lancerDes2(JoueurPartie jp);
+
+	void definirVainqueur(String pseudo);
 	
 }

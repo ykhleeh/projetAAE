@@ -56,11 +56,13 @@ public class JouerCarte extends HttpServlet {
 		}
 		//TODO G�rer la cible
 		Info info = gp.jouerCarte(codeS, cible);
+		info.setJoueurCourant(gp.joueurCourant());
 		Partie partie = gp.getDernierePartie();
 		JoueurPartie joueurcourant = partie.getJoueurCourant();
 		synchronized (session) {
 			session.setAttribute("joueurCourant", joueurcourant);
 		}
+		response.setContentType("application/json");
 		ObjectMapper om = new ObjectMapper();
 		PrintWriter pw = response.getWriter();
 		om.writeValue(pw, info);

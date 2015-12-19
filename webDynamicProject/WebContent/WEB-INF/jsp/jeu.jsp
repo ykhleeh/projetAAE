@@ -1,5 +1,4 @@
 <title>JEU</title>
-<meta http-equiv="refresh" content="10" />
 </head>
 <body>
 	<div ><h4 id="info"></h4></div>
@@ -24,20 +23,13 @@
 	<div id="des"></div>
 	<form id="autres"></form>
 	<div id="dialog"></div>
-	<form method="get" action="lancerdes.html">
+	<form method="get" action="lancerdes.html" id="boutonLancerDe">
 		<button>Lancer vos dés</button>
 	</form>
-	
-	<form method="get" action="jouercarte.html">
-		<input type="text" id="code" name="code">
-		<input type="text" id ="cible" name="cible">
-		<button>jouer une carte</button>
-	</form>
-	
 			
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/plateau.js"></script>
-<!-- 	<script type="text/javascript" src="js/refresh.js"></script> -->
+ 	<script type="text/javascript" src="js/refresh.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
  	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 	<hr>

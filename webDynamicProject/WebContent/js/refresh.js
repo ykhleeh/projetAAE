@@ -1,14 +1,13 @@
-var URL_BASE = 'http://localhost:8080/21/rest/partie';
+var URL_BASE = 'http://localhost:8080/webDynamicProject/';
 var t;
 function refresh() {
 	var user = window.location.search;
 	user = user.substring(user.lastIndexOf('=') + 1);
-	var $request = $.ajax({
-		url: URL_BASE + 'regarder.html',
+	$.ajax({
+		url: URL_BASE + 'jeu.html',
 		type: "get",
 		data: "pseudo=" + user,
-	});
-	$request.done(function (response, textStatus, xhr) {
+	}).done(function (response, textStatus, xhr) {
 		$('#result').html(response.etat);
 		var message = "";
 		if (response.etat !== 'EN_COURS' && response.etat !== 'FINIE') {
@@ -23,8 +22,7 @@ function refresh() {
 		var $p = $('<p>');
 		$p.html(message);
 		$('#result').append($p)
-	});
-	$request.fail(function (xhr, textStatus, errorThrown) {
+	}).fail(function (xhr, textStatus, errorThrown) {
 		alert(errorThrown);
 	});
 }

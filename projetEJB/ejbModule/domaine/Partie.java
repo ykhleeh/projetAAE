@@ -84,7 +84,7 @@ public class Partie implements Serializable {
 			}
 
 			void lancerLesDes(Partie partie) {
-				partie.getJoueurCourant().lancerDes();
+		//		partie.getJoueurCourant().lancerDes2(partie.joueurCourant);
 			}
 
 			boolean donnerSonDe(De aDonner, int ordre, Partie partie) {

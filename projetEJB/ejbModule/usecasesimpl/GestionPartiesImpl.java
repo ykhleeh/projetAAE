@@ -145,6 +145,7 @@ public class GestionPartiesImpl implements GestionParties {
 	public boolean partieEnCours() {
 		List<Partie> parties = partieDao.lister();
 		for (Partie p : parties) {
+			p = partieDao.chargerPartie(partie);
 			if (p.getEtat() != Etat.FINIE) {
 				return true;
 			}
@@ -481,16 +482,44 @@ public class GestionPartiesImpl implements GestionParties {
 		JoueurPartie jp = joueurPartieDao.recherche(this.partie, tmp);
 		return joueurPartieDao.chargerMain(jp);
 	}
+	@Override	
+	public List<De> lancerDes2(JoueurPartie jp) {
+		Random rdm = new Random();
+		for (De de : jp.getMainDe()) {
+			de = deDao.recharger(de.getId());
+			int res = rdm.nextInt(6);
+			switch (res) {
+			case 0:
+			case 1:
+			case 2:
+				de.setValeur(Face.WASABI);
+				break;
+
+			case 3:
+			case 4:
+				de.setValeur(Face.CARTE);
+				break;
+
+			default:
+				de.setValeur(Face.DE);
+			}
+			deDao.mettreAJour(de);
+		}
+		return jp.getMainDe();
+	}
 
 	@Override
 	public Info lancerDes() {
 		Info info = new Info();
+		partie = partieDao.rechercher(getDernierePartie().getId());
 		partie = partieDao.chargerPartie(partie);
 		JoueurPartie jp = partie.getJoueurCourant();
+		jp = joueurPartieDao.rechercher(jp.getId_joueurPartie());
 		jp = joueurPartieDao.chargerJoueur(jp);
 		System.out.println("************************** JOUEUR COURANT = " + jp.getId_joueurPartie());
 		
-		jp.lancerDes();
+		jp.setMainDe(lancerDes2(jp));
+		
 		jp.getMainDe().size();
 		joueurPartieDao.mettreAJour(jp);
 		
@@ -501,7 +530,7 @@ public class GestionPartiesImpl implements GestionParties {
 		info.setCartes(jp.getMainCarte());
 		info.setDes(jp.getMainDe());
 		info.setEtat(partie.getEtat());
-		info.setJoueurCourant(jp.getJoueur().getPseudo());
+		info.setJoueurCourant(joueurCourant());
 		List<String> listeJoueurs = new ArrayList<String>();
 		for (JoueurPartie j : partie.getJoueursParties()) {
 			listeJoueurs.add(j.getJoueur().getPseudo());
@@ -511,10 +540,23 @@ public class GestionPartiesImpl implements GestionParties {
 		info.setVainqueur("");
 		return info;
 	}
-
+	@Override
+	public void definirVainqueur(String pseudo){
+		partie = partieDao.rechercher(getDernierePartie().getId());
+		partie = partieDao.chargerPartie(partie);
+		Joueur j = joueurDao.recherche(pseudo);
+		partie.setVainqueur(j);
+		partie.setEtat(Etat.FINIE);
+		partieDao.mettreAJour(partie);
+	}
+	
 	@Override
 	public void piocherCartes() {
+		partie = partieDao.rechercher(getDernierePartie().getId());
+		partie = partieDao.chargerPartie(partie);		
 		JoueurPartie jp = partie.getJoueurCourant();
+		jp = joueurPartieDao.rechercher(jp.getId_joueurPartie());
+		jp = joueurPartieDao.chargerJoueur(jp);		
 		jp.getMainCarte().add(partie.piocherCarte());
 		joueurPartieDao.mettreAJour(jp);
 		partieDao.mettreAJour(partie);
